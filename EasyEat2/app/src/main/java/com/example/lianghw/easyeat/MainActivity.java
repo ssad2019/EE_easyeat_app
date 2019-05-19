@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,6 +117,15 @@ public class MainActivity extends AppCompatActivity {
 
         myListViewAdapter = new MyListViewAdapter(foods_collect,inflater);
 
+        Button payBtn = findViewById(R.id.pay_btn);
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pay = new Intent(MainActivity.this,PayActivity.class);
+
+                startActivityForResult(pay,1000);
+            }
+        });
 
         //右下角按钮
         final FloatingActionButton btn = (FloatingActionButton) findViewById(R.id.radio_button);
