@@ -9,16 +9,4 @@
     <color name="colorGray">#8A000000</color>
     <color name="colorDetailBlack">#D5000000</color>
 
-
-
-    <color name="daDou">#BB4C3B</color>
-    <color name="shiZhi">#C48D30</color>
-    <color name="niuNai">#4469B0</color>
-    <color name="haiYv">#20A17B</color>
-    <color name="junGu">#BB4C3B</color>
-    <color name="fanQie">#4469B0</color>
-    <color name="huLuoBo">#20A17B</color>
-    <color name="qiaoMai">#BB4C3B</color>
-    <color name="jiDan">#C48D30</color>
-
 </resources>

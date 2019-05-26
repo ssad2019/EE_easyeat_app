@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,18 +31,15 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private MyListViewAdapter myListViewAdapter;
+    private PinnedAdapter myPinnedAdapter;
     private List<Food> foods;
-    //private ListView myListView;
-    private RecyclerView myRecyclerView1;
-    private RecyclerView myRecyclerView2;
-
-    private Food recommendFood;
+    private List<String> food_type;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //加载主布居
@@ -54,155 +51,53 @@ public class MainActivity extends AppCompatActivity {
         actionBar.hide();
 
         //初始化食品列表
-        foods = new ArrayList<Food>();
         initFood();
 
+        final ListView food_type_list = (ListView) findViewById(R.id.food_type);
+        myListViewAdapter = new MyListViewAdapter(MainActivity.this, food_type);
+        food_type_list.setAdapter(myListViewAdapter);
 
-        //食品列表
-        final MyRecyclerViewAdapter myRecyclerViewAdapter1 = new MyRecyclerViewAdapter<Food>(this, R.layout.food_item, foods) {
-            @Override
-            public void convert(MyViewHolder holder, Food food) {
-                TextView name = holder.getView(R.id.food_name);
-                TextView type = holder.getView(R.id.food_type);
-                type.setText(food.getFoodType_short());
-                name.setText(food.getFoodName());
-            }
-        };
+        final ListView food_detail_list = (ListView) findViewById(R.id.food_detail);
+        myPinnedAdapter = new PinnedAdapter(MainActivity.this, foods);
+        food_detail_list.setAdapter(myPinnedAdapter);
 
-
-        myRecyclerView1 = (RecyclerView) findViewById(R.id.foodlist);
-        //列表点击事件,进入详情界面
-        myRecyclerViewAdapter1.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onClick( int position) {
-                //Intent Detail = new Intent(MainActivity.this,DetailActivity.class);
-                Bundle bundle = new Bundle();
-
-                bundle.putSerializable("food",(Food)myRecyclerViewAdapter1.getItem(position));
-                //Detail.putExtras(bundle);//将bundle传入intent中。
-                //startActivityForResult(Detail,1000);
-            }
-            @Override
-            public void onLongClick( int position) {
-
-            }
-        });
-
-        myRecyclerView1.setLayoutManager(new LinearLayoutManager(this));
-        myRecyclerView1.setAdapter(myRecyclerViewAdapter1);
-        myRecyclerViewAdapter1.notifyDataSetChanged();
-
-
-        List<Food> foods_collect;
-        //收藏夹
-        foods_collect = new ArrayList<>();
-        foods_collect.add(new Food("收藏夹","*"));
-
-        LayoutInflater inflater =getLayoutInflater();
-
-        //食品列表
-        final MyRecyclerViewAdapter myRecyclerViewAdapter2 = new MyRecyclerViewAdapter<Food>(this, R.layout.food_item, foods_collect) {
-            @Override
-            public void convert(MyViewHolder holder, Food food) {
-                TextView name = holder.getView(R.id.food_name);
-                TextView type = holder.getView(R.id.food_type);
-                type.setText(food.getFoodType_short());
-                name.setText(food.getFoodName());
-            }
-        };
-        myRecyclerView2 = (RecyclerView) findViewById(R.id.cartlist);
-        myRecyclerView2.setLayoutManager(new LinearLayoutManager(this));
-        myRecyclerView2.setAdapter(myRecyclerViewAdapter2);
-        myRecyclerView2.setVisibility(View.INVISIBLE);
-
-        myListViewAdapter = new MyListViewAdapter(foods_collect,inflater);
-
-        Button payBtn = findViewById(R.id.pay_btn);
-        payBtn.setOnClickListener(new View.OnClickListener() {
+        final Button order_make_btn = (Button)findViewById(R.id.order_make_btn);
+        order_make_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pay = new Intent(MainActivity.this,PayActivity.class);
-
-                startActivityForResult(pay,1000);
+                Intent intent=new Intent(MainActivity.this,  PayActivity.class);
+                startActivity(intent);
             }
         });
-
-        //右下角按钮
-        final FloatingActionButton btn = (FloatingActionButton) findViewById(R.id.radio_button);
-        //按钮点击
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(myRecyclerView1.getVisibility() == View.VISIBLE) {
-
-                    myRecyclerView1.setVisibility(View.INVISIBLE);
-
-                    myRecyclerView2.setVisibility(View.VISIBLE);
-                    btn.setImageResource(R.mipmap.mainpage);
-                }
-                else{
-
-                    myRecyclerView2.setVisibility(View.INVISIBLE);
-
-                    myRecyclerView1.setVisibility(View.VISIBLE);
-                    btn.setImageResource(R.mipmap.collect);
-
-                }
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onRestart(){
-        super.onRestart();
-        //发送静态广播
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("food",recommendFood);
-
-        Intent widgetIntentBroadcast = new Intent();
-        widgetIntentBroadcast.setAction("WIDGETSTATICACTION");
-        widgetIntentBroadcast.putExtras(bundle);
-        sendBroadcast(widgetIntentBroadcast);
-
-        Log.d("Restart","Restart");
     }
 
     void initFood(){
-        foods.add(new  Food("大豆", "粮食", "粮", "蛋白质",getResources().getColor(R.color.daDou)));
-        foods.add(new Food("十字花科蔬菜", "蔬菜", "蔬", "维生素C",getResources().getColor(R.color.shiZhi )));
-        foods.add(new Food("牛奶", "饮品", "饮", "钙",getResources().getColor(R.color.niuNai )));
-        foods.add(new Food("海鱼", "肉食", "肉", "蛋白质",getResources().getColor(R.color.haiYv )));
+        final Food chips = new Food("薯条", "小食", "6");
+        final Food chips1 = new Food("薯条1", "小食", "6");
+        final Food chips2 = new Food("薯条2", "小食", "6");
+        final Food chips3 = new Food("薯条3", "小食1", "7");
+        final Food chips4 = new Food("薯条4", "小食1", "7");
+        final Food chips5 = new Food("薯条5", "小食1", "7");
+        final Food chips6 = new Food("薯条6", "小食2", "8");
+        final Food chips7 = new Food("薯条7", "小食2", "8");
+        final Food chips8 = new Food("薯条8", "小食2", "8");
+        final Food chips9 = new Food("薯条9", "小食3", "9");
+        final Food chips10 = new Food("薯条10", "小食3", "9");
+        final Food chips11 = new Food("薯条11", "小食3", "9");
+        final Food chips12 = new Food("薯条12", "小食3", "9");
+        final Food chips13 = new Food("薯条13", "小食4", "10");
+        final Food chips14 = new Food("薯条14", "小食4", "10");
+        final Food chips15 = new Food("薯条15", "小食4", "10");
+        final Food chips16 = new Food("薯条16", "小食4", "10");
+        final Food chips17 = new Food("薯条17", "小食5", "11");
+        final Food chips18 = new Food("薯条18", "小食5", "11");
+        final Food chips19 = new Food("薯条19", "小食5", "11");
+        final Food chips20 = new Food("薯条20", "小食5", "11");
 
+        foods = new ArrayList<Food>(){{add(chips);add(chips1);add(chips2);add(chips3);add(chips4);add(chips5);add(chips6);add(chips7);add(chips8);add(chips9);add(chips10);
+        add(chips11);add(chips12);add(chips13);add(chips14);add(chips15);add(chips16);add(chips17);add(chips18);add(chips19);add(chips20);}};
+        food_type = new ArrayList<String>(){{add("小食");add("小食1");add("小食2");add("小食3");add("小食4");add("小食5");}};
     }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        if(intent.hasExtra("Favorites")){
-            myRecyclerView2.setVisibility(View.VISIBLE);
-            myRecyclerView1.setVisibility(View.INVISIBLE);
-        }else{
-            myRecyclerView1.setVisibility(View.VISIBLE);
-            myRecyclerView2.setVisibility(View.INVISIBLE);
-
-        }
-    }
-
-
-    //处理详情返回
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-
-
-
 }
 
 

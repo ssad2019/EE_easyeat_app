@@ -11,15 +11,12 @@ public class PayActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment);
-
-
-        Button returnBtn = findViewById(R.id.returnbtn);
-        returnBtn.setOnClickListener(new View.OnClickListener() {
+        Button order_confirm_btn = findViewById(R.id.order_confirm_btn);
+        order_confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnA = new Intent(PayActivity.this,MainActivity.class);
-
-                startActivityForResult(returnA,1000);
+                Intent intent = new Intent(PayActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

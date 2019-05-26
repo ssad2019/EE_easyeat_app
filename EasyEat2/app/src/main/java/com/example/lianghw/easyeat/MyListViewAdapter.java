@@ -6,69 +6,64 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import android.content.Context;
 
 
 public class MyListViewAdapter extends BaseAdapter {
+    private List<String> data;
+    private Context context;
 
-    private List<Food> mData;
-    private LayoutInflater mInflater;
-
-    public void refresh(Food data){
-        mData.add(data);
-        notifyDataSetChanged();
-    }
-    public void refresh(int id){
-        mData.remove(id);
-        notifyDataSetChanged();
-    }
-    public MyListViewAdapter(List<Food> data,LayoutInflater inflater){
-        mData = data;
-        mInflater = inflater;
+    public MyListViewAdapter(Context _context, List<String> list) {
+        this.context = _context;
+        this.data = list;
     }
     @Override
     public int getCount() {
-        return mData.size();
+        if (data == null){
+            return 0;
+        }
+        return data.size();
     }
+
     @Override
-    public Object getItem(int position) {
-        if (mData == null) {
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public Object getItem(int i) {
+        if(data == null) {
             return null;
         }
-        return mData.get(position);
+        return data.get(i);
     }
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-    @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
 
-        ViewHolder viewHolder;
-        if (convertView == null) {
-
-            convertView = mInflater.inflate(R.layout.food_item, null);
-            viewHolder = new ViewHolder();
-            viewHolder.foodName = (TextView) convertView.findViewById(R.id.food_name);
-            viewHolder.foodType_short = (TextView) convertView.findViewById(R.id.food_type);
-            convertView.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) convertView.getTag();
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        View convertView;
+        ListViewHolder viewHolder;
+        if (view == null) {
+            convertView= LayoutInflater.from(context).inflate(R.layout.food_type_item, null);
+            viewHolder = new ListViewHolder();
+            viewHolder.textView = (TextView) convertView.findViewById(R.id.type_name);
+            convertView.setTag(viewHolder); // 用setTag方法将处理好的viewHolder放入view中
+        } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
+            convertView = view;
+            viewHolder = (ListViewHolder) convertView.getTag();
         }
-
-        Food myfood = mData.get(position);
-
-
-        viewHolder.foodName.setText(myfood.getFoodName());
-        viewHolder.foodType_short.setText(myfood.getFoodType_short());
-
+        // 从viewHolder中取出对应的对象，然后赋值给他们
+        viewHolder.textView.setText(data.get(i));
+        // 将这个处理好的view返回
         return convertView;
-
     }
-    private class ViewHolder {
-        public TextView foodName;
-        public TextView foodType_short;
+    public void updateData(ArrayList<String> lists) {
+        data.clear();
+        data.addAll(lists);
+        this.notifyDataSetChanged();
     }
-
-
+    private class ListViewHolder {
+        public TextView textView;
+    }
 }
