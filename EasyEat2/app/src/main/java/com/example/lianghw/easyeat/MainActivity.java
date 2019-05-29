@@ -4,6 +4,7 @@ package com.example.lianghw.easyeat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -13,8 +14,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private PinnedAdapter myPinnedAdapter;
     private List<Food> foods;
     private List<String> food_type;
+    private boolean scroll_end = false;
 
     @Override
     protected void onDestroy() {
@@ -57,9 +62,55 @@ public class MainActivity extends AppCompatActivity {
         myListViewAdapter = new MyListViewAdapter(MainActivity.this, food_type);
         food_type_list.setAdapter(myListViewAdapter);
 
-        final ListView food_detail_list = (ListView) findViewById(R.id.food_detail);
+        final PinnedListView food_detail_list = (PinnedListView) findViewById(R.id.food_detail);
         myPinnedAdapter = new PinnedAdapter(MainActivity.this, foods);
+
         food_detail_list.setAdapter(myPinnedAdapter);
+        food_detail_list.setPinnedHeaderView(getHeaderView());
+
+        food_detail_list.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING){
+                    scroll_end = true;
+                }else{
+                    scroll_end = false;
+                }
+            }
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(!scroll_end){
+                    return;
+                }
+                //滚动确定替换条目
+                food_detail_list.configureHeaderView(firstVisibleItem);
+                //获取到第一个条目的类型
+                String title = foods.get(firstVisibleItem).getFoodType();
+                int position = food_type.indexOf(title);
+                food_type_list.smoothScrollToPosition(position);
+                myListViewAdapter.changeSelected(position);
+            }
+        });
+
+        food_detail_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("nice_gg", "onItemClick: " + foods.get(position).getFoodName());
+            }
+        });
+
+        food_type_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for(int i = 0; i < foods.size(); i++){
+                    if(foods.get(i).getFoodType().equals(food_type.get(position))){
+                        food_detail_list.setSelection(i);
+                        break;
+                    }
+                    myListViewAdapter.changeSelected(position);
+                }
+            }
+        });
 
         final Button order_make_btn = (Button)findViewById(R.id.order_make_btn);
         order_make_btn.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +120,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+
+    private View getHeaderView() {
+        //头部是个TextView，不能用view.inflate加载布局,会测量不出宽高
+        TextView itemView = new TextView(this);
+        itemView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                100));
+        itemView.setGravity(Gravity.LEFT);
+        itemView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        itemView.setTextSize(20);
+        itemView.setTextColor(Color.GRAY);
+        itemView.setPadding(30, 0, 0, itemView.getPaddingBottom());
+        return itemView;
     }
 
     void initFood(){

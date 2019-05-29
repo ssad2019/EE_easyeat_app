@@ -1,5 +1,6 @@
 package com.example.lianghw.easyeat;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.content.Context;
 public class MyListViewAdapter extends BaseAdapter {
     private List<String> data;
     private Context context;
+    private int selected_position = 0;
 
     public MyListViewAdapter(Context _context, List<String> list) {
         this.context = _context;
@@ -55,6 +57,11 @@ public class MyListViewAdapter extends BaseAdapter {
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
         viewHolder.textView.setText(data.get(i));
+        if(i == selected_position){
+            viewHolder.textView.setBackgroundColor(Color.parseColor("#98FB98"));
+        }else{
+            viewHolder.textView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        }
         // 将这个处理好的view返回
         return convertView;
     }
@@ -65,5 +72,12 @@ public class MyListViewAdapter extends BaseAdapter {
     }
     private class ListViewHolder {
         public TextView textView;
+    }
+
+    public void changeSelected(int position){
+        if (position >= 0 && position < data.size()){
+            selected_position = position;
+        }
+        this.notifyDataSetChanged();
     }
 }
