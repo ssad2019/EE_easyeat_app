@@ -94,12 +94,16 @@ public class MainActivity extends AppCompatActivity {
                 myListViewAdapter.changeSelected(position);
             }
         });
-        
 
         food_detail_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("nice_gg", "onItemClick: " + foods.get(position).getFoodName());
+                Food food_item = foods.get(position);
+                Intent intent = new Intent(MainActivity.this, FoodDetail.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("food_item", food_item);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
