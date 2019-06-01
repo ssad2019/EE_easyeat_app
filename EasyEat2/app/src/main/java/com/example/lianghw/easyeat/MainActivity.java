@@ -21,10 +21,13 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import org.w3c.dom.Text;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 myListViewAdapter.changeSelected(position);
             }
         });
+        
 
         food_detail_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 for(int i = 0; i < foods.size(); i++){
-                    if(foods.get(i).getFoodType().equals(food_type.get(position))){
+                    if(foods.get(i).getFoodType().equals(food_type.get(position))) {
                         food_detail_list.setSelection(i);
                         break;
                     }
-                    myListViewAdapter.changeSelected(position);
                 }
+                myListViewAdapter.changeSelected(position);
             }
         });
 
@@ -120,6 +124,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final TextView shop_name_text = (TextView)findViewById(R.id.shop_name);
+        final TextView shop_info_text =(TextView)findViewById(R.id.shop_description);
+        final ImageView shop_img_view = (ImageView)findViewById(R.id.shop_img);
+
+        View.OnClickListener shop_click_listener = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,  ShopDetail.class);
+                intent.putExtra("shop_name",shop_name_text.getText().toString());
+                intent.putExtra("shop_info", shop_info_text.getText().toString());
+                //传递图片src(url)
+                //intent.putExtra("shop_info", img_url);
+                startActivity(intent);
+            }
+        };
+
+        shop_name_text.setOnClickListener(shop_click_listener);
+        shop_info_text.setOnClickListener(shop_click_listener);
+        shop_img_view.setOnClickListener(shop_click_listener);
+
     }
 
 
