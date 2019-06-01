@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EasyEat</string>
+    <string name="Scan_name">Scan page</string>
+    <string name="Scan_btn1">点击扫码</string>
+    <string name="Scan_btn2">点击跳转</string>
+    <string name="Scan_result">扫描结果</string>
 </resources>
