@@ -69,22 +69,6 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
         result = findViewById(R.id.result);
 
-        final Network myNetvork = new Network(this);
-
-
-
-        final String a = "ftp://api.hatsune-miku.cn/store/info.php";
-        new Thread() {
-            public void run() {
-                try {
-                    detail = myNetvork.getHtml(a);
-                } catch (Exception e) {
-                    Log.d("test",e.toString());
-                    e.printStackTrace();
-                }
-                handler.sendEmptyMessage(0x002);
-            };
-        }.start();
 
         Button button1 = findViewById(R.id.btn1);
         button1.setOnClickListener(new View.OnClickListener() {

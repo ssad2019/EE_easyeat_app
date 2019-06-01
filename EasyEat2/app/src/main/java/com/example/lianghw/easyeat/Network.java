@@ -6,9 +6,13 @@ import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -20,21 +24,105 @@ public class Network {
 
     }
 
-    public String getHtml(String path) throws Exception {
-        URL url = new URL(path);
-        URLConnection conn = (URLConnection) url.openConnection();
-        //HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(5000);
-        conn.set
-        conn.setRequestMethod("GET");
-        int code = conn.getResponseCode();
-        if (code == 200) {
-            InputStream in = conn.getInputStream();
-            byte[] data = readStream(in);
-            return new String(data, "UTF-8");
+    private String paramsToString(String[] paramsName, String[] paramsValu){
+        String pStr="";
+        String equal = "=",and = "&";
+        pStr += paramsName[0];
+        pStr += equal;
+        pStr += paramsValu[0];
+
+        for(int i = 1; i<paramsName.length;i++){
+            pStr += and;
+            pStr += paramsName[i];
+            pStr += equal;
+            pStr += paramsValu[i];
         }
-        return null;
+        return pStr;
     }
+
+
+    public String doGet(String urlStr,String[] paramsName, String[] paramsValue){
+        String url = urlStr + "?" + paramsToString(paramsName,paramsValue);
+
+        HttpURLConnection conn = null;
+        InputStream is = null;
+        InputStreamReader reader = null;
+        BufferedReader br = null;
+        String str = "";
+        try {
+            URL weiUrl = new URL(url);
+            conn = (HttpURLConnection)weiUrl.openConnection();
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.connect();
+            is = conn.getInputStream();
+            reader = new InputStreamReader(is, "UTF-8");
+            br = new BufferedReader(reader);
+            String readLine = "";
+            while((readLine=br.readLine())!=null){
+                str+=readLine+"\n";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try{
+                if(br!=null){
+                    br.close();
+                }
+                if(conn!=null){
+                    conn.disconnect();
+                }
+            }catch(Exception e1){
+                e1.printStackTrace();
+            }
+        }
+        return str;
+    }
+    public String doPost( String urlStr,String[] paramsName, String[] paramsValue){
+        HttpURLConnection conn = null;
+        InputStream is = null;
+        InputStreamReader reader = null;
+        BufferedReader br = null;
+        String str = "";
+        try {
+            URL url = new URL(urlStr);
+            conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);//默觉得false的，所以须要设置
+            conn.setUseCaches(false);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.connect();
+
+            OutputStream outStream = conn.getOutputStream();
+            DataOutputStream out = new DataOutputStream(outStream);
+
+            String pStr = paramsToString(paramsName,paramsValue);
+            out.writeBytes(pStr);
+            out.close();
+
+            is = conn.getInputStream();
+            reader = new InputStreamReader(is, "UTF-8");
+            br = new BufferedReader(reader);
+            String readLine = "";
+            while((readLine=br.readLine())!=null){
+                str+=readLine+"\n";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try{
+                if(br!=null){
+                    br.close();
+                }
+                if(conn!=null){
+                    conn.disconnect();
+                }
+            }catch(Exception e1){
+                e1.printStackTrace();
+            }
+        }
+        return str;
+    }
+
     boolean isConnectInternet(){
 
         //是否飞行模式
