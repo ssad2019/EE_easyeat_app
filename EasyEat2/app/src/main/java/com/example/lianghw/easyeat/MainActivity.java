@@ -37,10 +37,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyListViewAdapter myListViewAdapter;
-    private PinnedAdapter myPinnedAdapter;
     private List<Food> foods;
     private List<String> food_type;
+    private List<Order_Food> order_list_data;
     private boolean scroll_end = false;
 
     @Override
@@ -61,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
         //初始化食品列表
         initFood();
 
+        final MyListViewAdapter myListViewAdapter;
         final ListView food_type_list = (ListView) findViewById(R.id.food_type);
         myListViewAdapter = new MyListViewAdapter(MainActivity.this, food_type);
         food_type_list.setAdapter(myListViewAdapter);
 
+        final PinnedAdapter myPinnedAdapter;
         final PinnedListView food_detail_list = (PinnedListView) findViewById(R.id.food_detail);
         myPinnedAdapter = new PinnedAdapter(MainActivity.this, foods);
 
@@ -149,6 +150,20 @@ public class MainActivity extends AppCompatActivity {
         shop_info_text.setOnClickListener(shop_click_listener);
         shop_img_view.setOnClickListener(shop_click_listener);
 
+        final Button order_list_btn = (Button)findViewById(R.id.order_list_btn);
+        final ListView order_list = (ListView)findViewById(R.id.order_list);
+        final MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(MainActivity.this, order_list_data);
+        order_list.setAdapter(myOrderListViewAdapter);
+        order_list_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(order_list.getVisibility() == View.GONE){
+                    order_list.setVisibility(View.VISIBLE);
+                }else{
+                    order_list.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 
@@ -165,32 +180,38 @@ public class MainActivity extends AppCompatActivity {
         return itemView;
     }
 
+    //for test
     void initFood(){
-        final Food chips = new Food("薯条", "小食", "6");
-        final Food chips1 = new Food("薯条1", "小食", "6");
-        final Food chips2 = new Food("薯条2", "小食", "6");
-        final Food chips3 = new Food("薯条3", "小食1", "7");
-        final Food chips4 = new Food("薯条4", "小食1", "7");
-        final Food chips5 = new Food("薯条5", "小食1", "7");
-        final Food chips6 = new Food("薯条6", "小食2", "8");
-        final Food chips7 = new Food("薯条7", "小食2", "8");
-        final Food chips8 = new Food("薯条8", "小食2", "8");
-        final Food chips9 = new Food("薯条9", "小食3", "9");
-        final Food chips10 = new Food("薯条10", "小食3", "9");
-        final Food chips11 = new Food("薯条11", "小食3", "9");
-        final Food chips12 = new Food("薯条12", "小食3", "9");
-        final Food chips13 = new Food("薯条13", "小食4", "10");
-        final Food chips14 = new Food("薯条14", "小食4", "10");
-        final Food chips15 = new Food("薯条15", "小食4", "10");
-        final Food chips16 = new Food("薯条16", "小食4", "10");
-        final Food chips17 = new Food("薯条17", "小食5", "11");
-        final Food chips18 = new Food("薯条18", "小食5", "11");
-        final Food chips19 = new Food("薯条19", "小食5", "11");
-        final Food chips20 = new Food("薯条20", "小食5", "11");
+        //food_list
+        final Food chips = new Food("薯条", "小食", "6", "");
+        final Food chips1 = new Food("薯条1", "小食", "6", "");
+        final Food chips2 = new Food("薯条2", "小食", "6", "");
+        final Food chips3 = new Food("薯条3", "小食1", "7", "");
+        final Food chips4 = new Food("薯条4", "小食1", "7", "");
+        final Food chips5 = new Food("薯条5", "小食1", "7", "");
+        final Food chips6 = new Food("薯条6", "小食2", "8", "");
+        final Food chips7 = new Food("薯条7", "小食2", "8", "");
+        final Food chips8 = new Food("薯条8", "小食2", "8", "");
+        final Food chips9 = new Food("薯条9", "小食3", "9", "");
+        final Food chips10 = new Food("薯条10", "小食3", "9", "");
+        final Food chips11 = new Food("薯条11", "小食3", "9", "");
+        final Food chips12 = new Food("薯条12", "小食3", "9", "");
+        final Food chips13 = new Food("薯条13", "小食4", "10", "");
+        final Food chips14 = new Food("薯条14", "小食4", "10", "");
+        final Food chips15 = new Food("薯条15", "小食4", "10", "");
+        final Food chips16 = new Food("薯条16", "小食4", "10", "");
+        final Food chips17 = new Food("薯条17", "小食5", "11", "");
+        final Food chips18 = new Food("薯条18", "小食5", "11", "");
+        final Food chips19 = new Food("薯条19", "小食5", "11", "");
+        final Food chips20 = new Food("薯条20", "小食5", "11", "");
 
         foods = new ArrayList<Food>(){{add(chips);add(chips1);add(chips2);add(chips3);add(chips4);add(chips5);add(chips6);add(chips7);add(chips8);add(chips9);add(chips10);
         add(chips11);add(chips12);add(chips13);add(chips14);add(chips15);add(chips16);add(chips17);add(chips18);add(chips19);add(chips20);}};
         food_type = new ArrayList<String>(){{add("小食");add("小食1");add("小食2");add("小食3");add("小食4");add("小食5");}};
+
+        //order_list
+        final Order_Food order_chips = new Order_Food("薯条",  1, "6", "");
+        final Order_Food order_chips1 = new Order_Food("薯条1",  2, "7", "");
     }
 }
 

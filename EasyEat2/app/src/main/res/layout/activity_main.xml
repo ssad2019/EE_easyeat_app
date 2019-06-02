@@ -103,5 +103,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/order_list_btn"
         />
+
+    <ListView
+        android:id="@id/order_list"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintLeft_toLeftOf="@id/order_list_btn"
+        app:layout_constraintRight_toRightOf="@id/order_make_btn"
+        app:layout_constraintBottom_toTopOf="@id/order_list_btn"
+        android:visibility="gone"
+        />
 </android.support.constraint.ConstraintLayout>
 

@@ -2,15 +2,15 @@ package com.example.lianghw.easyeat;
 
 import java.io.Serializable;
 
-public class Food implements Serializable {
+public class Order_Food implements Serializable {
     private String foodName;
-    private String foodType;
+    private int count;
     private String foodPrices;
     private String foodImgUrl;
 
-    public Food(String foodName , String foodType, String foodPrices, String foodImgUrl) {
+    public Order_Food(String foodName , int count, String foodPrices, String foodImgUrl) {
         this.foodName = foodName;
-        this.foodType = foodType;
+        this.count = count;
         this.foodPrices = "$" + foodPrices;
         this.foodImgUrl = foodImgUrl;
     }
@@ -22,11 +22,11 @@ public class Food implements Serializable {
         this.foodName = foodName;
     }
 
-    public String getFoodType() {
-        return foodType;
+    public int getCount() {
+        return count;
     }
-    public void setFoodType(String foodType) {
-        this.foodType = foodType;
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public String getFoodPrices() {
