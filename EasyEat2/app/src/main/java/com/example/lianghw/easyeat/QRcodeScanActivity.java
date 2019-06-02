@@ -74,10 +74,10 @@ public class QRcodeScanActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasPermission){
+                if (hasPermission) {
                     Intent intent = initQR();
                     startActivityForResult(intent, REQUEST_CODE_SCAN);
-                }else {
+                } else {
                     Toast.makeText(QRcodeScanActivity.this, "权限不足", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -91,11 +91,24 @@ public class QRcodeScanActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
+        Button button3 = findViewById(R.id.btn3);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        String a = "https://www.baidu.com/";
+                        detail = Network.doGet(a);
+                        handler.sendEmptyMessage(0x002);
+                    }
+                }.start();
+            }
+        });
 
     }
+
+
     Intent initQR(){
         Intent intent = new Intent(QRcodeScanActivity.this, CaptureActivity.class);
         ZxingConfig config = new ZxingConfig();
