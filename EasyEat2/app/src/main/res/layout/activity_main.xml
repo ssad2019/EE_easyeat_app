@@ -112,6 +112,7 @@
         app:layout_constraintRight_toRightOf="@id/order_make_btn"
         app:layout_constraintBottom_toTopOf="@id/order_list_btn"
         android:visibility="gone"
+        android:background="@color/White"
         />
 </android.support.constraint.ConstraintLayout>
 

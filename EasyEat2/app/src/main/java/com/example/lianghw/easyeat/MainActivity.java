@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food_item = foods.get(position);
                 Intent intent = new Intent(MainActivity.this, FoodDetail.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("food_item", food_item);
-                intent.putExtras(bundle);
+                intent.putExtra("food_name", food_item.getFoodName());
+                intent.putExtra("food_price", food_item.getFoodPrices());
+                intent.putExtra("food_img_url", food_item.getFoodImgUrl());
                 startActivity(intent);
             }
         });
@@ -118,15 +119,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 myListViewAdapter.changeSelected(position);
-            }
-        });
-
-        final Button order_make_btn = (Button)findViewById(R.id.order_make_btn);
-        order_make_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,  PayActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -154,6 +146,19 @@ public class MainActivity extends AppCompatActivity {
         final ListView order_list = (ListView)findViewById(R.id.order_list);
         final MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(MainActivity.this, order_list_data);
         order_list.setAdapter(myOrderListViewAdapter);
+
+        order_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Order_Food food_item = order_list_data.get(position);
+                Intent intent = new Intent(MainActivity.this, FoodDetail.class);
+                intent.putExtra("food_name", food_item.getFoodName());
+                intent.putExtra("food_price", food_item.getFoodPrices());
+                intent.putExtra("food_img_url", food_item.getFoodImgUrl());
+                startActivity(intent);
+            }
+        });
+
         order_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,6 +167,19 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     order_list.setVisibility(View.GONE);
                 }
+            }
+        });
+
+
+        final Button order_make_btn = (Button)findViewById(R.id.order_make_btn);
+        order_make_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,  PayActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("order_list_data", (Serializable)order_list_data);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -212,6 +230,10 @@ public class MainActivity extends AppCompatActivity {
         //order_list
         final Order_Food order_chips = new Order_Food("薯条",  1, "6", "");
         final Order_Food order_chips1 = new Order_Food("薯条1",  2, "7", "");
+        final Order_Food order_chips2 = new Order_Food("薯条2",  2, "8", "");
+        final Order_Food order_chips3 = new Order_Food("薯条3",  2, "9", "");
+
+        order_list_data = new ArrayList<Order_Food>(){{add(order_chips); add(order_chips1); add(order_chips2); add(order_chips3);}};
     }
 }
 

@@ -5,12 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.List;
 
 public class PayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment);
+
+        Intent intent = getIntent();
+        List<Order_Food> order_list_data = (List<Order_Food>) intent.getExtras().getSerializable("order_list_data");
+
+        ListView order_list = (ListView)findViewById(R.id.order_list);
+        MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(PayActivity.this, order_list_data);
+        order_list.setAdapter(myOrderListViewAdapter);
+
         Button order_confirm_btn = findViewById(R.id.order_confirm_btn);
         order_confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
