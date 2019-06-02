@@ -12,15 +12,6 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/Scan_name"
         android:textSize="@dimen/title" />
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/Scan_btn1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/btn2"
-        />
     <TextView
         android:id="@+id/result"
         android:layout_width="wrap_content"
@@ -32,12 +23,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
     <Button
+        android:id="@+id/btn1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Scan_btn1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn2"
+        />
+
+    <Button
         android:id="@+id/btn2"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="@string/Scan_btn2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/btn1"
+        app:layout_constraintRight_toRightOf="@id/btn3"
+        />
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Scan_btn3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn2"
         app:layout_constraintRight_toRightOf="parent"
         />
 </android.support.constraint.ConstraintLayout>

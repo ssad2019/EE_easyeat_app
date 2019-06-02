@@ -24,7 +24,7 @@ public class Network {
 
     }
 
-    private String paramsToString(String[] paramsName, String[] paramsValu){
+    private static String paramsToString(String[] paramsName, String[] paramsValu){
         String pStr="";
         String equal = "=",and = "&";
         pStr += paramsName[0];
@@ -40,9 +40,14 @@ public class Network {
         return pStr;
     }
 
-
-    public String doGet(String urlStr,String[] paramsName, String[] paramsValue){
-        String url = urlStr + "?" + paramsToString(paramsName,paramsValue);
+    public static String doGet(String urlStr){
+        return doGet(urlStr,new String[]{},new String[]{});
+    }
+    public static String doGet(String urlStr,String[] paramsName, String[] paramsValue){
+        String url = urlStr;
+        if(paramsName.length != 0){
+            url = urlStr + "?" + paramsToString(paramsName,paramsValue);
+        }
 
         HttpURLConnection conn = null;
         InputStream is = null;
