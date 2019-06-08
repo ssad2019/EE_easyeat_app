@@ -175,7 +175,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
                 result.setText("扫描结果为：" + content);
-                
+
                 detail = Restaurant.getUrlFromQRcode(detail);
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
