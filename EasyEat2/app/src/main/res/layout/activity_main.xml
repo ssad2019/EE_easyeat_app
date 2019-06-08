@@ -77,7 +77,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintHorizontal_weight="3"
-        android:text="总价:                                 20"
+        android:text="总价:           $0"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textAlignment="center"

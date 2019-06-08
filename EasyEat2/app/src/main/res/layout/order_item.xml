@@ -40,6 +40,28 @@
         />
 
     <Button
+        android:id="@+id/sub_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="—"
+        android:background="@drawable/btn_add_style"
+        app:layout_constraintRight_toLeftOf="@id/food_count"
+        app:layout_constraintBottom_toBottomOf="@id/food_img"
+        />
+
+    <TextView
+        android:id="@+id/food_count"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:text="1"
+        app:layout_constraintRight_toLeftOf="@id/add_btn"
+        app:layout_constraintBottom_toBottomOf="@id/food_img"
+        />
+
+    <Button
         android:id="@+id/add_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"

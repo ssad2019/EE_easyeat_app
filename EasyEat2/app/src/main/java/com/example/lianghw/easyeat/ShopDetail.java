@@ -7,6 +7,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+//商店详情界面
 public class ShopDetail extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

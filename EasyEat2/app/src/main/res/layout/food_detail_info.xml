@@ -56,15 +56,38 @@
         android:text="大家很多人都知道薯条的英文是“Chips”，美国薯条薯条人称之为“French Fries”，其实它真正的来源地是比利时。早在1680年的时候，比利时人就开始制作这种薯条了 [1]  。在第一次世界大战的时候，美国士兵在比利时吃到了这种薯条，觉得特别美味，从而变得流行起来。但他们想当然的称其为“French”，是因为当时在比利时军队中的通用语言是法语，他们就以为是“法国的薯条”了。"/>
 
     <Button
+        android:id="@+id/sub_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="—"
+        android:background="@drawable/btn_add_style"
+        app:layout_constraintRight_toLeftOf="@id/food_count"
+        app:layout_constraintBottom_toBottomOf="@id/add_btn"
+        />
+
+    <TextView
+        android:id="@+id/food_count"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:text="1"
+        app:layout_constraintRight_toLeftOf="@id/add_btn"
+        app:layout_constraintBottom_toBottomOf="@id/add_btn"
+        />
+
+    <Button
         android:id="@+id/add_btn"
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:text=" + 添加到购物车"
         android:textStyle="bold"
         android:layout_marginRight="25dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/btn_add_style"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/food_name"
+        app:layout_constraintBottom_toBottomOf="@id/food_prices"
         />
 
     <Button
@@ -99,6 +122,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/order_list_btn"
+        />
+
+    <ListView
+        android:id="@id/order_list"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintLeft_toLeftOf="@id/order_list_btn"
+        app:layout_constraintRight_toRightOf="@id/order_make_btn"
+        app:layout_constraintBottom_toTopOf="@id/order_list_btn"
+        android:visibility="gone"
+        android:background="@color/White"
         />
 
 </android.support.constraint.ConstraintLayout>

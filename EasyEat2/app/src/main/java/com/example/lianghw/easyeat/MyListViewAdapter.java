@@ -66,7 +66,7 @@ public class MyListViewAdapter extends BaseAdapter {
         // 将这个处理好的view返回
         return convertView;
     }
-    public void updateData(ArrayList<String> lists) {
+    public void updateData(List<String> lists) {
         data.clear();
         data.addAll(lists);
         this.notifyDataSetChanged();
