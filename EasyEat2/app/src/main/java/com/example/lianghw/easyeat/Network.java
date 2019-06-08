@@ -18,16 +18,41 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Network {
+
+    private static Network instance = new Network();
+    private Network(){}
+    public static Network getInstance(){
+        return instance;
+    }
+
     Context context;
+    String id;
+    String number;
+    String Path = "https://api.hatsune-miku.cn";
     static String SECRET = "gg";
     Network(Context context){
         this.context = context;
 
     }
+    public void setIdAndNumber(String urlStr){
+        try{
+            URL url = new URL(urlStr);
+            String query = url.getQuery();
+            String[] querys = query.split("&");
 
-    private static String paramsToString(String[] paramsName, String[] paramsValu){
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void setId(String id){this.id=id;}
+    public void setNumber(String number){this.id=number;}
+
+
+    private String paramsToString(String[] paramsName, String[] paramsValu){
         String pStr="";
         String equal = "=",and = "&";
         pStr += paramsName[0];
@@ -42,16 +67,20 @@ public class Network {
         }
         return pStr;
     }
-
-    public static String submitOrders(String url,String id,String number,String order){
+    public String submitOrders(String url,String id,String number,String order){
         url = url + "/order.php";
         String[] paramsName = {"s","n","order"};
         String[] paramsValue = {id,number,order};
         return doPost(url,paramsName,paramsValue);
     }
 
-
-    public static Bitmap getBitmap(String path) {
+    public String orderFood(String orderJson){
+        String url = Path + "/order.php";
+        String[] paramsName = {"s","n","order"};
+        String[] paramsValue = {id,number,orderJson};
+        return doPost(url,paramsName,paramsValue);
+    }
+    public Bitmap getBitmap(String path) {
 
         try{
             URL url = new URL(path);
@@ -69,14 +98,14 @@ public class Network {
         return null;
     }
 
-    public static String doGet(String urlStr,String[] paramsName, String[] paramsValue) {
+    public String doGet(String urlStr,String[] paramsName, String[] paramsValue) {
         String url = urlStr;
         if(paramsName.length != 0){
             url = urlStr + "?" + paramsToString(paramsName,paramsValue);
         }
         return doGet(url);
     }
-    public static String doGet(String urlStr){
+    public String doGet(String urlStr){
 
         HttpURLConnection conn = null;
         InputStream is = null;
@@ -112,7 +141,7 @@ public class Network {
         return str;
     }
 
-    public static String doPost( String urlStr,String[] paramsName, String[] paramsValue){
+    public String doPost( String urlStr,String[] paramsName, String[] paramsValue){
         HttpURLConnection conn = null;
         InputStream is = null;
         InputStreamReader reader = null;
@@ -189,5 +218,6 @@ public class Network {
         inStream.close();
         return outStream.toByteArray();
     }
+
 
 }

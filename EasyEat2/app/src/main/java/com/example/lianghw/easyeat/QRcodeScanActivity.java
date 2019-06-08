@@ -87,32 +87,6 @@ public class QRcodeScanActivity extends AppCompatActivity {
             }
         });
 
-        Button button2 = findViewById(R.id.btn2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("001",detail);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-        Button button3 = findViewById(R.id.btn3);
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        detail = Restaurant.getUrlFromQRcode(detail);
-
-                        handler.sendEmptyMessage(0x002);
-                    }
-                }.start();
-            }
-        });
 
     }
 
@@ -175,10 +149,10 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
                 result.setText("扫描结果为：" + content);
-
-                detail = Restaurant.getUrlFromQRcode(detail);
+                String url = Restaurant.getUrlFromQRcode(content);
+                Network.getInstance().setIdAndNumber(url);
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
-                intent.putExtra("data_url",detail);
+                intent.putExtra("data_url",url);
                 startActivity(intent);
             }
         }

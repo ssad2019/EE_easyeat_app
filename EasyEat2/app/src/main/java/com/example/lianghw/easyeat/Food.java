@@ -27,6 +27,9 @@ public class Food implements Serializable {
         this.icon = foodImgUrl;
         this.count = count;
     }
+    public int getId() {
+        return id;
+    }
 
     public String getFoodName() {
         return name;
