@@ -17,13 +17,15 @@ public class Restaurant {
         String restaurantStr = Network.getInstance().doGet(url);
         return jsonToClass(restaurantStr);
     }
-/*
+
     public Pair<String,String> pushOrder(List<Food> foods,String remark){
         Order order = new Order(foods,remark);
         String  orderJson = new Gson().toJson(order);
 
-        Network.getInstance().orderFood(orderJson);
-    }*/
+        String mes = Network.getInstance().orderFood(orderJson);
+        OrderReturn myOrderReturn= new Gson().fromJson(mes, message2.class).data;
+        return new Pair<String,String>(myOrderReturn.order_id,myOrderReturn.time);
+    }
 
     private static Restaurant jsonToClass(String restaurantStr){
         Restaurant res= new Gson().fromJson(restaurantStr, message1.class).data;

@@ -43,13 +43,12 @@ public class Network {
             URL url = new URL(urlStr);
             String query = url.getQuery();
             String[] querys = query.split("&");
-
+            id = querys[0].substring(2);
+            number = querys[1].substring(2);
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void setId(String id){this.id=id;}
-    public void setNumber(String number){this.id=number;}
 
 
     private String paramsToString(String[] paramsName, String[] paramsValu){
@@ -103,6 +102,7 @@ public class Network {
         if(paramsName.length != 0){
             url = urlStr + "?" + paramsToString(paramsName,paramsValue);
         }
+
         return doGet(url);
     }
     public String doGet(String urlStr){
