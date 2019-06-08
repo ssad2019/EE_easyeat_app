@@ -178,9 +178,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
                 detail = Restaurant.getUrlFromQRcode(detail);
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("001",detail);
-                intent.putExtras(bundle);
+                intent.putExtra("data_url",detail);
                 startActivity(intent);
             }
         }

@@ -1,5 +1,7 @@
 package com.example.lianghw.easyeat;
 
+import android.util.Pair;
+
 import com.google.gson.Gson;
 
 public class Restaurant {
@@ -7,6 +9,14 @@ public class Restaurant {
         int status;
         String msg;
         Restaurant data;
+    }
+    private class simpleFood{
+        int id;
+        int number;
+    }
+    private class order{
+        simpleFood[] content;
+        String remark;
     }
     String name;
     String description;
@@ -17,7 +27,11 @@ public class Restaurant {
         String restaurantStr = Network.doGet(url);
         return jsonToClass(restaurantStr);
     }
-
+/*
+    public static Pair<String,String> pushOrder(List<Food> foods,){
+        String restaurantStr = Network.doGet(url);
+        return jsonToClass(restaurantStr);
+    }*/
 
     private static Restaurant jsonToClass(String restaurantStr){
         Restaurant res= new Gson().fromJson(restaurantStr, message.class).data;
