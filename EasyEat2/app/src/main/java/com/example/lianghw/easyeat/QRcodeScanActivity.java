@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ import com.yzq.zxinglibrary.common.Constant;
 
 
 public class QRcodeScanActivity extends AppCompatActivity {
-    final String Path ="ftp://api.hatsune-miku.cn/";
+    final String Path ="https://api.hatsune-miku.cn";
     // 所需的全部动态权限
     int RequestCode;
     boolean hasPermission = false;
@@ -34,14 +36,16 @@ public class QRcodeScanActivity extends AppCompatActivity {
     };
     int REQUEST_CODE_SCAN = 8;
     TextView result;
-
+    ImageView imgView;
     String detail;
+    Bitmap img;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0x002:
                     result.setText(detail);
                     Toast.makeText(QRcodeScanActivity.this, "HTML代码加载完毕", Toast.LENGTH_SHORT).show();
+                    imgView.setImageBitmap(img);
                     break;
                 default:
                     break;
@@ -68,7 +72,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
 
         result = findViewById(R.id.result);
-
+        imgView = findViewById(R.id.img);
 
         Button button1 = findViewById(R.id.btn1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +91,11 @@ public class QRcodeScanActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("001",detail);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -98,8 +106,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
                 new Thread() {
                     @Override
                     public void run() {
-                        String a = "https://www.baidu.com/";
-                        detail = Network.doGet(a);
+                        detail = Restaurant.getUrlFromQRcode(detail);
                         handler.sendEmptyMessage(0x002);
                     }
                 }.start();
@@ -167,6 +174,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
                 result.setText("扫描结果为：" + content);
+                detail = content;
             }
         }
     }

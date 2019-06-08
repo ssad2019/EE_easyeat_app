@@ -1,6 +1,8 @@
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
@@ -19,6 +21,7 @@ import java.net.URLConnection;
 
 public class Network {
     Context context;
+    static String SECRET = "gg";
     Network(Context context){
         this.context = context;
 
@@ -40,14 +43,40 @@ public class Network {
         return pStr;
     }
 
-    public static String doGet(String urlStr){
-        return doGet(urlStr,new String[]{},new String[]{});
+    public static String submitOrders(String url,String id,String number,String order){
+        url = url + "/order.php";
+        String[] paramsName = {"s","n","order"};
+        String[] paramsValue = {id,number,order};
+        return doPost(url,paramsName,paramsValue);
     }
-    public static String doGet(String urlStr,String[] paramsName, String[] paramsValue){
+
+
+    public static Bitmap getBitmap(String path) {
+
+        try{
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200){
+                InputStream inputStream = conn.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String doGet(String urlStr,String[] paramsName, String[] paramsValue) {
         String url = urlStr;
         if(paramsName.length != 0){
             url = urlStr + "?" + paramsToString(paramsName,paramsValue);
         }
+        return doGet(url);
+    }
+    public static String doGet(String urlStr){
 
         HttpURLConnection conn = null;
         InputStream is = null;
@@ -55,7 +84,7 @@ public class Network {
         BufferedReader br = null;
         String str = "";
         try {
-            URL weiUrl = new URL(url);
+            URL weiUrl = new URL(urlStr);
             conn = (HttpURLConnection)weiUrl.openConnection();
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.connect();
@@ -82,7 +111,8 @@ public class Network {
         }
         return str;
     }
-    public String doPost( String urlStr,String[] paramsName, String[] paramsValue){
+
+    public static String doPost( String urlStr,String[] paramsName, String[] paramsValue){
         HttpURLConnection conn = null;
         InputStream is = null;
         InputStreamReader reader = null;
