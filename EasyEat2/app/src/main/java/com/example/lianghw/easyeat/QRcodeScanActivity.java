@@ -107,6 +107,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         detail = Restaurant.getUrlFromQRcode(detail);
+
                         handler.sendEmptyMessage(0x002);
                     }
                 }.start();
@@ -174,7 +175,13 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
                 result.setText("扫描结果为：" + content);
-                detail = content;
+                
+                detail = Restaurant.getUrlFromQRcode(detail);
+                Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("001",detail);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
     }

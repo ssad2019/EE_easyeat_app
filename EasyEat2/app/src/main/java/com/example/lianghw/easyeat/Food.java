@@ -8,6 +8,10 @@ public class Food implements Serializable {
     private class Tag{
         public int id;
         public String name;
+        public Tag(int id,String name){
+            this.id = id;
+            this.name = name;
+        }
     }
     private int id;
     private String name;
@@ -18,7 +22,7 @@ public class Food implements Serializable {
 
     public Food(String foodName , String foodType, String foodPrices, String foodImgUrl, int count) {
         this.name = foodName;
-        this.tag.name = foodType;
+        this.tag = new Tag(0,foodType);
         this.price = "$" + foodPrices;
         this.icon = foodImgUrl;
         this.count = count;

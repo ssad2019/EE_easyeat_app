@@ -18,6 +18,7 @@ public class Restaurant {
         return jsonToClass(restaurantStr);
     }
 
+
     private static Restaurant jsonToClass(String restaurantStr){
         Restaurant res= new Gson().fromJson(restaurantStr, message.class).data;
         return res;
