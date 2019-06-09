@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class FinalActivity extends Activity {
@@ -27,11 +28,18 @@ public class FinalActivity extends Activity {
         MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(FinalActivity.this, order_list_data);
         order_list.setAdapter(myOrderListViewAdapter);
 
-        //返回键事件
+
         TextView order_info = findViewById(R.id.order_info);
         order_info.setText(order_id+"\n"+time);
 
 
+    }
 
+    //返回键事件
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(FinalActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
