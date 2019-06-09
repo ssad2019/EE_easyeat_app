@@ -67,8 +67,12 @@ public class MyListViewAdapter extends BaseAdapter {
         return convertView;
     }
     public void updateData(List<String> lists) {
-        data.clear();
-        data.addAll(lists);
+        if(data != null) {
+            data.clear();
+            data.addAll(lists);
+        }else{
+            data = lists;
+        }
         this.notifyDataSetChanged();
     }
     private class ListViewHolder {

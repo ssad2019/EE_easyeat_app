@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -25,7 +26,7 @@ import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 //菜品详情界面
 public class FoodDetail extends Activity {
 
-    private List<Food> order_list_data;
+    private StoreData data_instance = StoreData.getInstance();
 
     private Button order_list_btn;
     private Food food_item;
@@ -51,23 +52,22 @@ public class FoodDetail extends Activity {
 
         Intent intent = getIntent();
         food_item = (Food) intent.getExtras().getSerializable("food_item");
-        order_list_data = (List<Food>) intent.getExtras().getSerializable("order_list_data");
 
         food_name.setText(food_item.getFoodName());
-        food_prices.setText(food_item.getFoodPrices());
+        food_prices.setText("$" + food_item.getFoodPrices());
         food_detail.setMovementMethod(ScrollingMovementMethod.getInstance());
         food_count.setText(food_item.getCount() + "");
         check_count();
         //设置图片
 
-        final MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(FoodDetail.this, order_list_data);
+        final MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(FoodDetail.this, data_instance.order_food_list);
         //order_item内部点击事件
         MyOrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new MyOrderListViewAdapter.OnOrderButtonClickListener() {
             @Override
             public void onAddClick(int position) {
-                Food order_item = order_list_data.get(position);
+                Food order_item = data_instance.order_food_list.get(position);
                 int pre_count = order_item.getCount();
-                order_list_data.get(position).setCount(pre_count + 1);
+                data_instance.order_food_list.get(position).setCount(pre_count + 1);
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_count();
@@ -75,12 +75,12 @@ public class FoodDetail extends Activity {
 
             @Override
             public void onSubClick(int position) {
-                Food order_item = order_list_data.get(position);
+                Food order_item = data_instance.order_food_list.get(position);
                 int result = order_item.getCount() - 1;
                 if(result == 0){
-                    order_list_data.remove(position);
+                    data_instance.order_food_list.remove(position);
                 }else{
-                    order_list_data.get(position).setCount(result);
+                    data_instance.order_food_list.get(position).setCount(result);
                 }
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
@@ -96,7 +96,7 @@ public class FoodDetail extends Activity {
             @Override
             public void onClick(View v) {
                 if (order_list.getVisibility() == View.GONE) {
-                    if(order_list_data.size() == 0){
+                    if(data_instance.order_food_list.size() == 0){
                         Toast.makeText(FoodDetail.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
                     }else {
                         order_list.setVisibility(View.VISIBLE);
@@ -112,15 +112,21 @@ public class FoodDetail extends Activity {
             @Override
             public void onClick(View v) {
                 food_item.setCount(food_item.getCount() + 1);
-                if(order_list_data.size() != 0) {
-                    for (int i = 0; i < order_list_data.size(); i++){
-                        if(order_list_data.get(i).getFoodName().equals(food_item.getFoodName())){
-                            order_list_data.get(i).setCount(food_item.getCount());
+                if(data_instance.order_food_list.size() != 0) {
+                    boolean food_exists = false;
+                    for (int i = 0; i < data_instance.order_food_list.size(); i++){
+                        if(data_instance.order_food_list.get(i).getFoodName().equals(food_item.getFoodName())){
+                            data_instance.order_food_list.get(i).setCount(food_item.getCount());
+                            Log.i("food_detail", "onClick: add1");
+                            food_exists = true;
                             break;
                         }
                     }
+                    if(!food_exists){
+                        data_instance.order_food_list.add(food_item);
+                    }
                 }else{
-                    order_list_data.add(food_item);
+                    data_instance.order_food_list.add(food_item);
                 }
                 myOrderListViewAdapter.notifyDataSetChanged();
                 check_count();
@@ -132,12 +138,12 @@ public class FoodDetail extends Activity {
             @Override
             public void onClick(View v) {
                 food_item.setCount(food_item.getCount() - 1);
-                for (int i = 0; i < order_list_data.size(); i++){
-                    if(order_list_data.get(i).getFoodName().equals(food_item.getFoodName())){
+                for (int i = 0; i < data_instance.order_food_list.size(); i++){
+                    if(data_instance.order_food_list.get(i).getFoodName().equals(food_item.getFoodName())){
                         if(food_item.getCount() == 0){
-                            order_list_data.remove(i);
+                            data_instance.order_food_list.remove(i);
                         }else {
-                            order_list_data.get(i).setCount(food_item.getCount());
+                            data_instance.order_food_list.get(i).setCount(food_item.getCount());
                         }
                         break;
                     }
@@ -152,22 +158,21 @@ public class FoodDetail extends Activity {
 
     //计算总价
     private void calculate_sum(){
-        int sum = 0;
-        for(int i = 0; i < order_list_data.size(); i++){
-            String price_string = order_list_data.get(i).getFoodPrices();
-            int price = Integer.parseInt(price_string.substring(1, price_string.length()));
-            sum += order_list_data.get(i).getCount() * price;
+        double sum = 0;
+        for(int i = 0; i < data_instance.order_food_list.size(); i++){
+            double price = Double.valueOf(data_instance.order_food_list.get(i).getFoodPrices());
+            sum += data_instance.order_food_list.get(i).getCount() * price;
         }
-        order_list_btn.setText("总价:     $" + sum);
+        order_list_btn.setText("总价:     $" + Double.toString(sum));
     }
 
     //检验food count
     private void check_count(){
         int count = 0;
-        if(order_list_data != null) {
-            for (int i = 0; i < order_list_data.size(); i++) {
-                if (order_list_data.get(i).getFoodName().equals(food_item.getFoodName())) {
-                    count = order_list_data.get(i).getCount();
+        if(data_instance.order_food_list != null) {
+            for (int i = 0; i < data_instance.order_food_list.size(); i++) {
+                if (data_instance.order_food_list.get(i).getFoodName().equals(food_item.getFoodName())) {
+                    count = data_instance.order_food_list.get(i).getCount();
                 }
             }
         }
@@ -197,9 +202,6 @@ public class FoodDetail extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("order_list_data", (Serializable) order_list_data);
-        intent.putExtras(bundle);
         setResult(1000, intent);
         finish();
         super.onBackPressed();

@@ -21,7 +21,7 @@ public class FinalActivity extends Activity {
 
         List<Food> order_list_data = (List<Food>)bundle.getSerializable("order_list_data");
         String order_id = bundle.getString("order_id");
-        String time = bundle.getString("order_id");
+        String time = bundle.getString("order_time");
 
         ListView order_list = (ListView)findViewById(R.id.order_list);
         MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(FinalActivity.this, order_list_data);

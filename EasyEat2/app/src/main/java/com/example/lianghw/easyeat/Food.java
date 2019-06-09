@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 //记录菜品数据的结构体
 public class Food implements Serializable {
-    private class Tag{
+    private class Tag implements Serializable{
         public int id;
         public String name;
         public Tag(int id,String name){
@@ -20,13 +20,6 @@ public class Food implements Serializable {
     private String icon;
     private int count;
 
-    public Food(String foodName , String foodType, String foodPrices, String foodImgUrl, int count) {
-        this.name = foodName;
-        this.tag = new Tag(0,foodType);
-        this.price = "$" + foodPrices;
-        this.icon = foodImgUrl;
-        this.count = count;
-    }
     public int getId() {
         return id;
     }
