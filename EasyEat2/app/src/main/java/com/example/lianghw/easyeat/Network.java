@@ -80,8 +80,8 @@ public class Network {
         return doPost(url,paramsName,paramsValue);
     }
     public Bitmap getBitmap(String path) {
-
         try{
+
             URL url = new URL(path);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
@@ -102,7 +102,6 @@ public class Network {
         if(paramsName.length != 0){
             url = urlStr + "?" + paramsToString(paramsName,paramsValue);
         }
-
         return doGet(url);
     }
     public String doGet(String urlStr){
