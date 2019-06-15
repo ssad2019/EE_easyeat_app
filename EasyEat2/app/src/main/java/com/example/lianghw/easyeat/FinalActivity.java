@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class FinalActivity extends Activity {
+    private List<Food> order_list_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,13 +22,14 @@ public class FinalActivity extends Activity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        List<Food> order_list_data = (List<Food>)bundle.getSerializable("order_list_data");
+        order_list_data = (List<Food>)bundle.getSerializable("order_list_data");
         String order_id = bundle.getString("order_id");
         String time = bundle.getString("order_time");
 
-        ListView order_list = (ListView)findViewById(R.id.order_list);
-        MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(FinalActivity.this, order_list_data);
+        final ListView order_list = (ListView)findViewById(R.id.order_list);
+        MyFinalOrderAdapter myOrderListViewAdapter = new MyFinalOrderAdapter(FinalActivity.this, order_list_data);
         order_list.setAdapter(myOrderListViewAdapter);
+
 
 
         TextView order_info = findViewById(R.id.order_info);
@@ -42,4 +45,5 @@ public class FinalActivity extends Activity {
         Intent intent = new Intent(FinalActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
 }

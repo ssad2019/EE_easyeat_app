@@ -39,22 +39,5 @@
         app:layout_constraintRight_toLeftOf="@id/btn2"
         />
 
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/Scan_btn2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/btn1"
-        app:layout_constraintRight_toRightOf="@id/btn3"
-        />
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/Scan_btn3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/btn2"
-        app:layout_constraintRight_toRightOf="parent"
-        />
+
 </android.support.constraint.ConstraintLayout>
