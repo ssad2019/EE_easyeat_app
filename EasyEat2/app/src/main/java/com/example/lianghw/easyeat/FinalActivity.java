@@ -43,7 +43,7 @@ public class FinalActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(FinalActivity.this, MainActivity.class);
-        startActivity(intent);
+        setResult(1002, intent);
     }
 
 }

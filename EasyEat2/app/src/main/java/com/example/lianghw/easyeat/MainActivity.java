@@ -392,6 +392,8 @@ public class MainActivity extends AppCompatActivity {
             calculate_sum();
         }else if(requestCode == 1001){
 
+        }else if(resultCode == 1001){
+
         }
     }
 }
