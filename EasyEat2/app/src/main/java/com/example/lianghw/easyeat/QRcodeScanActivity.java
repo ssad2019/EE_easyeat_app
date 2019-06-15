@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,14 +73,11 @@ public class QRcodeScanActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        TextView title = (TextView) findViewById(R.id.title);
-        //Typeface typeface = ResourcesCompat.getFont(this, R.font.helvetica);
-        //title.setTypeface(typeface);
+
 
         result = findViewById(R.id.result);
         imgView = findViewById(R.id.img);
-
-        Button button1 = findViewById(R.id.btn1);
+        ImageButton button1 = findViewById(R.id.btn1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
