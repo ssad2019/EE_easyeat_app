@@ -39,6 +39,8 @@
         android:layout_height="80dp"
         android:hint="添加备注"
         android:textSize="20dp"
+        android:inputType="textMultiLine"
+        android:gravity="top"
         android:scrollbars="vertical"
         android:fadeScrollbars="false"
         android:background="@null"

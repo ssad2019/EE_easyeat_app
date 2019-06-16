@@ -2,6 +2,7 @@ package com.example.lianghw.easyeat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView restaurant_name;
     private TextView restaurant_detail;
     private ImageView restaurant_img;
+    private Bitmap bitmap;
 
     @Override
     protected void onDestroy() {
@@ -62,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0x01:
-                    restaurant_name.setText(restaurant.name);
-                    restaurant_detail.setText(restaurant.description);
-                    restaurant_img.setImageBitmap(Network.getInstance().getBitmap(restaurant.icon));
+                    if(!restaurant.name.equals("")){
+                        restaurant_name.setText(restaurant.name);
+                    }
+                    if(!restaurant.description.equals("")){
+                        restaurant_detail.setText(restaurant.description);
+                    }
+                    if(!restaurant.icon.equals("")){
+                        restaurant_img.setImageBitmap(bitmap);
+                    }
                     break;
                 default:
                     break;
@@ -81,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 restaurant = getRestaurantByUrl(data_url);
+                if(!restaurant.icon.equals("")) {
+                    bitmap = Network.getInstance().getBitmap(restaurant.icon);
+                }
                 List<Food> foods_copy = new ArrayList<>(Arrays.asList(restaurant.goods));
                 data_instance.all_food_list = foods_copy;
                 for(int i = 0; i < data_instance.all_food_list.size(); i++){
@@ -140,7 +151,9 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化食品列表
         Intent intent = getIntent();
-        initData(intent);
+        if(intent.getStringExtra("data_url") != null) {
+            initData(intent);
+        }
 
         while(data_instance.all_food_list.size() == 0 || data_instance.food_type_list.size() == 0){
 

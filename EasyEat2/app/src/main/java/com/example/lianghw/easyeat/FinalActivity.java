@@ -41,9 +41,15 @@ public class FinalActivity extends Activity {
     //返回键事件
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        StoreData.getInstance().order_food_list.clear();
+        for(int i = 0; i < StoreData.getInstance().all_food_list.size(); i++){
+            if(StoreData.getInstance().all_food_list.get(i).getCount() != 0){
+                StoreData.getInstance().all_food_list.get(i).setCount(0);
+            }
+        }
         Intent intent = new Intent(FinalActivity.this, MainActivity.class);
-        setResult(1002, intent);
+        startActivity(intent);
+        super.onBackPressed();
     }
 
 }

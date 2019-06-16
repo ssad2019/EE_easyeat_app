@@ -3,6 +3,7 @@ package com.example.lianghw.easyeat;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,25 @@ public class PayActivity extends Activity {
 
     private List<Food> order_list_data;
     private TextView total_count;
+    private Pair<String, String> order_data;
+
+    private Handler pay_handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 0x01:
+                    Intent intent = new Intent(PayActivity.this, FinalActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("order_list_data", (Serializable) order_list_data);
+                    bundle.putString("order_id", order_data.first);
+                    bundle.putString("order_time", order_data.second);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +62,15 @@ public class PayActivity extends Activity {
         order_confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(PayActivity.this, FinalActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("order_list_data", (Serializable) order_list_data);
-
             //访问网站提交获取订单id和time
-            Restaurant restaurant_instasnce = new Restaurant();
-            Pair<String, String> order_data = restaurant_instasnce.pushOrder(order_list_data, remark);
-
-            bundle.putString("order_id", order_data.first);
-            bundle.putString("order_time", order_data.second);
-            intent.putExtras(bundle);
-            startActivity(intent);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        Restaurant restaurant_instance = new Restaurant();
+                        order_data = restaurant_instance.pushOrder(order_list_data, remark);
+                        pay_handler.sendEmptyMessage(0x01);
+                    }
+                }.start();
             }
         });
     }
