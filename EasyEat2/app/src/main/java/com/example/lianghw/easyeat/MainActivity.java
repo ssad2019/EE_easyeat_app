@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView restaurant_detail;
     private ImageView restaurant_img;
     private Bitmap bitmap;
+    private Button order_make_btn;
 
     @Override
     protected void onDestroy() {
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 myPinnedAdapter.notifyDataSetChanged();
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
+                check_order_status();
             }
 
             @Override
@@ -209,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 myPinnedAdapter.notifyDataSetChanged();
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
+                check_order_status();
             }
         };
 
@@ -310,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 myPinnedAdapter.notifyDataSetChanged();
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
+                check_order_status();
             }
 
             @Override
@@ -331,6 +335,7 @@ public class MainActivity extends AppCompatActivity {
                 myPinnedAdapter.notifyDataSetChanged();
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
+                check_order_status();
             }
         };
 
@@ -364,10 +369,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //下订单按钮点击事件
-        final Button order_make_btn = (Button)findViewById(R.id.order_make_btn);
+        order_make_btn = (Button)findViewById(R.id.order_make_btn);
         order_make_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(data_instance.order_food_list.size() == 0){
+                    return;
+                }
                 Intent intent = new Intent(MainActivity.this,  PayActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("order_list_data", (Serializable)data_instance.order_food_list);
@@ -403,6 +411,16 @@ public class MainActivity extends AppCompatActivity {
         order_list_btn.setText("总价:     ￥" + Double.toString(sum));
     }
 
+    private void check_order_status(){
+        if(data_instance.order_food_list.size() != 0){
+            order_make_btn.setText("去结算");
+            order_make_btn.setBackgroundResource(R.drawable.btn_right_selected_style);
+        }else{
+            order_make_btn.setText("");
+            order_make_btn.setBackgroundResource(R.drawable.btn_right_style);
+        }
+    }
+
     @Override
 //重写了onAcitivityResult
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -413,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
             myPinnedAdapter.notifyDataSetChanged();
             myOrderListViewAdapter.notifyDataSetChanged();
             calculate_sum();
+            check_order_status();
         }else if(requestCode == 1001){
 
         }else if(resultCode == 1001){

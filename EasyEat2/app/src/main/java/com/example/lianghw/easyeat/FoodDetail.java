@@ -33,6 +33,7 @@ public class FoodDetail extends Activity {
     private Button add_btn;
     private Button sub_button;
     private TextView food_count;
+    private Button order_make_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,24 +68,44 @@ public class FoodDetail extends Activity {
             public void onAddClick(int position) {
                 Food order_item = data_instance.order_food_list.get(position);
                 int pre_count = order_item.getCount();
+                for(int i = 0; i < data_instance.all_food_list.size(); i++){
+                    if(data_instance.all_food_list.get(i).getFoodName().equals(order_item.getFoodName())){
+                        data_instance.all_food_list.get(i).setCount(pre_count + 1);
+                        break;
+                    }
+                }
                 data_instance.order_food_list.get(position).setCount(pre_count + 1);
+                if(order_item.getFoodName().equals(food_item.getFoodName())){
+                    food_item.setCount(pre_count + 1);
+                }
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_count();
+                check_order_status();
             }
 
             @Override
             public void onSubClick(int position) {
                 Food order_item = data_instance.order_food_list.get(position);
                 int result = order_item.getCount() - 1;
+                for(int i = 0; i < data_instance.all_food_list.size(); i++){
+                    if(data_instance.all_food_list.get(i).getFoodName().equals(order_item.getFoodName())){
+                        data_instance.all_food_list.get(i).setCount(result);
+                        break;
+                    }
+                }
                 if(result == 0){
                     data_instance.order_food_list.remove(position);
                 }else{
                     data_instance.order_food_list.get(position).setCount(result);
                 }
+                if(order_item.getFoodName().equals(food_item.getFoodName())){
+                    food_item.setCount(result);
+                }
                 myOrderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_count();
+                check_order_status();
             }
         };
 
@@ -92,6 +113,7 @@ public class FoodDetail extends Activity {
         order_list.setAdapter(myOrderListViewAdapter);
 
         //查看订单列表按钮点击事件
+        final View shadow_view = (View)findViewById(R.id.shadow);
         order_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,13 +122,39 @@ public class FoodDetail extends Activity {
                         Toast.makeText(FoodDetail.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
                     }else {
                         order_list.setVisibility(View.VISIBLE);
+                        shadow_view.setVisibility(View.VISIBLE);
                     }
                 } else {
                     order_list.setVisibility(View.GONE);
+                    shadow_view.setVisibility(View.GONE);
                 }
             }
         });
+        shadow_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                order_list.setVisibility(View.GONE);
+                shadow_view.setVisibility(View.GONE);
+            }
+        });
+
+        order_make_btn = (Button)findViewById(R.id.order_make_btn);
+        order_make_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(data_instance.order_food_list.size() == 0){
+                    return;
+                }
+                Intent intent = new Intent(FoodDetail.this,  PayActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("order_list_data", (Serializable)data_instance.order_food_list);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
         calculate_sum();
+        check_order_status();
 
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +165,6 @@ public class FoodDetail extends Activity {
                     for (int i = 0; i < data_instance.order_food_list.size(); i++){
                         if(data_instance.order_food_list.get(i).getFoodName().equals(food_item.getFoodName())){
                             data_instance.order_food_list.get(i).setCount(food_item.getCount());
-                            Log.i("food_detail", "onClick: add1");
                             food_exists = true;
                             break;
                         }
@@ -128,9 +175,18 @@ public class FoodDetail extends Activity {
                 }else{
                     data_instance.order_food_list.add(food_item);
                 }
+
+                for (int i = 0; i < data_instance.all_food_list.size(); i++){
+                    if(data_instance.all_food_list.get(i).getFoodName().equals(food_item.getFoodName())){
+                        data_instance.all_food_list.get(i).setCount(food_item.getCount());
+                        break;
+                    }
+                }
+
                 myOrderListViewAdapter.notifyDataSetChanged();
                 check_count();
                 calculate_sum();
+                check_order_status();
             }
         });
 
@@ -148,9 +204,18 @@ public class FoodDetail extends Activity {
                         break;
                     }
                 }
+
+                for (int i = 0; i < data_instance.all_food_list.size(); i++){
+                    if(data_instance.all_food_list.get(i).getFoodName().equals(food_item.getFoodName())){
+                        data_instance.all_food_list.get(i).setCount(food_item.getCount());
+                        break;
+                    }
+                }
+
                 myOrderListViewAdapter.notifyDataSetChanged();
                 check_count();
                 calculate_sum();
+                check_order_status();
             }
         });
 
@@ -164,6 +229,17 @@ public class FoodDetail extends Activity {
             sum += data_instance.order_food_list.get(i).getCount() * price;
         }
         order_list_btn.setText("总价:     $" + Double.toString(sum));
+    }
+
+    //下订单按钮UI变化
+    private void check_order_status(){
+        if(data_instance.order_food_list.size() != 0){
+            order_make_btn.setText("去结算");
+            order_make_btn.setBackgroundResource(R.drawable.btn_right_selected_style);
+        }else{
+            order_make_btn.setText("");
+            order_make_btn.setBackgroundResource(R.drawable.btn_right_style);
+        }
     }
 
     //检验food count
