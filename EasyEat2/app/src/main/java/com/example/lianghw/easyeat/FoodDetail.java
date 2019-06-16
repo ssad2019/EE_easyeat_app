@@ -54,7 +54,7 @@ public class FoodDetail extends Activity {
         food_item = (Food) intent.getExtras().getSerializable("food_item");
 
         food_name.setText(food_item.getFoodName());
-        food_prices.setText("$" + food_item.getFoodPrices());
+        food_prices.setText(food_item.getFoodPrices());
         food_detail.setMovementMethod(ScrollingMovementMethod.getInstance());
         food_count.setText(food_item.getCount() + "");
         check_count();
@@ -180,7 +180,7 @@ public class FoodDetail extends Activity {
             sub_button.setVisibility(View.GONE);
             food_count.setVisibility(View.GONE);
             add_btn.setText(" + 添加到购物车");
-            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dp_to_px(FoodDetail.this, 120), DensityUtil.dp_to_px(FoodDetail.this, 30));
+            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dp_to_px(FoodDetail.this, 120), DensityUtil.dp_to_px(FoodDetail.this, 25));
             add_btn_layout.bottomToBottom = R.id.food_prices;
             add_btn_layout.rightToRight = PARENT_ID;
             add_btn_layout.setMargins(0,0, DensityUtil.dp_to_px(FoodDetail.this, 25), DensityUtil.dp_to_px(FoodDetail.this, 5));
@@ -190,7 +190,7 @@ public class FoodDetail extends Activity {
             food_count.setVisibility(View.VISIBLE);
             food_count.setText(count + "");
             add_btn.setText("+");
-            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dp_to_px(FoodDetail.this, 30), DensityUtil.dp_to_px(FoodDetail.this, 30));
+            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dp_to_px(FoodDetail.this, 25), DensityUtil.dp_to_px(FoodDetail.this, 25));
             add_btn_layout.bottomToBottom = R.id.food_prices;
             add_btn_layout.rightToRight = PARENT_ID;
             add_btn_layout.setMargins(0,0, DensityUtil.dp_to_px(FoodDetail.this, 25), DensityUtil.dp_to_px(FoodDetail.this, 5));

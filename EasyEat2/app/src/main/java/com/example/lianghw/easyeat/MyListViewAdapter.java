@@ -59,9 +59,11 @@ public class MyListViewAdapter extends BaseAdapter {
         // 从viewHolder中取出对应的对象，然后赋值给他们
         viewHolder.textView.setText(data.get(i));
         if(i == selected_position){
-            viewHolder.textView.setBackgroundColor(Color.parseColor("#98FB98"));
+            viewHolder.textView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            viewHolder.textView.setTextColor(Color.parseColor("#000000"));
         }else{
             viewHolder.textView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.textView.setTextColor(Color.parseColor("#8B8682"));
         }
         // 将这个处理好的view返回
         return convertView;

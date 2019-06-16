@@ -11,7 +11,9 @@
         android:layout_height="match_parent"
         android:text="凉菜"
         android:textSize="15dp"
+        android:textColor="#8B8682"
         android:textAlignment="center"
         android:padding="10dp"
+        android:background="#FAFAFA"
         />
 </LinearLayout>

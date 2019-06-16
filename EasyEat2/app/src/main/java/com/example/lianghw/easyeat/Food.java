@@ -42,7 +42,7 @@ public class Food implements Serializable {
         return price;
     }
     public void setFoodPrices(String foodPrices) {
-        this.price = "$" + foodPrices;
+        this.price = foodPrices;
     }
 
     public String getFoodImgUrl(){ return icon;}

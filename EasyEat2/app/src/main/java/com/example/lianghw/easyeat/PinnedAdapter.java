@@ -99,7 +99,7 @@ public class PinnedAdapter extends BaseAdapter {
         }
         //内容
         viewHolder.foodName.setText(list_data.get(position).getFoodName());
-        viewHolder.foodPrice.setText("$" + list_data.get(position).getFoodPrices());
+        viewHolder.foodPrice.setText(list_data.get(position).getFoodPrices());
         if(list_data.get(position).getCount() == 0){
             viewHolder.food_count.setVisibility(View.INVISIBLE);
             viewHolder.sub_order_btn.setVisibility(View.GONE);

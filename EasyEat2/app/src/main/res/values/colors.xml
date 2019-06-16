@@ -5,10 +5,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="red">#FF0000</color>
     <color name="colorBlack">#000</color>
     <color name="White">#ffff</color>
     <color name="colorDivLine">#1E000000</color>
-    <color name="colorGray">#8A000000</color>
+    <color name="Gray">#BEBEBE</color>
+    <color name="DarkGray">#696969</color>
     <color name="colorDetailBlack">#D5000000</color>
 
 </resources>

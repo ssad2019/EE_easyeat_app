@@ -338,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
         order_list.setAdapter(myOrderListViewAdapter);
 
         //查看订单列表按钮点击事件
+        final View shadow_view = (View)findViewById(R.id.shadow);
         order_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -346,10 +347,19 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
                     }else {
                         order_list.setVisibility(View.VISIBLE);
+                        shadow_view.setVisibility(View.VISIBLE);
                     }
                 } else {
                     order_list.setVisibility(View.GONE);
+                    shadow_view.setVisibility(View.GONE);
                 }
+            }
+        });
+        shadow_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                order_list.setVisibility(View.GONE);
+                shadow_view.setVisibility(View.GONE);
             }
         });
 
@@ -378,7 +388,7 @@ public class MainActivity extends AppCompatActivity {
         itemView.setGravity(Gravity.LEFT);
         itemView.setBackgroundColor(Color.parseColor("#FAFAFA"));
         itemView.setTextSize(20);
-        itemView.setTextColor(Color.GRAY);
+        itemView.setTextColor(Color.parseColor("#000000"));
         itemView.setPadding(30, 0, 0, itemView.getPaddingBottom());
         return itemView;
     }
@@ -390,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
             double price = Double.valueOf(data_instance.order_food_list.get(i).getFoodPrices());
             sum += data_instance.order_food_list.get(i).getCount() * price;
         }
-        order_list_btn.setText("总价:     $" + Double.toString(sum));
+        order_list_btn.setText("总价:     ￥" + Double.toString(sum));
     }
 
     @Override
