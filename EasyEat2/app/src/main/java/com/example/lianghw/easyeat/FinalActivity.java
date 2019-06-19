@@ -6,6 +6,11 @@
  * github地址：https://github.com/ssad2019/EE_easyeat_app
  * 启动日期：2019.5.1
  */
+/**
+ * FinalActivity
+ * 显示整个订单列表和
+ * 服务器返回的订单号和时间
+ */
 package com.example.lianghw.easyeat;
 
 import android.app.Activity;
