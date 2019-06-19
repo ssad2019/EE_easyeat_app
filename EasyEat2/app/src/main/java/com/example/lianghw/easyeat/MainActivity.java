@@ -348,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,  PayActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("order_list_data", (Serializable)data_instance.order_food_list);
+                bundle.putString("total", order_list_btn.getText().toString());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1001);
             }

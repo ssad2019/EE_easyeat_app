@@ -49,6 +49,9 @@ public class PayActivity extends Activity {
 
         Intent intent = getIntent();
         order_list_data = (List<Food>) intent.getExtras().getSerializable("order_list_data");
+        String total = (String)intent.getExtras().getString("total");
+        Button btn_total = (Button)findViewById(R.id.order_list_btn);
+        btn_total.setText(total);
 
         final ListView order_list = (ListView)findViewById(R.id.card_list);
         List<TypeListViewItem> card_list_data = new ArrayList<>();

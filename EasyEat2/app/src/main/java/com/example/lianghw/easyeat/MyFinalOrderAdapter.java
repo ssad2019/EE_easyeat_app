@@ -66,7 +66,7 @@ public class MyFinalOrderAdapter extends BaseAdapter {
         viewHolder.food_count.setText("x" + data.get(i).getCount());
         double one_price = Double.valueOf(data.get(i).getFoodPrices());
         double total_price = one_price * data.get(i).getCount();
-        viewHolder.food_total_price.setText("$" + total_price);
+        viewHolder.food_total_price.setText("Y" + total_price);
 
         // 将这个处理好的view返回
         return convertView;
