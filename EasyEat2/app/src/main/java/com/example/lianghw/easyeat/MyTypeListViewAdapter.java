@@ -38,7 +38,7 @@ public class MyTypeListViewAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -67,6 +67,7 @@ public class MyTypeListViewAdapter extends BaseAdapter {
         TypeListViewItem item = data.get(i);
         ViewHolderType1 viewHolderType1;
         ViewHolderType2 viewHolderType2;
+        ViewHolderType3 viewHolderType3;
         int type = getItemViewType(i);
         if (convertView == null) {
             switch (type) {
@@ -82,6 +83,13 @@ public class MyTypeListViewAdapter extends BaseAdapter {
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_payment_type2, null);
                     viewHolderType2.editText = (EditText)convertView.findViewById(R.id.remark);
                     convertView.setTag(R.id.item_type2, viewHolderType2);
+                    break;
+                case 2:
+                    viewHolderType3 = new ViewHolderType3();
+                    convertView =  LayoutInflater.from(context).inflate(R.layout.item_final_type3, null);
+                    viewHolderType3.tx_id = (TextView) convertView.findViewById(R.id.order_id);
+                    viewHolderType3.tx_time = (TextView) convertView.findViewById(R.id.order_time);
+                    convertView.setTag(R.id.item_type3, viewHolderType3);
                     break;
             }
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
@@ -117,6 +125,12 @@ public class MyTypeListViewAdapter extends BaseAdapter {
                             textChangeListener.remark_change(s.toString());
                         }
                     });
+                    break;
+                case 2:
+                    viewHolderType3 = (ViewHolderType3) convertView.getTag(R.id.item_type3);
+                    viewHolderType3.tx_id.setText(item.map.get("order_id").toString());
+                    viewHolderType3.tx_time.setText(item.map.get("order_time").toString());
+                    break;
             }
         }
         // 将这个处理好的view返回
@@ -130,5 +144,10 @@ public class MyTypeListViewAdapter extends BaseAdapter {
 
     private class ViewHolderType2 {
         public EditText editText;
+    }
+
+    private class ViewHolderType3 {
+        public TextView tx_id;
+        public TextView tx_time;
     }
 }

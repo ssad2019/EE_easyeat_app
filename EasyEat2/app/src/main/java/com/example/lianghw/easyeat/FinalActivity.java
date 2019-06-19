@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FinalActivity extends Activity {
@@ -24,18 +26,30 @@ public class FinalActivity extends Activity {
 
         order_list_data = (List<Food>)bundle.getSerializable("order_list_data");
         String order_id = bundle.getString("order_id");
-        String time = bundle.getString("order_time");
+        String order_time = bundle.getString("order_time");
 
-        final ListView order_list = (ListView)findViewById(R.id.order_list);
-        MyFinalOrderAdapter myOrderListViewAdapter = new MyFinalOrderAdapter(FinalActivity.this, order_list_data);
-        order_list.setAdapter(myOrderListViewAdapter);
+        final ListView order_list = (ListView)findViewById(R.id.card_list);
+        List<TypeListViewItem> card_list_data = new ArrayList<>();
+        card_list_data.add(new TypeListViewItem(0,getHashMapFirstType(order_list_data)));
+        card_list_data.add(new TypeListViewItem(2, getHashMapThirdType(order_id, order_time)));
+        MyTypeListViewAdapter myTypeListViewAdapter = new MyTypeListViewAdapter(FinalActivity.this, card_list_data);
+        order_list.setAdapter(myTypeListViewAdapter);
 
+    }
 
+    //第一种样式，传输order_list
+    private HashMap<String, Object> getHashMapFirstType(List<Food> list_data) {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("list_data", list_data);
+        return hashMap;
+    }
 
-        TextView order_info = findViewById(R.id.order_info);
-        order_info.setText(order_id+"\n"+time);
-
-
+    //第三种样式，传输order_id order_time
+    private HashMap<String, Object> getHashMapThirdType(String order_id, String order_time) {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("order_id", order_id);
+        hashMap.put("order_time", order_time);
+        return hashMap;
     }
 
     //返回键事件
