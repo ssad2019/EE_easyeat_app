@@ -34,10 +34,8 @@ public class Network {
     String number;
     String Path = "https://api.hatsune-miku.cn";
     static String SECRET = "gg";
-    Network(Context context){
-        this.context = context;
 
-    }
+
     public void setIdAndNumber(String urlStr){
         try{
             URL url = new URL(urlStr);
@@ -66,12 +64,6 @@ public class Network {
         }
         return pStr;
     }
-    public String submitOrders(String url,String id,String number,String order){
-        url = url + "/order.php";
-        String[] paramsName = {"s","n","order"};
-        String[] paramsValue = {id,number,order};
-        return doPost(url,paramsName,paramsValue);
-    }
 
     public String orderFood(String orderJson){
         String url = Path + "/order.php";
@@ -97,13 +89,6 @@ public class Network {
         return null;
     }
 
-    public String doGet(String urlStr,String[] paramsName, String[] paramsValue) {
-        String url = urlStr;
-        if(paramsName.length != 0){
-            url = urlStr + "?" + paramsToString(paramsName,paramsValue);
-        }
-        return doGet(url);
-    }
     public String doGet(String urlStr){
 
         HttpURLConnection conn = null;

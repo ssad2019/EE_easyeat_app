@@ -61,8 +61,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
+        //权限检测
         CheckPermission();
 
         //加载主布居
@@ -74,9 +73,8 @@ public class QRcodeScanActivity extends AppCompatActivity {
         actionBar.hide();
 
 
-
         result = findViewById(R.id.result);
-        imgView = findViewById(R.id.img);
+
         ImageButton button1 = findViewById(R.id.btn1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +125,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -145,13 +144,11 @@ public class QRcodeScanActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
-                result.setText("扫描结果为：" + content);
+
                 String url = Restaurant.getUrlFromQRcode(content);
                 Network.getInstance().setIdAndNumber(url);
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
