@@ -1,3 +1,11 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
@@ -101,7 +109,7 @@ public class MyTypeListViewAdapter extends BaseAdapter {
                     viewHolderType1.listView.setAdapter(myOrderListViewAdapter);
                     double sum = 0;
                     for(int j = 0; j < order_data.size(); j++){
-                        double price = Double.valueOf(order_data.get(j).getFoodPrices());
+                        double price = Double.valueOf(order_data.get(j).getPrice());
                         sum += order_data.get(j).getCount() * price;
                     }
                     viewHolderType1.tx_sum.setText("￥" + sum);

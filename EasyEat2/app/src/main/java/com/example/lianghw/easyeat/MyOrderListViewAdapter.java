@@ -1,7 +1,14 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyOrderListViewAdapter extends BaseAdapter {
@@ -74,8 +80,8 @@ public class MyOrderListViewAdapter extends BaseAdapter {
             viewHolder = (MyOrderListViewAdapter.ListViewHolder) convertView.getTag();
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
-        viewHolder.foodName.setText(data.get(position).getFoodName());
-        viewHolder.foodPrice.setText(data.get(position).getFoodPrices());
+        viewHolder.foodName.setText(data.get(position).getName());
+        viewHolder.foodPrice.setText(data.get(position).getPrice());
         viewHolder.food_count.setText(data.get(position).getCount() + "");
 
         viewHolder.add_btn.setOnClickListener(new View.OnClickListener() {

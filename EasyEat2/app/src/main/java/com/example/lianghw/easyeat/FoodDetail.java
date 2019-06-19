@@ -1,3 +1,11 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.app.Activity;
@@ -47,8 +55,8 @@ public class FoodDetail extends Activity {
         Intent intent = getIntent();
         food_item = (Food) intent.getExtras().getSerializable("food_item");
 
-        food_name.setText(food_item.getFoodName());
-        food_prices.setText(food_item.getFoodPrices());
+        food_name.setText(food_item.getName());
+        food_prices.setText(food_item.getPrice());
         food_detail.setMovementMethod(ScrollingMovementMethod.getInstance());
         food_count.setText(food_item.getCount() + "");
         check_count();
@@ -62,13 +70,13 @@ public class FoodDetail extends Activity {
                 Food order_item = data_instance.orderFoodList.get(position);
                 int pre_count = order_item.getCount();
                 for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getFoodName().equals(order_item.getFoodName())){
+                    if(data_instance.allFoodList.get(i).getName().equals(order_item.getName())){
                         data_instance.allFoodList.get(i).setCount(pre_count + 1);
                         break;
                     }
                 }
                 data_instance.orderFoodList.get(position).setCount(pre_count + 1);
-                if(order_item.getFoodName().equals(food_item.getFoodName())){
+                if(order_item.getName().equals(food_item.getName())){
                     food_item.setCount(pre_count + 1);
                 }
                 myOrderListViewAdapter.notifyDataSetChanged();
@@ -82,7 +90,7 @@ public class FoodDetail extends Activity {
                 Food order_item = data_instance.orderFoodList.get(position);
                 int result = order_item.getCount() - 1;
                 for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getFoodName().equals(order_item.getFoodName())){
+                    if(data_instance.allFoodList.get(i).getName().equals(order_item.getName())){
                         data_instance.allFoodList.get(i).setCount(result);
                         break;
                     }
@@ -92,7 +100,7 @@ public class FoodDetail extends Activity {
                 }else{
                     data_instance.orderFoodList.get(position).setCount(result);
                 }
-                if(order_item.getFoodName().equals(food_item.getFoodName())){
+                if(order_item.getName().equals(food_item.getName())){
                     food_item.setCount(result);
                 }
                 myOrderListViewAdapter.notifyDataSetChanged();
@@ -156,7 +164,7 @@ public class FoodDetail extends Activity {
                 if(data_instance.orderFoodList.size() != 0) {
                     boolean food_exists = false;
                     for (int i = 0; i < data_instance.orderFoodList.size(); i++){
-                        if(data_instance.orderFoodList.get(i).getFoodName().equals(food_item.getFoodName())){
+                        if(data_instance.orderFoodList.get(i).getName().equals(food_item.getName())){
                             data_instance.orderFoodList.get(i).setCount(food_item.getCount());
                             food_exists = true;
                             break;
@@ -170,7 +178,7 @@ public class FoodDetail extends Activity {
                 }
 
                 for (int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getFoodName().equals(food_item.getFoodName())){
+                    if(data_instance.allFoodList.get(i).getName().equals(food_item.getName())){
                         data_instance.allFoodList.get(i).setCount(food_item.getCount());
                         break;
                     }
@@ -188,7 +196,7 @@ public class FoodDetail extends Activity {
             public void onClick(View v) {
                 food_item.setCount(food_item.getCount() - 1);
                 for (int i = 0; i < data_instance.orderFoodList.size(); i++){
-                    if(data_instance.orderFoodList.get(i).getFoodName().equals(food_item.getFoodName())){
+                    if(data_instance.orderFoodList.get(i).getName().equals(food_item.getName())){
                         if(food_item.getCount() == 0){
                             data_instance.orderFoodList.remove(i);
                         }else {
@@ -199,7 +207,7 @@ public class FoodDetail extends Activity {
                 }
 
                 for (int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getFoodName().equals(food_item.getFoodName())){
+                    if(data_instance.allFoodList.get(i).getName().equals(food_item.getName())){
                         data_instance.allFoodList.get(i).setCount(food_item.getCount());
                         break;
                     }
@@ -218,7 +226,7 @@ public class FoodDetail extends Activity {
     private void calculate_sum(){
         double sum = 0;
         for(int i = 0; i < data_instance.orderFoodList.size(); i++){
-            double price = Double.valueOf(data_instance.orderFoodList.get(i).getFoodPrices());
+            double price = Double.valueOf(data_instance.orderFoodList.get(i).getPrice());
             sum += data_instance.orderFoodList.get(i).getCount() * price;
         }
         order_list_btn.setText("总价:     $" + Double.toString(sum));
@@ -240,7 +248,7 @@ public class FoodDetail extends Activity {
         int count = 0;
         if(data_instance.orderFoodList != null) {
             for (int i = 0; i < data_instance.orderFoodList.size(); i++) {
-                if (data_instance.orderFoodList.get(i).getFoodName().equals(food_item.getFoodName())) {
+                if (data_instance.orderFoodList.get(i).getName().equals(food_item.getName())) {
                     count = data_instance.orderFoodList.get(i).getCount();
                 }
             }

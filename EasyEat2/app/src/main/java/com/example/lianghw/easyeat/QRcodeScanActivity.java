@@ -1,3 +1,11 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.Manifest;
@@ -42,27 +50,11 @@ public class QRcodeScanActivity extends AppCompatActivity {
     ImageView imgView;
     String detail;
     Bitmap img;
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case 0x002:
-                    result.setText(detail);
-                    Toast.makeText(QRcodeScanActivity.this, "HTML代码加载完毕", Toast.LENGTH_SHORT).show();
-                    imgView.setImageBitmap(img);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        ;
-    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
+        //权限检测
         CheckPermission();
 
         //加载主布居
@@ -74,9 +66,8 @@ public class QRcodeScanActivity extends AppCompatActivity {
         actionBar.hide();
 
 
-
         result = findViewById(R.id.result);
-        imgView = findViewById(R.id.img);
+
         ImageButton button1 = findViewById(R.id.btn1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +118,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -145,13 +137,11 @@ public class QRcodeScanActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
-                result.setText("扫描结果为：" + content);
+
                 String url = Restaurant.getUrlFromQRcode(content);
                 Network.getInstance().setIdAndNumber(url);
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);

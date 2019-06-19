@@ -1,7 +1,14 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +69,9 @@ public class MyFinalOrderAdapter extends BaseAdapter {
         // 从viewHolder中取出对应的对象，然后赋值给他们
         //根据url设置图片
         //viewHolder.food_img.setImageURI();
-        viewHolder.food_name.setText(data.get(i).getFoodName());
+        viewHolder.food_name.setText(data.get(i).getName());
         viewHolder.food_count.setText("x" + data.get(i).getCount());
-        double one_price = Double.valueOf(data.get(i).getFoodPrices());
+        double one_price = Double.valueOf(data.get(i).getPrice());
         double total_price = one_price * data.get(i).getCount();
         viewHolder.food_total_price.setText("Y" + total_price);
 

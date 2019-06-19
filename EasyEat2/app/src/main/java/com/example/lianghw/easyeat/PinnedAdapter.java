@@ -1,3 +1,11 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
@@ -10,7 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -98,8 +106,8 @@ public class PinnedAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //内容
-        viewHolder.foodName.setText(list_data.get(position).getFoodName());
-        viewHolder.foodPrice.setText(list_data.get(position).getFoodPrices());
+        viewHolder.foodName.setText(list_data.get(position).getName());
+        viewHolder.foodPrice.setText(list_data.get(position).getPrice());
         if(list_data.get(position).getCount() == 0){
             viewHolder.food_count.setVisibility(View.INVISIBLE);
             viewHolder.sub_order_btn.setVisibility(View.GONE);
@@ -130,11 +138,11 @@ public class PinnedAdapter extends BaseAdapter {
 
         if (position == 0) {//如果是第一个  需要显示标题
             viewHolder.foodType.setVisibility(View.VISIBLE);
-            viewHolder.foodType.setText(list_data.get(position).getFoodType());
+            viewHolder.foodType.setText(list_data.get(position).getType());
             //如果这个标题和上一个不一样   也需要将标题显示出来
-        } else if (!TextUtils.equals(list_data.get(position).getFoodType(), list_data.get(position - 1).getFoodType())) {
+        } else if (!TextUtils.equals(list_data.get(position).getType(), list_data.get(position - 1).getType())) {
             viewHolder.foodType.setVisibility(View.VISIBLE);
-            viewHolder.foodType.setText(list_data.get(position).getFoodType());
+            viewHolder.foodType.setText(list_data.get(position).getType());
         } else {
             viewHolder.foodType.setVisibility(View.GONE);
         }
@@ -146,7 +154,7 @@ public class PinnedAdapter extends BaseAdapter {
             return PINNED_HEADER_GONE;
         }
         //当条目标题和上一个标题不同的时候，显示上移
-        if (position != 0 && !TextUtils.equals(list_data.get(position).getFoodType(), list_data.get(position + 1).getFoodType())) {
+        if (position != 0 && !TextUtils.equals(list_data.get(position).getType(), list_data.get(position + 1).getType())) {
             return PINNED_HEADER_PUSHED_UP;
         }
         return PINNED_HEADER_VISIBLE;
@@ -156,7 +164,7 @@ public class PinnedAdapter extends BaseAdapter {
         Food item = (Food) getItem(position);
         if (item != null) {
             if (header instanceof TextView) {
-                ((TextView) header).setText(item.getFoodType());
+                ((TextView) header).setText(item.getType());
             }
         }
     }
