@@ -21,7 +21,6 @@ import java.util.List;
 public class PayActivity extends Activity {
 
     private List<Food> order_list_data;
-    private TextView total_count;
     private Pair<String, String> order_data;
     private String remark_string = "";
 
@@ -55,8 +54,8 @@ public class PayActivity extends Activity {
         List<TypeListViewItem> card_list_data = new ArrayList<>();
         card_list_data.add(new TypeListViewItem(0,getHashMapFirstType(order_list_data)));
         card_list_data.add(new TypeListViewItem(1, new HashMap<String, Object>()));
-        MyTypeListviewAdapter myTypeListviewAdapter = new MyTypeListviewAdapter(PayActivity.this, card_list_data);
-        myTypeListviewAdapter.setTextChangeListener(new MyTypeListviewAdapter.TextChangeListener() {
+        MyTypeListViewAdapter myTypeListviewAdapter = new MyTypeListViewAdapter(PayActivity.this, card_list_data);
+        myTypeListviewAdapter.setTextChangeListener(new MyTypeListViewAdapter.TextChangeListener() {
             @Override
             public void remark_change(String remark) {
                 remark_string = remark;
@@ -64,8 +63,8 @@ public class PayActivity extends Activity {
         });
         order_list.setAdapter(myTypeListviewAdapter);
 
-        final Button order_confirm_btn = findViewById(R.id.order_confirm_btn);
-        order_confirm_btn.setOnClickListener(new View.OnClickListener() {
+        final Button confirm_btn = findViewById(R.id.confirm_btn);
+        confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //访问网站提交获取订单id和time

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyTypeListviewAdapter extends BaseAdapter {
+public class MyTypeListViewAdapter extends BaseAdapter {
     private List<TypeListViewItem> data;
     private Context context;
     private TextChangeListener textChangeListener;
@@ -22,7 +22,7 @@ public class MyTypeListviewAdapter extends BaseAdapter {
         void remark_change(String remark);
     }
 
-    public MyTypeListviewAdapter(Context _context, List<TypeListViewItem> list) {
+    public MyTypeListViewAdapter(Context _context, List<TypeListViewItem> list) {
         this.context = _context;
         this.data = list;
     }

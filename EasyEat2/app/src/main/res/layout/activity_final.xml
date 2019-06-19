@@ -21,15 +21,6 @@
         app:layout_constraintBottom_toTopOf="@id/order_title"
         />
 
-    <View
-        android:id="@+id/line"
-        android:layout_height="5dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:background="#DCDCDC"
-        app:layout_constraintBottom_toTopOf="@id/total_info"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
     <TextView
         android:id="@+id/order_title"
         android:layout_width="wrap_content"

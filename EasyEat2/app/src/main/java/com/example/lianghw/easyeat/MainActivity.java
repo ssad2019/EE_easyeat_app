@@ -103,37 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 handler.sendEmptyMessage(0x01);
             }
         }.start();
-
-        /*
-        //food_list
-        final Food chips = new Food("薯条", "小食", "6", "", 0);
-        final Food chips1 = new Food("薯条1", "小食", "6", "", 0);
-        final Food chips2 = new Food("薯条2", "小食", "6", "", 0);
-        final Food chips3 = new Food("薯条3", "小食1", "7", "", 0);
-        final Food chips4 = new Food("薯条4", "小食1", "7", "", 0);
-        final Food chips5 = new Food("薯条5", "小食1", "7", "", 0);
-        final Food chips6 = new Food("薯条6", "小食2", "8", "", 0);
-        final Food chips7 = new Food("薯条7", "小食2", "8", "", 0);
-        final Food chips8 = new Food("薯条8", "小食2", "8", "", 0);
-        final Food chips9 = new Food("薯条9", "小食3", "9", "", 0);
-        final Food chips10 = new Food("薯条10", "小食3", "9", "", 0);
-        final Food chips11 = new Food("薯条11", "小食3", "9", "", 0);
-        final Food chips12 = new Food("薯条12", "小食3", "9", "", 0);
-        final Food chips13 = new Food("薯条13", "小食4", "10", "", 0);
-        final Food chips14 = new Food("薯条14", "小食4", "10", "", 0);
-        final Food chips15 = new Food("薯条15", "小食4", "10", "", 0);
-        final Food chips16 = new Food("薯条16", "小食4", "10", "", 0);
-        final Food chips17 = new Food("薯条17", "小食5", "11", "", 0);
-        final Food chips18 = new Food("薯条18", "小食5", "11", "", 0);
-        final Food chips19 = new Food("薯条19", "小食5", "11", "", 0);
-        final Food chips20 = new Food("薯条20", "小食5", "11", "", 0);
-
-        foods = new ArrayList<Food>(){{add(chips);add(chips1);add(chips2);add(chips3);add(chips4);add(chips5);add(chips6);add(chips7);add(chips8);add(chips9);add(chips10);
-        add(chips11);add(chips12);add(chips13);add(chips14);add(chips15);add(chips16);add(chips17);add(chips18);add(chips19);add(chips20);}};
-        food_type = new ArrayList<String>(){{add("小食");add("小食1");add("小食2");add("小食3");add("小食4");add("小食5");}};
-
-        order_list_data = new ArrayList<Food>(){};
-        */
     }
 
     @Override
