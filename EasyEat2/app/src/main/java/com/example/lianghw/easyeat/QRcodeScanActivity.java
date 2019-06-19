@@ -36,6 +36,11 @@ import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
 
 
+/**
+ * QRcodeScanActivity页面
+ * 首页面
+ * 显示：标题和扫码图标
+ */
 public class QRcodeScanActivity extends AppCompatActivity {
     final String Path ="https://api.hatsune-miku.cn";
     // 所需的全部动态权限

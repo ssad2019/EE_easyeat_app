@@ -10,8 +10,6 @@
  * Restaurant
  * Restaurant对象类
  * 记录餐厅数据的结构体
- * 包含餐厅名称：name、描述信息：description、餐厅图标url：icon、食物列表：goods四个数据
- *
  */
 package com.example.lianghw.easyeat;
 

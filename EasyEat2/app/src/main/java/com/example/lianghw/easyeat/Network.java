@@ -6,6 +6,11 @@
  * github地址：https://github.com/ssad2019/EE_easyeat_app
  * 启动日期：2019.5.1
  */
+/**
+ * Network
+ * 访问网络
+ * 通过url使用post/get方法获取string/bitmap
+ */
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
