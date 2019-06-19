@@ -8,15 +8,13 @@
  */
 
 /**
- *
+ * 记录菜品数据的结构体
  *
  */
 package com.example.lianghw.easyeat;
 
 import java.io.Serializable;
 
-
-//记录菜品数据的结构体
 public class Food implements Serializable {
     private class Tag implements Serializable{
         public int id;

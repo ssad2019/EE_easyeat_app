@@ -6,7 +6,13 @@
  * github地址：https://github.com/ssad2019/EE_easyeat_app
  * 启动日期：2019.5.1
  */
-
+/**
+ * Restaurant
+ * Restaurant对象类
+ * 记录餐厅数据的结构体
+ * 包含餐厅名称：name、描述信息：description、餐厅图标url：icon、食物列表：goods四个数据
+ *
+ */
 package com.example.lianghw.easyeat;
 
 import android.util.Pair;
