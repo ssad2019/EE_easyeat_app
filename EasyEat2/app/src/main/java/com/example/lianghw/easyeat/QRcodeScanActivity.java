@@ -1,3 +1,11 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
 import android.Manifest;
@@ -42,21 +50,6 @@ public class QRcodeScanActivity extends AppCompatActivity {
     ImageView imgView;
     String detail;
     Bitmap img;
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case 0x002:
-                    result.setText(detail);
-                    Toast.makeText(QRcodeScanActivity.this, "HTML代码加载完毕", Toast.LENGTH_SHORT).show();
-                    imgView.setImageBitmap(img);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        ;
-    };
 
 
     @Override

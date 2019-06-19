@@ -1,3 +1,16 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
+
+/**
+ *
+ *
+ */
 package com.example.lianghw.easyeat;
 
 import java.io.Serializable;
@@ -23,31 +36,15 @@ public class Food implements Serializable {
     public int getId() {
         return id;
     }
-
-    public String getFoodName() {
+    public String getName() {
         return name;
     }
-    public void setFoodName(String foodName) {
-        this.name = foodName;
-    }
-
-    public String getFoodType() {
+    public String getType() {
         return tag.name;
     }
-    public void setFoodType(String foodType) {
-        this.tag.name = foodType;
-    }
-
-    public String getFoodPrices() {
+    public String getPrice() {
         return price;
     }
-    public void setFoodPrices(String foodPrices) {
-        this.price = foodPrices;
-    }
-
-    public String getFoodImgUrl(){ return icon;}
-    public void setFoodImgUrl(String foodImgUrl){ this.icon = foodImgUrl; }
-
     public int getCount() {
         return count;
     }

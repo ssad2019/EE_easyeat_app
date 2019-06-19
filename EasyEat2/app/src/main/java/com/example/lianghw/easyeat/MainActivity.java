@@ -1,21 +1,22 @@
+/**
+ * 项目名称：易餐
+ * 项目为系统分析与设计课程的课程实验项目
+ * 整个项目为扫码点餐系统
+ * 这部分是整个项目的手机客户端部分
+ * github地址：https://github.com/ssad2019/EE_easyeat_app
+ * 启动日期：2019.5.1
+ */
 package com.example.lianghw.easyeat;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -27,14 +28,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import org.w3c.dom.Text;
-
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import static com.example.lianghw.easyeat.Restaurant.getRestaurantByUrl;
 
@@ -96,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 List<Food> foods_copy = new ArrayList<>(Arrays.asList(restaurant.goods));
                 data_instance.all_food_list = foods_copy;
                 for(int i = 0; i < data_instance.all_food_list.size(); i++){
-                    if(data_instance.food_type_list.indexOf(data_instance.all_food_list.get(i).getFoodType()) == -1){
-                        data_instance.food_type_list.add(data_instance.all_food_list.get(i).getFoodType());
+                    if(data_instance.food_type_list.indexOf(data_instance.all_food_list.get(i).getType()) == -1){
+                        data_instance.food_type_list.add(data_instance.all_food_list.get(i).getType());
                     }
                 }
                 handler.sendEmptyMessage(0x01);
@@ -146,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 int pre_count = data_instance.all_food_list.get(position).getCount();
                 boolean order_item_exists = false;
                 for(int i = 0; i < data_instance.order_food_list.size(); i++){
-                    if(order_item.getFoodName().equals(data_instance.order_food_list.get(i).getFoodName())){
+                    if(order_item.getName().equals(data_instance.order_food_list.get(i).getName())){
                         order_item_exists = true;
                         data_instance.order_food_list.get(i).setCount(pre_count + 1);
                         break;
@@ -167,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 Food order_item = data_instance.all_food_list.get(position);
                 int pre_count = data_instance.all_food_list.get(position).getCount();
                 for(int i = 0; i < data_instance.order_food_list.size(); i++){
-                    if(order_item.getFoodName().equals(data_instance.order_food_list.get(i).getFoodName())){
+                    if(order_item.getName().equals(data_instance.order_food_list.get(i).getName())){
                         int result = data_instance.order_food_list.get(i).getCount() - 1;
                         if(result == 0){
                             data_instance.order_food_list.remove(i);
@@ -207,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 //滚动确定替换条目
                 food_detail_list.configureHeaderView(firstVisibleItem);
                 //获取到第一个条目的类型
-                String title = data_instance.all_food_list.get(firstVisibleItem).getFoodType();
+                String title = data_instance.all_food_list.get(firstVisibleItem).getType();
                 int position = data_instance.food_type_list.indexOf(title);
                 food_type_list.smoothScrollToPosition(position);
                 myListViewAdapter.changeSelected(position);
@@ -232,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 for(int i = 0; i < data_instance.all_food_list.size(); i++){
-                    if(data_instance.all_food_list.get(i).getFoodType().equals(data_instance.food_type_list.get(position))) {
+                    if(data_instance.all_food_list.get(i).getType().equals(data_instance.food_type_list.get(position))) {
                         food_detail_list.setSelection(i);
                         break;
                     }
@@ -272,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                 Food order_item = data_instance.order_food_list.get(position);
                 int pre_count = order_item.getCount();
                 for(int i = 0; i < data_instance.all_food_list.size(); i++){
-                    if(data_instance.all_food_list.get(i).getFoodName().equals(order_item.getFoodName())){
+                    if(data_instance.all_food_list.get(i).getName().equals(order_item.getName())){
                         data_instance.all_food_list.get(i).setCount(pre_count + 1);
                         break;
                     }
@@ -290,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 Food order_item = data_instance.order_food_list.get(position);
                 int result = order_item.getCount() - 1;
                 for(int i = 0; i < data_instance.all_food_list.size(); i++){
-                    if(data_instance.all_food_list.get(i).getFoodName().equals(order_item.getFoodName())){
+                    if(data_instance.all_food_list.get(i).getName().equals(order_item.getName())){
                         data_instance.all_food_list.get(i).setCount(result);
                         break;
                     }
@@ -375,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
     private void calculate_sum(){
         double sum = 0;
         for(int i = 0; i < data_instance.order_food_list.size(); i++){
-            double price = Double.valueOf(data_instance.order_food_list.get(i).getFoodPrices());
+            double price = Double.valueOf(data_instance.order_food_list.get(i).getPrice());
             sum += data_instance.order_food_list.get(i).getCount() * price;
         }
         order_list_btn.setText("总价:     ￥" + Double.toString(sum));
