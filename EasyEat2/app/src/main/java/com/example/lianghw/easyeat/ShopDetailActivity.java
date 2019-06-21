@@ -16,15 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 //商店详情界面
-public class ShopDetail extends Activity {
+public class ShopDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //加载主布居
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shop_info);
-        final TextView shop_name_text = (TextView)findViewById(R.id.shop_name);
-        final TextView shop_info_text =(TextView)findViewById(R.id.shop_info);
-        final ImageView shop_img_view = (ImageView)findViewById(R.id.shop_img);
+        setContentView(R.layout.activity_shop_detail);
+        final TextView shop_name_text = (TextView)findViewById(R.id.txt_name);
+        final TextView shop_info_text =(TextView)findViewById(R.id.txt_description);
+        final ImageView shop_img_view = (ImageView)findViewById(R.id.img_shop);
 
         Intent intent = getIntent();
         shop_name_text.setText(intent.getStringExtra("shop_name"));

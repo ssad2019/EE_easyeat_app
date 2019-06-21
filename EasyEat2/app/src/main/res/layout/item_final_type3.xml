@@ -5,7 +5,7 @@
     android:id="@+id/item_type3"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v7.widget.CardView
-        android:id="@+id/info_card"
+        android:id="@+id/card_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="订单信息"
@@ -27,13 +27,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"/>
             <View
-                android:id="@+id/line"
+                android:id="@+id/view_line"
                 android:layout_height="2dp"
                 android:layout_width="match_parent"
                 android:background="#DCDCDC"
                 android:layout_marginTop="5dp"
                 android:layout_marginHorizontal="10dp"
-                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/txt_title"
                 app:layout_constraintLeft_toLeftOf="parent"/>
 
             <TextView
@@ -45,10 +45,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/line"
+                app:layout_constraintTop_toBottomOf="@id/view_line"
                 app:layout_constraintLeft_toLeftOf="parent"/>
             <TextView
-                android:id="@+id/order_id"
+                android:id="@+id/txt_order_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00000000"
@@ -57,7 +57,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/line"
+                app:layout_constraintTop_toBottomOf="@id/view_line"
                 app:layout_constraintRight_toRightOf="parent" />
 
             <TextView
@@ -69,11 +69,11 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/order_id"
+                app:layout_constraintTop_toBottomOf="@id/txt_order_id"
                 app:layout_constraintLeft_toLeftOf="parent"/>
 
             <TextView
-                android:id="@+id/order_time"
+                android:id="@+id/txt_order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2019-06-019 20:00:00"
@@ -82,7 +82,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/order_id"
+                app:layout_constraintTop_toBottomOf="@id/txt_order_id"
                 app:layout_constraintRight_toRightOf="parent" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/order_time"
+                app:layout_constraintTop_toBottomOf="@id/txt_order_time"
                 app:layout_constraintLeft_toLeftOf="parent"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/order_time"
+                app:layout_constraintTop_toBottomOf="@id/txt_order_time"
                 app:layout_constraintRight_toRightOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

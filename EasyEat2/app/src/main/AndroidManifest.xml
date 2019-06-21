@@ -39,14 +39,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ShopDetail">
+        <activity android:name=".ShopDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".FoodDetail">
+        <activity android:name=".FoodDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.ALTERNATIVE" />

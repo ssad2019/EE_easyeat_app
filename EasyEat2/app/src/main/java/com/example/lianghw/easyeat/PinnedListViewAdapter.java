@@ -23,7 +23,7 @@ import java.util.List;
 
 
  // 右部滑动头部ListView
-public class PinnedAdapter extends BaseAdapter {
+public class PinnedListViewAdapter extends BaseAdapter {
 
     //头部隐藏
     public static final int PINNED_HEADER_GONE = 0;
@@ -46,7 +46,7 @@ public class PinnedAdapter extends BaseAdapter {
          this.onbuttonClickListener = onbuttonClickListener;
      }
 
-    public PinnedAdapter(Context context, List<Food> data) {
+    public PinnedListViewAdapter(Context context, List<Food> data) {
         this.context = context;
         this.list_data = data;
     }
@@ -89,16 +89,16 @@ public class PinnedAdapter extends BaseAdapter {
         View convertView;
         ViewHolder viewHolder;
         if (view == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.food_detail_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_food_detail, null);
             viewHolder = new ViewHolder();
 
-            viewHolder.foodType = (TextView) convertView.findViewById(R.id.food_headers);
-            viewHolder.foodImg = (ImageView) convertView.findViewById(R.id.food_img);
-            viewHolder.foodName = (TextView) convertView.findViewById(R.id.food_name);
-            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.food_prices);
-            viewHolder.food_count = (TextView) convertView.findViewById(R.id.food_count);
-            viewHolder.add_order_btn = (Button) convertView.findViewById(R.id.add_btn);
-            viewHolder.sub_order_btn = (Button) convertView.findViewById(R.id.sub_btn);
+            viewHolder.foodType = (TextView) convertView.findViewById(R.id.txt_food_headers);
+            viewHolder.foodImg = (ImageView) convertView.findViewById(R.id.img_food);
+            viewHolder.foodName = (TextView) convertView.findViewById(R.id.txt_name);
+            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.txt_price);
+            viewHolder.food_count = (TextView) convertView.findViewById(R.id.txt_count);
+            viewHolder.add_order_btn = (Button) convertView.findViewById(R.id.btn_add);
+            viewHolder.sub_order_btn = (Button) convertView.findViewById(R.id.btn_sub);
 
             convertView.setTag(viewHolder);
         } else {

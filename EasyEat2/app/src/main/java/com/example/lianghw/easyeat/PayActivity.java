@@ -16,9 +16,6 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,23 +55,23 @@ public class PayActivity extends Activity {
         Intent intent = getIntent();
         order_list_data = (List<Food>) intent.getExtras().getSerializable("order_list_data");
         String total = (String)intent.getExtras().getString("total");
-        Button btn_total = (Button)findViewById(R.id.order_list_btn);
+        Button btn_total = (Button)findViewById(R.id.btn_list);
         btn_total.setText(total);
 
-        final ListView order_list = (ListView)findViewById(R.id.card_list);
+        final ListView order_list = (ListView)findViewById(R.id.lv_card);
         List<TypeListViewItem> card_list_data = new ArrayList<>();
         card_list_data.add(new TypeListViewItem(0,getHashMapFirstType(order_list_data)));
         card_list_data.add(new TypeListViewItem(1, new HashMap<String, Object>()));
-        MyTypeListViewAdapter myTypeListviewAdapter = new MyTypeListViewAdapter(PayActivity.this, card_list_data);
-        myTypeListviewAdapter.setTextChangeListener(new MyTypeListViewAdapter.TextChangeListener() {
+        TypeListViewAdapter typeListviewAdapter = new TypeListViewAdapter(PayActivity.this, card_list_data);
+        typeListviewAdapter.setTextChangeListener(new TypeListViewAdapter.TextChangeListener() {
             @Override
             public void remark_change(String remark) {
                 remark_string = remark;
             }
         });
-        order_list.setAdapter(myTypeListviewAdapter);
+        order_list.setAdapter(typeListviewAdapter);
 
-        final Button confirm_btn = findViewById(R.id.confirm_btn);
+        final Button confirm_btn = findViewById(R.id.btn_confirm);
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

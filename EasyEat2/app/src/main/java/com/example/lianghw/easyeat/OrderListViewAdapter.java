@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyOrderListViewAdapter extends BaseAdapter {
+public class OrderListViewAdapter extends BaseAdapter {
     private List<Food> data;
     private Context context;
 
@@ -34,7 +34,7 @@ public class MyOrderListViewAdapter extends BaseAdapter {
         this.onOrderButtonClickListener = onbuttonClickListener;
     }
 
-    public MyOrderListViewAdapter(Context _context, List<Food> list) {
+    public OrderListViewAdapter(Context _context, List<Food> list) {
         this.context = _context;
         this.data = list;
     }
@@ -62,22 +62,22 @@ public class MyOrderListViewAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
         View convertView;
-        MyOrderListViewAdapter.ListViewHolder viewHolder;
+        OrderListViewAdapter.ListViewHolder viewHolder;
         if (view == null) {
-            convertView= LayoutInflater.from(context).inflate(R.layout.order_item, null);
-            viewHolder = new MyOrderListViewAdapter.ListViewHolder();
+            convertView= LayoutInflater.from(context).inflate(R.layout.item_order, null);
+            viewHolder = new OrderListViewAdapter.ListViewHolder();
 
-            viewHolder.foodImg = (ImageView) convertView.findViewById(R.id.food_img);
-            viewHolder.foodName = (TextView) convertView.findViewById(R.id.food_name);
-            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.food_prices);
-            viewHolder.food_count = (TextView) convertView.findViewById(R.id.food_count);
-            viewHolder.add_btn = (Button) convertView.findViewById(R.id.add_btn);
-            viewHolder.sub_btn = (Button) convertView.findViewById(R.id.sub_btn);
+            viewHolder.foodImg = (ImageView) convertView.findViewById(R.id.img_food);
+            viewHolder.foodName = (TextView) convertView.findViewById(R.id.txt_name);
+            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.txt_price);
+            viewHolder.food_count = (TextView) convertView.findViewById(R.id.txt_count);
+            viewHolder.add_btn = (Button) convertView.findViewById(R.id.btn_add);
+            viewHolder.sub_btn = (Button) convertView.findViewById(R.id.btn_sub);
 
             convertView.setTag(viewHolder); // 用setTag方法将处理好的viewHolder放入view中
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
             convertView = view;
-            viewHolder = (MyOrderListViewAdapter.ListViewHolder) convertView.getTag();
+            viewHolder = (OrderListViewAdapter.ListViewHolder) convertView.getTag();
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
         viewHolder.foodName.setText(data.get(position).getName());

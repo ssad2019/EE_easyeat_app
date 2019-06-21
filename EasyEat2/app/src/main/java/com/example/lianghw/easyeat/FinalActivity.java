@@ -31,31 +31,31 @@ public class FinalActivity extends Activity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        List<Food> orderListData = (List<Food>)bundle.getSerializable("order_list_data");
-        String orderId = bundle.getString("order_id");
-        String orderTime = bundle.getString("order_time");
+        List<Food> list_order_data = (List<Food>)bundle.getSerializable("order_list_data");
+        String str_order_id = bundle.getString("order_id");
+        String str_order_time = bundle.getString("order_time");
 
-        final ListView orderList = (ListView)findViewById(R.id.card_list);
-        List<TypeListViewItem> cardListData = new ArrayList<>();
-        cardListData.add(new TypeListViewItem(0,getHashMapFirstType(orderListData)));
-        cardListData.add(new TypeListViewItem(2, getHashMapThirdType(orderId, orderTime)));
-        MyTypeListViewAdapter myTypeListViewAdapter = new MyTypeListViewAdapter(FinalActivity.this, cardListData);
-        orderList.setAdapter(myTypeListViewAdapter);
+        final ListView lv_card = (ListView)findViewById(R.id.lv_card);
+        List<TypeListViewItem> list_card_data = new ArrayList<>();
+        list_card_data.add(new TypeListViewItem(0,getHashMapFirstType(list_order_data)));
+        list_card_data.add(new TypeListViewItem(2, getHashMapThirdType(str_order_id, str_order_time)));
+        TypeListViewAdapter typeListViewAdapter = new TypeListViewAdapter(FinalActivity.this, list_card_data);
+        lv_card.setAdapter(typeListViewAdapter);
 
     }
 
     //第一种样式，传输order_list
-    private HashMap<String, Object> getHashMapFirstType(List<Food> listData) {
+    private HashMap<String, Object> getHashMapFirstType(List<Food> list_data) {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("list_data", listData);
+        hashMap.put("list_data", list_data);
         return hashMap;
     }
 
     //第三种样式，传输order_id order_time
-    private HashMap<String, Object> getHashMapThirdType(String orderId, String orderTime) {
+    private HashMap<String, Object> getHashMapThirdType(String str_order_id, String str_order_time) {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("order_id", orderId);
-        hashMap.put("order_time", orderTime);
+        hashMap.put("order_id", str_order_id);
+        hashMap.put("order_time", str_order_time);
         return hashMap;
     }
 

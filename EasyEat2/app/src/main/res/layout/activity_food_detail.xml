@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/food_img"
+        android:id="@+id/img_food"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -13,7 +13,7 @@
         android:src="@mipmap/sample_food"/>
 
     <TextView
-        android:id="@+id/food_name"
+        android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="薯条"
@@ -22,68 +22,68 @@
         android:textSize="30dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="10dp"
-        app:layout_constraintTop_toBottomOf="@id/food_img"
+        app:layout_constraintTop_toBottomOf="@id/img_food"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <TextView
-        android:id="@+id/price_icon"
+        android:id="@+id/txt_icon"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:text="￥"
         android:textSize="20dp"
         android:gravity="center"
         android:textColor="@color/red"
-        app:layout_constraintBottom_toBottomOf="@id/food_prices"
-        app:layout_constraintLeft_toLeftOf="@id/food_name"
+        app:layout_constraintBottom_toBottomOf="@id/txt_price"
+        app:layout_constraintLeft_toLeftOf="@id/txt_name"
         />
 
     <TextView
-        android:id="@+id/food_prices"
+        android:id="@+id/txt_price"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:text="6"
         android:textSize="25dp"
         android:textColor="@color/red"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/food_name"
-        app:layout_constraintLeft_toRightOf="@id/price_icon"
+        app:layout_constraintTop_toBottomOf="@id/txt_name"
+        app:layout_constraintLeft_toRightOf="@id/txt_icon"
         />
 
     <View
-        android:id="@+id/food_line"
+        android:id="@+id/view_line"
         android:layout_height="5dp"
         android:layout_width="match_parent"
         android:background="#DCDCDC"
-        app:layout_constraintTop_toBottomOf="@id/food_prices" />
+        app:layout_constraintTop_toBottomOf="@id/txt_price" />
 
     <TextView
-        android:id="@+id/food_info"
+        android:id="@+id/txt_description"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/food_line"
-        app:layout_constraintBottom_toTopOf="@id/order_list_btn"
+        app:layout_constraintTop_toBottomOf="@id/view_line"
+        app:layout_constraintBottom_toTopOf="@id/btn_list"
         android:textSize="20dp"
         android:padding="10dp"
         android:lineSpacingExtra="5dp"
         android:scrollbars="vertical"
         android:fadeScrollbars="false"
         android:layout_marginVertical="5dp"
-        android:text="大家很多人都知道薯条的英文是“Chips”，美国薯条薯条人称之为“French Fries”，其实它真正的来源地是比利时。早在1680年的时候，比利时人就开始制作这种薯条了 [1]  。在第一次世界大战的时候，美国士兵在比利时吃到了这种薯条，觉得特别美味，从而变得流行起来。但他们想当然的称其为“French”，是因为当时在比利时军队中的通用语言是法语，他们就以为是“法国的薯条”了。"/>
+        android:text="商家介绍"/>
 
     <Button
-        android:id="@+id/sub_btn"
+        android:id="@+id/btn_sub"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:text="—"
         android:background="@drawable/del_style"
         android:layout_marginRight="5dp"
-        app:layout_constraintRight_toLeftOf="@id/food_count"
-        app:layout_constraintBottom_toBottomOf="@id/add_btn"
+        app:layout_constraintRight_toLeftOf="@id/txt_count"
+        app:layout_constraintBottom_toBottomOf="@id/btn_add"
         />
 
     <TextView
-        android:id="@+id/food_count"
+        android:id="@+id/txt_count"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:textStyle="bold"
@@ -91,12 +91,12 @@
         android:textAlignment="center"
         android:text="1"
         android:layout_marginRight="5dp"
-        app:layout_constraintRight_toLeftOf="@id/add_btn"
-        app:layout_constraintBottom_toBottomOf="@id/add_btn"
+        app:layout_constraintRight_toLeftOf="@id/btn_add"
+        app:layout_constraintBottom_toBottomOf="@id/btn_add"
         />
 
     <Button
-        android:id="@+id/add_btn"
+        android:id="@+id/btn_add"
         android:layout_width="120dp"
         android:layout_height="25dp"
         android:text=" + 添加到购物车"
@@ -105,11 +105,11 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/add_style"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/food_prices"
+        app:layout_constraintBottom_toBottomOf="@id/txt_price"
         />
 
     <Button
-        android:id="@+id/order_list_btn"
+        android:id="@+id/btn_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -122,11 +122,11 @@
         android:background="@drawable/btn_left_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/order_make_btn"
+        app:layout_constraintRight_toLeftOf="@id/btn_make"
         />
 
     <Button
-        android:id="@+id/order_make_btn"
+        android:id="@+id/btn_make"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
@@ -139,11 +139,11 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/order_list_btn"
+        app:layout_constraintLeft_toRightOf="@id/btn_list"
         />
 
     <View
-        android:id="@+id/shadow"
+        android:id="@+id/view_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBlack"
@@ -152,13 +152,13 @@
         />
 
     <ListView
-        android:id="@id/order_list"
+        android:id="@id/lv_order"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:divider="#00000000"
-        app:layout_constraintLeft_toLeftOf="@id/order_list_btn"
-        app:layout_constraintRight_toRightOf="@id/order_make_btn"
-        app:layout_constraintBottom_toTopOf="@id/order_list_btn"
+        app:layout_constraintLeft_toLeftOf="@id/btn_list"
+        app:layout_constraintRight_toRightOf="@id/btn_make"
+        app:layout_constraintBottom_toTopOf="@id/btn_list"
         android:visibility="gone"
         android:background="@color/White"
         />

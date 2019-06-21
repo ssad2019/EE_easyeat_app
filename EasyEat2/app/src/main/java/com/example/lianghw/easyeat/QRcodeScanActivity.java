@@ -9,23 +9,16 @@
 package com.example.lianghw.easyeat;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,7 +64,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
         actionBar.hide();
 
 
-        result = findViewById(R.id.result);
+        result = findViewById(R.id.txt_result);
 
         ImageButton button1 = findViewById(R.id.btn1);
         button1.setOnClickListener(new View.OnClickListener() {

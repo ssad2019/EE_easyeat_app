@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private StoreData data_instance = StoreData.getInstance();
 
     private boolean scroll_end = false;
-    private MyOrderListViewAdapter myOrderListViewAdapter;
-    private PinnedAdapter myPinnedAdapter;
-    private MyListViewAdapter myListViewAdapter;
+    private OrderListViewAdapter orderListViewAdapter;
+    private PinnedListViewAdapter myPinnedAdapter;
+    private SimpleListViewAdapter simpleListViewAdapter;
     private Button order_list_btn;
     private Restaurant restaurant;
 
@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        restaurant_name = (TextView) findViewById(R.id.shop_name);
-        restaurant_detail = (TextView) findViewById(R.id.shop_description);
-        restaurant_img = (ImageView) findViewById(R.id.shop_img);
+        restaurant_name = (TextView) findViewById(R.id.txt_name);
+        restaurant_detail = (TextView) findViewById(R.id.txt_description);
+        restaurant_img = (ImageView) findViewById(R.id.img_shop);
 
         //初始化食品列表
         Intent intent = getIntent();
@@ -127,16 +127,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //设置list adapter
-        final ListView food_type_list = (ListView) findViewById(R.id.food_type);
+        final ListView food_type_list = (ListView) findViewById(R.id.lv_type);
 
-        myListViewAdapter = new MyListViewAdapter(MainActivity.this, data_instance.food_type_list);
-        food_type_list.setAdapter(myListViewAdapter);
+        simpleListViewAdapter = new SimpleListViewAdapter(MainActivity.this, data_instance.food_type_list);
+        food_type_list.setAdapter(simpleListViewAdapter);
 
-        final PinnedListView food_detail_list = (PinnedListView) findViewById(R.id.food_detail);
+        final PinnedListView food_detail_list = (PinnedListView) findViewById(R.id.lv_food);
 
-        myPinnedAdapter = new PinnedAdapter(MainActivity.this, data_instance.allFoodList);
+        myPinnedAdapter = new PinnedListViewAdapter(MainActivity.this, data_instance.allFoodList);
         //item内部点击事件
-        PinnedAdapter.OnButtonClickListener onButtonClickListener = new PinnedAdapter.OnButtonClickListener() {
+        PinnedListViewAdapter.OnButtonClickListener onButtonClickListener = new PinnedListViewAdapter.OnButtonClickListener() {
             @Override
             public void onAddClick(int position) {
                 Food order_item = data_instance.allFoodList.get(position);
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 data_instance.allFoodList.get(position).setCount(pre_count + 1);
                 myPinnedAdapter.notifyDataSetChanged();
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_order_status();
             }
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 data_instance.allFoodList.get(position).setCount(pre_count - 1);
                 myPinnedAdapter.notifyDataSetChanged();
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_order_status();
             }
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 String title = data_instance.allFoodList.get(firstVisibleItem).getType();
                 int position = data_instance.food_type_list.indexOf(title);
                 food_type_list.smoothScrollToPosition(position);
-                myListViewAdapter.changeSelected(position);
+                simpleListViewAdapter.changeSelected(position);
             }
         });
 
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food_item = data_instance.allFoodList.get(position);
-                Intent intent = new Intent(MainActivity.this, FoodDetail.class);
+                Intent intent = new Intent(MainActivity.this, FoodDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("food_item", food_item);
                 intent.putExtras(bundle);
@@ -234,19 +234,19 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                myListViewAdapter.changeSelected(position);
+                simpleListViewAdapter.changeSelected(position);
             }
         });
 
-        final TextView shop_name_text = (TextView)findViewById(R.id.shop_name);
-        final TextView shop_info_text =(TextView)findViewById(R.id.shop_description);
-        final ImageView shop_img_view = (ImageView)findViewById(R.id.shop_img);
+        final TextView shop_name_text = (TextView)findViewById(R.id.txt_name);
+        final TextView shop_info_text =(TextView)findViewById(R.id.txt_description);
+        final ImageView shop_img_view = (ImageView)findViewById(R.id.img_shop);
 
         //查看商店信息的点击事件
         View.OnClickListener shop_click_listener = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,  ShopDetail.class);
+                Intent intent = new Intent(MainActivity.this,  ShopDetailActivity.class);
                 intent.putExtra("shop_name",shop_name_text.getText().toString());
                 intent.putExtra("shop_info", shop_info_text.getText().toString());
                 //传递图片src(url)
@@ -259,11 +259,11 @@ public class MainActivity extends AppCompatActivity {
         shop_info_text.setOnClickListener(shop_click_listener);
         shop_img_view.setOnClickListener(shop_click_listener);
 
-        order_list_btn = (Button)findViewById(R.id.order_list_btn);
-        final ListView order_list = (ListView)findViewById(R.id.order_list);
-        myOrderListViewAdapter = new MyOrderListViewAdapter(MainActivity.this, data_instance.orderFoodList);
+        order_list_btn = (Button)findViewById(R.id.btn_list);
+        final ListView order_list = (ListView)findViewById(R.id.lv_order);
+        orderListViewAdapter = new OrderListViewAdapter(MainActivity.this, data_instance.orderFoodList);
         //order_item内部点击事件
-        MyOrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new MyOrderListViewAdapter.OnOrderButtonClickListener() {
+        OrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new OrderListViewAdapter.OnOrderButtonClickListener() {
             @Override
             public void onAddClick(int position) {
                 Food order_item = data_instance.orderFoodList.get(position);
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 data_instance.orderFoodList.get(position).setCount(pre_count + 1);
 
                 myPinnedAdapter.notifyDataSetChanged();
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_order_status();
             }
@@ -299,17 +299,17 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 myPinnedAdapter.notifyDataSetChanged();
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_order_status();
             }
         };
 
-        myOrderListViewAdapter.setOnOrderButtonClickListener(onOrderButtonClickListener);
-        order_list.setAdapter(myOrderListViewAdapter);
+        orderListViewAdapter.setOnOrderButtonClickListener(onOrderButtonClickListener);
+        order_list.setAdapter(orderListViewAdapter);
 
         //查看订单列表按钮点击事件
-        final View shadow_view = (View)findViewById(R.id.shadow);
+        final View shadow_view = (View)findViewById(R.id.view_shadow);
         order_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //下订单按钮点击事件
-        order_make_btn = (Button)findViewById(R.id.order_make_btn);
+        order_make_btn = (Button)findViewById(R.id.btn_make);
         order_make_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 1000)
         {
             myPinnedAdapter.notifyDataSetChanged();
-            myOrderListViewAdapter.notifyDataSetChanged();
+            orderListViewAdapter.notifyDataSetChanged();
             calculate_sum();
             check_order_status();
         }else if(requestCode == 1001){

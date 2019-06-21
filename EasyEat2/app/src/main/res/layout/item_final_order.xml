@@ -6,7 +6,7 @@
     android:layout_margin="10dp">
 
     <ImageView
-        android:id="@+id/food_img"
+        android:id="@+id/img_food"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="centerCrop"
@@ -16,18 +16,18 @@
         />
 
     <TextView
-        android:id="@+id/food_name"
+        android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="薯条"
         android:textSize="20dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/food_img"
+        app:layout_constraintLeft_toRightOf="@id/img_food"
         />
 
     <TextView
-        android:id="@+id/food_prices"
+        android:id="@+id/txt_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$6"
@@ -39,14 +39,14 @@
         />
 
     <TextView
-        android:id="@+id/food_count"
+        android:id="@+id/txt_count"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:textSize="20dp"
         android:textAlignment="center"
         android:text="x1"
-        app:layout_constraintLeft_toLeftOf="@id/food_name"
-        app:layout_constraintBottom_toBottomOf="@id/food_img"
+        app:layout_constraintLeft_toLeftOf="@id/txt_name"
+        app:layout_constraintBottom_toBottomOf="@id/img_food"
         />
 
 </android.support.constraint.ConstraintLayout>

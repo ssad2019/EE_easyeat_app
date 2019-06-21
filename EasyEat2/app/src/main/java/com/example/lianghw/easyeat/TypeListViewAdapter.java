@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyTypeListViewAdapter extends BaseAdapter {
+public class TypeListViewAdapter extends BaseAdapter {
     private List<TypeListViewItem> data;
     private Context context;
     private TextChangeListener textChangeListener;
@@ -30,7 +30,7 @@ public class MyTypeListViewAdapter extends BaseAdapter {
         void remark_change(String remark);
     }
 
-    public MyTypeListViewAdapter(Context _context, List<TypeListViewItem> list) {
+    public TypeListViewAdapter(Context _context, List<TypeListViewItem> list) {
         this.context = _context;
         this.data = list;
     }
@@ -82,21 +82,21 @@ public class MyTypeListViewAdapter extends BaseAdapter {
                 case 0:
                     viewHolderType1 = new ViewHolderType1();
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_payment_type1, null);
-                    viewHolderType1.listView = (ListView)convertView.findViewById(R.id.order_list);
-                    viewHolderType1.tx_sum = (TextView)convertView.findViewById(R.id.total_count);
+                    viewHolderType1.listView = (ListView)convertView.findViewById(R.id.lv_order);
+                    viewHolderType1.tx_sum = (TextView)convertView.findViewById(R.id.txt_total);
                     convertView.setTag(R.id.item_type1, viewHolderType1);
                     break;
                 case 1:
                     viewHolderType2 = new ViewHolderType2();
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_payment_type2, null);
-                    viewHolderType2.editText = (EditText)convertView.findViewById(R.id.remark);
+                    viewHolderType2.editText = (EditText)convertView.findViewById(R.id.edit_remark);
                     convertView.setTag(R.id.item_type2, viewHolderType2);
                     break;
                 case 2:
                     viewHolderType3 = new ViewHolderType3();
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_final_type3, null);
-                    viewHolderType3.tx_id = (TextView) convertView.findViewById(R.id.order_id);
-                    viewHolderType3.tx_time = (TextView) convertView.findViewById(R.id.order_time);
+                    viewHolderType3.tx_id = (TextView) convertView.findViewById(R.id.txt_order_id);
+                    viewHolderType3.tx_time = (TextView) convertView.findViewById(R.id.txt_order_time);
                     convertView.setTag(R.id.item_type3, viewHolderType3);
                     break;
             }
@@ -105,7 +105,7 @@ public class MyTypeListViewAdapter extends BaseAdapter {
                 case 0:
                     viewHolderType1 = (ViewHolderType1) convertView.getTag(R.id.item_type1);
                     List<Food> order_data = (List<Food>) item.map.get("list_data");
-                    MyFinalOrderAdapter myOrderListViewAdapter = new MyFinalOrderAdapter(context, order_data);
+                    FinalOrderListViewAdapter myOrderListViewAdapter = new FinalOrderListViewAdapter(context, order_data);
                     viewHolderType1.listView.setAdapter(myOrderListViewAdapter);
                     double sum = 0;
                     for(int j = 0; j < order_data.size(); j++){

@@ -25,7 +25,7 @@ import java.io.Serializable;
 import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID;
 
 //菜品详情界面
-public class FoodDetail extends Activity {
+public class FoodDetailActivity extends Activity {
 
     private StoreData data_instance = StoreData.getInstance();
 
@@ -40,17 +40,17 @@ public class FoodDetail extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         //加载主布居
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.food_detail_info);
+        setContentView(R.layout.activity_food_detail);
 
-        final TextView food_name = (TextView)findViewById(R.id.food_name);
-        final ImageView food_img = (ImageView)findViewById(R.id.food_img);
-        final TextView food_prices = (TextView)findViewById(R.id.food_prices);
-        final TextView food_detail = (TextView)findViewById(R.id.food_info);
-        food_count = (TextView)findViewById(R.id.food_count);
-        add_btn = (Button)findViewById(R.id.add_btn);
-        sub_button = (Button)findViewById(R.id.sub_btn);
-        order_list_btn = (Button)findViewById(R.id.order_list_btn);
-        final ListView order_list = (ListView)findViewById(R.id.order_list);
+        final TextView food_name = (TextView)findViewById(R.id.txt_name);
+        final ImageView food_img = (ImageView)findViewById(R.id.img_food);
+        final TextView food_prices = (TextView)findViewById(R.id.txt_price);
+        final TextView food_detail = (TextView)findViewById(R.id.txt_description);
+        food_count = (TextView)findViewById(R.id.txt_count);
+        add_btn = (Button)findViewById(R.id.btn_add);
+        sub_button = (Button)findViewById(R.id.btn_sub);
+        order_list_btn = (Button)findViewById(R.id.btn_list);
+        final ListView order_list = (ListView)findViewById(R.id.lv_order);
 
         Intent intent = getIntent();
         food_item = (Food) intent.getExtras().getSerializable("food_item");
@@ -62,9 +62,9 @@ public class FoodDetail extends Activity {
         check_count();
         //设置图片
 
-        final MyOrderListViewAdapter myOrderListViewAdapter = new MyOrderListViewAdapter(FoodDetail.this, data_instance.orderFoodList);
+        final OrderListViewAdapter orderListViewAdapter = new OrderListViewAdapter(FoodDetailActivity.this, data_instance.orderFoodList);
         //order_item内部点击事件
-        MyOrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new MyOrderListViewAdapter.OnOrderButtonClickListener() {
+        OrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new OrderListViewAdapter.OnOrderButtonClickListener() {
             @Override
             public void onAddClick(int position) {
                 Food order_item = data_instance.orderFoodList.get(position);
@@ -79,7 +79,7 @@ public class FoodDetail extends Activity {
                 if(order_item.getName().equals(food_item.getName())){
                     food_item.setCount(pre_count + 1);
                 }
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_count();
                 check_order_status();
@@ -103,24 +103,24 @@ public class FoodDetail extends Activity {
                 if(order_item.getName().equals(food_item.getName())){
                     food_item.setCount(result);
                 }
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 calculate_sum();
                 check_count();
                 check_order_status();
             }
         };
 
-        myOrderListViewAdapter.setOnOrderButtonClickListener(onOrderButtonClickListener);
-        order_list.setAdapter(myOrderListViewAdapter);
+        orderListViewAdapter.setOnOrderButtonClickListener(onOrderButtonClickListener);
+        order_list.setAdapter(orderListViewAdapter);
 
         //查看订单列表按钮点击事件
-        final View shadow_view = (View)findViewById(R.id.shadow);
+        final View shadow_view = (View)findViewById(R.id.view_shadow);
         order_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (order_list.getVisibility() == View.GONE) {
                     if(data_instance.orderFoodList.size() == 0){
-                        Toast.makeText(FoodDetail.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodDetailActivity.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
                     }else {
                         order_list.setVisibility(View.VISIBLE);
                         shadow_view.setVisibility(View.VISIBLE);
@@ -139,14 +139,14 @@ public class FoodDetail extends Activity {
             }
         });
 
-        order_make_btn = (Button)findViewById(R.id.order_make_btn);
+        order_make_btn = (Button)findViewById(R.id.btn_make);
         order_make_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(data_instance.orderFoodList.size() == 0){
                     return;
                 }
-                Intent intent = new Intent(FoodDetail.this,  PayActivity.class);
+                Intent intent = new Intent(FoodDetailActivity.this,  PayActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("order_list_data", (Serializable)data_instance.orderFoodList);
                 intent.putExtras(bundle);
@@ -184,7 +184,7 @@ public class FoodDetail extends Activity {
                     }
                 }
 
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 check_count();
                 calculate_sum();
                 check_order_status();
@@ -213,7 +213,7 @@ public class FoodDetail extends Activity {
                     }
                 }
 
-                myOrderListViewAdapter.notifyDataSetChanged();
+                orderListViewAdapter.notifyDataSetChanged();
                 check_count();
                 calculate_sum();
                 check_order_status();
@@ -257,20 +257,20 @@ public class FoodDetail extends Activity {
             sub_button.setVisibility(View.GONE);
             food_count.setVisibility(View.GONE);
             add_btn.setText(" + 添加到购物车");
-            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dp_to_px(FoodDetail.this, 120), DensityUtil.dp_to_px(FoodDetail.this, 25));
-            add_btn_layout.bottomToBottom = R.id.food_prices;
+            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dpToPx(FoodDetailActivity.this, 120), DensityUtil.dpToPx(FoodDetailActivity.this, 25));
+            add_btn_layout.bottomToBottom = R.id.txt_price;
             add_btn_layout.rightToRight = PARENT_ID;
-            add_btn_layout.setMargins(0,0, DensityUtil.dp_to_px(FoodDetail.this, 25), DensityUtil.dp_to_px(FoodDetail.this, 5));
+            add_btn_layout.setMargins(0,0, DensityUtil.dpToPx(FoodDetailActivity.this, 25), DensityUtil.dpToPx(FoodDetailActivity.this, 5));
             add_btn.setLayoutParams(add_btn_layout);
         }else{
             sub_button.setVisibility(View.VISIBLE);
             food_count.setVisibility(View.VISIBLE);
             food_count.setText(count + "");
             add_btn.setText("+");
-            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dp_to_px(FoodDetail.this, 25), DensityUtil.dp_to_px(FoodDetail.this, 25));
-            add_btn_layout.bottomToBottom = R.id.food_prices;
+            ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dpToPx(FoodDetailActivity.this, 25), DensityUtil.dpToPx(FoodDetailActivity.this, 25));
+            add_btn_layout.bottomToBottom = R.id.txt_price;
             add_btn_layout.rightToRight = PARENT_ID;
-            add_btn_layout.setMargins(0,0, DensityUtil.dp_to_px(FoodDetail.this, 25), DensityUtil.dp_to_px(FoodDetail.this, 5));
+            add_btn_layout.setMargins(0,0, DensityUtil.dpToPx(FoodDetailActivity.this, 25), DensityUtil.dpToPx(FoodDetailActivity.this, 5));
             add_btn.setLayoutParams(add_btn_layout);
         }
     }

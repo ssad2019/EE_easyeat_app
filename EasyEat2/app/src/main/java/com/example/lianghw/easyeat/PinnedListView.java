@@ -19,7 +19,7 @@ public class PinnedListView extends ListView {
     private View mHeaderView;
     private int mHeaderViewWidth;
     private int mHeaderViewHeight;
-    private PinnedAdapter mAdapter;
+    private PinnedListViewAdapter mAdapter;
     public PinnedListView(Context context) {
         this(context,null);
     }
@@ -32,7 +32,7 @@ public class PinnedListView extends ListView {
     public void setPinnedHeaderView(View headerView) {
         //获取到HeaderView和Adapter对象
         mHeaderView = headerView;
-        mAdapter = (PinnedAdapter) getAdapter();
+        mAdapter = (PinnedListViewAdapter) getAdapter();
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -63,12 +63,12 @@ public class PinnedListView extends ListView {
         }
         int state = mAdapter.getPinnedHeaderState(position);
         switch (state) {
-            case PinnedAdapter.PINNED_HEADER_GONE: {
+            case PinnedListViewAdapter.PINNED_HEADER_GONE: {
                 //如果是不可见的状态，就不绘制HeaderView
                 mHeaderViewVisible = false;
                 break;
             }
-            case PinnedAdapter.PINNED_HEADER_VISIBLE: {
+            case PinnedListViewAdapter.PINNED_HEADER_VISIBLE: {
                 //如果当前是可见的状态，设置HeaderView的内容
                 mAdapter.configurePinnedHeader(mHeaderView, position);
                 //将被隐藏的HeaderView(在界面外绘制)摆放到顶部
@@ -79,7 +79,7 @@ public class PinnedListView extends ListView {
                 mHeaderViewVisible = true;
                 break;
             }
-            case PinnedAdapter.PINNED_HEADER_PUSHED_UP: {
+            case PinnedListViewAdapter.PINNED_HEADER_PUSHED_UP: {
                 //获取第一个view
                 View firstView = getChildAt(0);
                 //返回View自身底边到父布局顶边的距离
