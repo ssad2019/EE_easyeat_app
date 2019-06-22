@@ -9,6 +9,7 @@
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,12 @@ public class FinalOrderListViewAdapter extends BaseAdapter {
         double one_price = Double.valueOf(list_data.get(position).getPrice());
         double total_price = one_price * list_data.get(position).getCount();
         viewHolder.txt_price.setText("Y" + total_price);
-
+        if(!list_data.get(position).getIcon().equals("")) {
+            Uri img_uri = Uri.parse(list_data.get(position).getIcon());
+            viewHolder.img_food.setImageURI(img_uri);
+        }else{
+            viewHolder.img_food.setImageResource(R.mipmap.sample_food);
+        }
         // 将这个处理好的view返回
         return convertView;
     }

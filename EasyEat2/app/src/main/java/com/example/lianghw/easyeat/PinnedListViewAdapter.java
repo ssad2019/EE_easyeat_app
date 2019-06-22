@@ -9,6 +9,7 @@
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -106,7 +107,12 @@ public class PinnedListViewAdapter extends BaseAdapter {
             viewHolder.btn_sub.setVisibility(View.VISIBLE);
         }
         //使用获取的图片源修改
-        viewHolder.img_food.setImageResource(R.mipmap.sample_food);
+        if(!list_data.get(position).getIcon().equals("")) {
+            Uri img_uri = Uri.parse(list_data.get(position).getIcon());
+            viewHolder.img_food.setImageURI(img_uri);
+        }else{
+            viewHolder.img_food.setImageResource(R.mipmap.sample_food);
+        }
 
         //设置添加按钮点击事件
         if(onbuttonClickListener == null){
