@@ -28,7 +28,7 @@ public class Restaurant {
 
     public static Restaurant getRestaurantByUrl(String url){
         String restaurantStr = Network.getInstance().doGet(url);
-        return jsonToClass(restaurantStr);
+        return tranJsonToClass(restaurantStr);
     }
 
     public Pair<String,String> pushOrder(List<Food> foods,String remark){
@@ -40,8 +40,8 @@ public class Restaurant {
         return new Pair<String,String>(myOrderReturn.order_id,myOrderReturn.time);
     }
 
-    private static Restaurant jsonToClass(String restaurantStr){
-        Restaurant res= new Gson().fromJson(restaurantStr, message1.class).data;
+    private static Restaurant tranJsonToClass(String restaurant_str){
+        Restaurant res= new Gson().fromJson(restaurant_str, message1.class).data;
         return res;
 
     }
