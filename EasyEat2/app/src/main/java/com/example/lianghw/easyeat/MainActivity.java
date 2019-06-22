@@ -362,7 +362,9 @@ public class MainActivity extends AppCompatActivity {
         calculateSum();
     }
 
-    //创建一个显示菜品类别的Header(TextView)
+    /**
+     * 创建一个显示菜品类别的Header(TextView)
+     */
     private View getHeaderView() {
         //头部是个TextView，不能用view.inflate加载布局,会测量不出宽高
         TextView itemView = new TextView(this);
@@ -376,7 +378,9 @@ public class MainActivity extends AppCompatActivity {
         return itemView;
     }
 
-    //计算总价
+    /**
+     * 计算当前订单总价
+     */
     private void calculateSum(){
         double sum = 0;
         for(int i = 0; i < data_instance.list_order.size(); i++){
@@ -386,6 +390,9 @@ public class MainActivity extends AppCompatActivity {
         btn_order_list.setText("总价:     ￥" + Double.toString(sum));
     }
 
+    /**
+     * 检测订单的列表是否为空，并改变button的样式
+     */
     private void checkOrderStatus(){
         if(data_instance.list_order.size() != 0){
             btn_order_make.setText("去结算");
@@ -397,7 +404,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-//重写了onAcitivityResult
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);

@@ -13,6 +13,9 @@ import android.content.Context;
 public class DensityUtil {
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     * @param context Context 传入上下文
+     * @param flt_dpValue float 转换的dp值
+     * @return px 转换后的px值
      */
     public static int dpToPx(Context context, float flt_dpValue) {
         final float flt_scale = context.getResources().getDisplayMetrics().density;
@@ -21,6 +24,9 @@ public class DensityUtil {
 
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     * @param context Context 传入上下文
+     * @param flt_pxValue float 转换的px值
+     * @return dp 转换后的dp值
      */
     public static int pxToDp(Context context, float flt_pxValue) {
         final float flt_scale = context.getResources().getDisplayMetrics().density;
