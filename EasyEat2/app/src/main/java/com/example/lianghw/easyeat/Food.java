@@ -49,4 +49,5 @@ public class Food implements Serializable {
     public void setCount(int count) {
         this.count = count;
     }
+    public String getIcon(){return icon;}
 }

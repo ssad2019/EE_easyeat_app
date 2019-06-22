@@ -68,12 +68,12 @@ public class OrderListViewAdapter extends BaseAdapter {
             convertView= LayoutInflater.from(context).inflate(R.layout.item_order, null);
             viewHolder = new OrderListViewAdapter.ListViewHolder();
 
-            viewHolder.foodImg = (ImageView) convertView.findViewById(R.id.img_food);
-            viewHolder.foodName = (TextView) convertView.findViewById(R.id.txt_name);
-            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.txt_price);
-            viewHolder.food_count = (TextView) convertView.findViewById(R.id.txt_count);
-            viewHolder.add_btn = (Button) convertView.findViewById(R.id.btn_add);
-            viewHolder.sub_btn = (Button) convertView.findViewById(R.id.btn_sub);
+            viewHolder.img_food = (ImageView) convertView.findViewById(R.id.img_food);
+            viewHolder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
+            viewHolder.txt_price = (TextView) convertView.findViewById(R.id.txt_price);
+            viewHolder.txt_count = (TextView) convertView.findViewById(R.id.txt_count);
+            viewHolder.btn_add = (Button) convertView.findViewById(R.id.btn_add);
+            viewHolder.btn_sub = (Button) convertView.findViewById(R.id.btn_sub);
 
             convertView.setTag(viewHolder); // 用setTag方法将处理好的viewHolder放入view中
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
@@ -81,18 +81,18 @@ public class OrderListViewAdapter extends BaseAdapter {
             viewHolder = (OrderListViewAdapter.ListViewHolder) convertView.getTag();
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
-        viewHolder.foodName.setText(list_data.get(position).getName());
-        viewHolder.foodPrice.setText(list_data.get(position).getPrice());
-        viewHolder.food_count.setText(list_data.get(position).getCount() + "");
+        viewHolder.txt_name.setText(list_data.get(position).getName());
+        viewHolder.txt_price.setText(list_data.get(position).getPrice());
+        viewHolder.txt_count.setText(list_data.get(position).getCount() + "");
 
 
-        viewHolder.add_btn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onOrderButtonClickListener.onAddClick(position);
             }
         });
-        viewHolder.sub_btn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onOrderButtonClickListener.onSubClick(position);
@@ -100,17 +100,22 @@ public class OrderListViewAdapter extends BaseAdapter {
         });
 
         //设置图片url
-        //viewHolder.foodImg.setImageURI(new Uri(list_data.get(position).get));
+        if(!list_data.get(position).getIcon().equals("")) {
+            Uri img_uri = Uri.parse(list_data.get(position).getIcon());
+            viewHolder.img_food.setImageURI(img_uri);
+        }else{
+            viewHolder.img_food.setImageResource(R.mipmap.sample_food);
+        }
         // 将这个处理好的view返回
         return convertView;
     }
 
     private class ListViewHolder {
-        public TextView foodName;
-        public ImageView foodImg;
-        public TextView foodPrice;
-        public TextView food_count;
-        public Button add_btn;
-        public Button sub_btn;
+        public TextView txt_name;
+        public ImageView img_food;
+        public TextView txt_price;
+        public TextView txt_count;
+        public Button btn_add;
+        public Button btn_sub;
     }
 }

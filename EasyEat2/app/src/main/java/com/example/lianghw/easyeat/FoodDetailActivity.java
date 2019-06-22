@@ -10,6 +10,7 @@ package com.example.lianghw.easyeat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.text.method.ScrollingMovementMethod;
@@ -60,8 +61,14 @@ public class FoodDetailActivity extends Activity {
         txt_price.setText(food_item.getPrice());
         txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
         txt_count.setText(food_item.getCount() + "");
+        if(!food_item.getIcon().equals("")) {
+            Uri img_uri = Uri.parse(food_item.getIcon());
+            img_food.setImageURI(img_uri);
+        }else{
+            img_food.setImageResource(R.mipmap.sample_food);
+        }
         checkCount();
-        //设置图片
+
 
         final OrderListViewAdapter orderListViewAdapter = new OrderListViewAdapter(FoodDetailActivity.this, data_instance.list_order);
         //order_item内部点击事件
