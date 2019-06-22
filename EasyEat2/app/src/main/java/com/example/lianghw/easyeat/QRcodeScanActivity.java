@@ -34,37 +34,37 @@ import com.yzq.zxinglibrary.common.Constant;
  * 显示：标题和扫码图标
  */
 public class QRcodeScanActivity extends AppCompatActivity {
-    final String Path ="https://api.hatsune-miku.cn";
+
     // 所需的全部动态权限
-    int request_code;
+    int int_request_code;
     boolean bln_is_has_permission = false;
     static final String[] permissions = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     int REQUEST_CODE_SCAN = 8;
-    TextView result;
-    Bitmap img;
+    TextView txt_result;
+    Bitmap bm_img;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //权限检测
-        CheckPermission();
+        checkPermission();
 
         //加载主布居
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code_scan);
 
         //隐藏标题栏
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        ActionBar ab_action_bar = getSupportActionBar();
+        ab_action_bar.hide();
 
 
-        result = findViewById(R.id.txt_result);
+        txt_result = findViewById(R.id.txt_result);
 
-        ImageButton button1 = findViewById(R.id.btn1);
-        button1.setOnClickListener(new View.OnClickListener() {
+        ImageButton ib_scan = findViewById(R.id.ib_scan);
+        ib_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (bln_is_has_permission) {
@@ -80,6 +80,10 @@ public class QRcodeScanActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 二维码扫描初始化
+     * @return  二维码扫描页面 Intent
+     */
     Intent initQR(){
         Intent intent = new Intent(QRcodeScanActivity.this, CaptureActivity.class);
         ZxingConfig config = new ZxingConfig();
@@ -96,10 +100,14 @@ public class QRcodeScanActivity extends AppCompatActivity {
         return intent;
 
     }
-    void CheckPermission(){
+
+    /**
+     * 检查权限
+     */
+    void checkPermission(){
         boolean bln_is_request = false;
-        for (String permission :permissions) {
-            int i = ContextCompat.checkSelfPermission(this,permission);
+        for (String str_permission :permissions) {
+            int i = ContextCompat.checkSelfPermission(this,str_permission);
             // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
             if (i != PackageManager.PERMISSION_GRANTED) {
                 bln_is_request = true;
@@ -107,7 +115,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
             }
         }
         if (bln_is_request){
-            ActivityCompat.requestPermissions(this, permissions, request_code);
+            ActivityCompat.requestPermissions(this, permissions, int_request_code);
         }else{
             bln_is_has_permission = true;
         }
@@ -117,8 +125,8 @@ public class QRcodeScanActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int request_code, @NonNull String[] permissions, @NonNull int[]grant_results) {
         super.onRequestPermissionsResult(request_code, permissions, grant_results);
-        if (request_code== this.request_code) {
-            int size = permissions.length;
+        if (request_code== this.int_request_code) {
+            int int_size = permissions.length;
             for(int i : grant_results){
                 if (grant_results[0]== PackageManager.PERMISSION_DENIED){
                     Toast.makeText(this, "权限申请失败，用户拒绝权限", Toast.LENGTH_SHORT).show();
@@ -135,12 +143,12 @@ public class QRcodeScanActivity extends AppCompatActivity {
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                String str_content = data.getStringExtra(Constant.CODED_CONTENT);
 
-                String url = Restaurant.getUrlFromQRcode(content);
-                Network.getInstance().setIdAndNumber(url);
+                String str_url = Restaurant.getUrlFromQRcode(str_content);
+                Network.getInstance().setIdAndNumber(str_url);
                 Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
-                intent.putExtra("data_url",url);
+                intent.putExtra("data_url",str_url);
                 startActivity(intent);
             }
         }

@@ -21,7 +21,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
     <ImageView
-        android:id="@+id/img"
+        android:id="@+id/img_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/txt_result"
@@ -30,7 +30,7 @@
 
 
     <ImageButton
-        android:id="@+id/btn1"
+        android:id="@+id/ib_scan"
         android:layout_centerInParent="true"
         android:src="@drawable/scan"
         android:scaleType="fitXY"
