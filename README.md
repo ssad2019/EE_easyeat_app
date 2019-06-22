@@ -1,2 +1,2 @@
 # EE_easyeat_app
-s手机客户端
+手机客户端
