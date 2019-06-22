@@ -51,17 +51,6 @@ public class PinnedListViewAdapter extends BaseAdapter {
         this.list_data = data;
     }
 
-    public void updateData(List<Food> data) {
-         if(list_data != null){
-             list_data.clear();
-             list_data.addAll(data);
-         }
-        else{
-             list_data = data;
-         }
-        this.notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         if (list_data == null){
@@ -92,13 +81,13 @@ public class PinnedListViewAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_food_detail, null);
             viewHolder = new ViewHolder();
 
-            viewHolder.foodType = (TextView) convertView.findViewById(R.id.txt_food_headers);
-            viewHolder.foodImg = (ImageView) convertView.findViewById(R.id.img_food);
-            viewHolder.foodName = (TextView) convertView.findViewById(R.id.txt_name);
-            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.txt_price);
-            viewHolder.food_count = (TextView) convertView.findViewById(R.id.txt_count);
-            viewHolder.add_order_btn = (Button) convertView.findViewById(R.id.btn_add);
-            viewHolder.sub_order_btn = (Button) convertView.findViewById(R.id.btn_sub);
+            viewHolder.txt_type = (TextView) convertView.findViewById(R.id.txt_food_headers);
+            viewHolder.img_food = (ImageView) convertView.findViewById(R.id.img_food);
+            viewHolder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
+            viewHolder.txt_price = (TextView) convertView.findViewById(R.id.txt_price);
+            viewHolder.txt_count = (TextView) convertView.findViewById(R.id.txt_count);
+            viewHolder.btn_add = (Button) convertView.findViewById(R.id.btn_add);
+            viewHolder.btn_sub = (Button) convertView.findViewById(R.id.btn_sub);
 
             convertView.setTag(viewHolder);
         } else {
@@ -106,30 +95,30 @@ public class PinnedListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //内容
-        viewHolder.foodName.setText(list_data.get(position).getName());
-        viewHolder.foodPrice.setText(list_data.get(position).getPrice());
+        viewHolder.txt_name.setText(list_data.get(position).getName());
+        viewHolder.txt_price.setText(list_data.get(position).getPrice());
         if(list_data.get(position).getCount() == 0){
-            viewHolder.food_count.setVisibility(View.INVISIBLE);
-            viewHolder.sub_order_btn.setVisibility(View.GONE);
+            viewHolder.txt_count.setVisibility(View.INVISIBLE);
+            viewHolder.btn_sub.setVisibility(View.GONE);
         }else{
-            viewHolder.food_count.setText(list_data.get(position).getCount() + "");
-            viewHolder.food_count.setVisibility(View.VISIBLE);
-            viewHolder.sub_order_btn.setVisibility(View.VISIBLE);
+            viewHolder.txt_count.setText(list_data.get(position).getCount() + "");
+            viewHolder.txt_count.setVisibility(View.VISIBLE);
+            viewHolder.btn_sub.setVisibility(View.VISIBLE);
         }
         //使用获取的图片源修改
-        viewHolder.foodImg.setImageResource(R.mipmap.sample_food);
+        viewHolder.img_food.setImageResource(R.mipmap.sample_food);
 
         //设置添加按钮点击事件
         if(onbuttonClickListener == null){
             Log.i("Error", "getView: onbuttonClickListener not found");
         }
-        viewHolder.add_order_btn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onbuttonClickListener.onAddClick(position);
             }
         });
-        viewHolder.sub_order_btn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onbuttonClickListener.onSubClick(position);
@@ -137,14 +126,14 @@ public class PinnedListViewAdapter extends BaseAdapter {
         });
 
         if (position == 0) {//如果是第一个  需要显示标题
-            viewHolder.foodType.setVisibility(View.VISIBLE);
-            viewHolder.foodType.setText(list_data.get(position).getType());
+            viewHolder.txt_type.setVisibility(View.VISIBLE);
+            viewHolder.txt_type.setText(list_data.get(position).getType());
             //如果这个标题和上一个不一样   也需要将标题显示出来
         } else if (!TextUtils.equals(list_data.get(position).getType(), list_data.get(position - 1).getType())) {
-            viewHolder.foodType.setVisibility(View.VISIBLE);
-            viewHolder.foodType.setText(list_data.get(position).getType());
+            viewHolder.txt_type.setVisibility(View.VISIBLE);
+            viewHolder.txt_type.setText(list_data.get(position).getType());
         } else {
-            viewHolder.foodType.setVisibility(View.GONE);
+            viewHolder.txt_type.setVisibility(View.GONE);
         }
         return convertView;
     }
@@ -169,12 +158,12 @@ public class PinnedListViewAdapter extends BaseAdapter {
         }
     }
     static class ViewHolder {
-        public TextView foodType;
-        public TextView foodName;
-        public TextView foodPrice;
-        public ImageView foodImg;
-        public TextView food_count;
-        public Button add_order_btn;
-        public Button sub_order_btn;
+        public TextView txt_type;
+        public TextView txt_name;
+        public TextView txt_price;
+        public ImageView img_food;
+        public TextView txt_count;
+        public Button btn_add;
+        public Button btn_sub;
     }
 }

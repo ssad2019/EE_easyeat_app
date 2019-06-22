@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.lianghw.easyeat.MainActivity.REQUEST_PAY;
+
 //支付确认界面
 public class PayActivity extends Activity {
 
@@ -60,8 +62,8 @@ public class PayActivity extends Activity {
 
         final ListView order_list = (ListView)findViewById(R.id.lv_card);
         List<TypeListViewItem> card_list_data = new ArrayList<>();
-        card_list_data.add(new TypeListViewItem(0,getHashMapFirstType(order_list_data)));
-        card_list_data.add(new TypeListViewItem(1, new HashMap<String, Object>()));
+        card_list_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTITEMVIEW_TYPE_1,getHashMapFirstType(order_list_data)));
+        card_list_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTVIEWITEM_TYPE_2, new HashMap<String, Object>()));
         TypeListViewAdapter typeListviewAdapter = new TypeListViewAdapter(PayActivity.this, card_list_data);
         typeListviewAdapter.setTextChangeListener(new TypeListViewAdapter.TextChangeListener() {
             @Override
@@ -92,7 +94,7 @@ public class PayActivity extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(PayActivity.this, MainActivity.class);
-        setResult(1001, intent);
+        setResult(REQUEST_PAY, intent);
         finish();
         super.onBackPressed();
     }

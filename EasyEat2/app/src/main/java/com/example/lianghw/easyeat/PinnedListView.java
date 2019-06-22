@@ -15,11 +15,11 @@ import android.widget.ListView;
 
 public class PinnedListView extends ListView {
     //用来判断HeaderView是否需要绘制
-    private boolean mHeaderViewVisible;
-    private View mHeaderView;
-    private int mHeaderViewWidth;
-    private int mHeaderViewHeight;
-    private PinnedListViewAdapter mAdapter;
+    private boolean bln_is_headerViewVisible;
+    private View view_header;
+    private int int_headerViewWidth;
+    private int int_headerViewHeight;
+    private PinnedListViewAdapter pinnedListViewAdapter;
     public PinnedListView(Context context) {
         this(context,null);
     }
@@ -31,52 +31,52 @@ public class PinnedListView extends ListView {
     }
     public void setPinnedHeaderView(View headerView) {
         //获取到HeaderView和Adapter对象
-        mHeaderView = headerView;
-        mAdapter = (PinnedListViewAdapter) getAdapter();
+        view_header = headerView;
+        pinnedListViewAdapter = (PinnedListViewAdapter) getAdapter();
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (mHeaderView != null) {
+        if (view_header != null) {
             //测量HeaderView的宽高
-            measureChild(mHeaderView, widthMeasureSpec, heightMeasureSpec);
+            measureChild(view_header, widthMeasureSpec, heightMeasureSpec);
             //宽
-            mHeaderViewWidth = mHeaderView.getMeasuredWidth();
+            int_headerViewWidth = view_header.getMeasuredWidth();
             //高
-            mHeaderViewHeight = mHeaderView.getMeasuredHeight();
+            int_headerViewHeight = view_header.getMeasuredHeight();
         }
     }
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         //摆放HeaderView
-        if (mHeaderView != null) {
+        if (view_header != null) {
             //layout摆放的位置（左，上，右，下）
-            mHeaderView.layout(0, 0, mHeaderViewWidth, mHeaderViewHeight);
+            view_header.layout(0, 0, int_headerViewWidth, int_headerViewHeight);
             //根据listview第一个条目的postion,确定HeaderView隐藏/显示/上移
             configureHeaderView(getFirstVisiblePosition());
         }
     }
     public void configureHeaderView(int position) {
-        if (mHeaderView == null || null == mAdapter) {
+        if (view_header == null || null == pinnedListViewAdapter) {
             return;
         }
-        int state = mAdapter.getPinnedHeaderState(position);
+        int state = pinnedListViewAdapter.getPinnedHeaderState(position);
         switch (state) {
             case PinnedListViewAdapter.PINNED_HEADER_GONE: {
                 //如果是不可见的状态，就不绘制HeaderView
-                mHeaderViewVisible = false;
+                bln_is_headerViewVisible = false;
                 break;
             }
             case PinnedListViewAdapter.PINNED_HEADER_VISIBLE: {
                 //如果当前是可见的状态，设置HeaderView的内容
-                mAdapter.configurePinnedHeader(mHeaderView, position);
+                pinnedListViewAdapter.configurePinnedHeader(view_header, position);
                 //将被隐藏的HeaderView(在界面外绘制)摆放到顶部
-                if (mHeaderView.getTop() != 0) {
-                    mHeaderView.layout(0, 0, mHeaderViewWidth, mHeaderViewHeight);
+                if (view_header.getTop() != 0) {
+                    view_header.layout(0, 0, int_headerViewWidth, int_headerViewHeight);
                 }
                 //绘制HeaderView
-                mHeaderViewVisible = true;
+                bln_is_headerViewVisible = true;
                 break;
             }
             case PinnedListViewAdapter.PINNED_HEADER_PUSHED_UP: {
@@ -85,7 +85,7 @@ public class PinnedListView extends ListView {
                 //返回View自身底边到父布局顶边的距离
                 int bottom = firstView.getBottom();
                 //HeaderView的高度
-                int headerHeight = mHeaderView.getHeight();
+                int headerHeight = view_header.getHeight();
                 int y;
                 if (bottom < headerHeight) {
                     y = (bottom - headerHeight);
@@ -93,13 +93,13 @@ public class PinnedListView extends ListView {
                     y = 0;
                 }
                 //绘制HeaderView的内容
-                mAdapter.configurePinnedHeader(mHeaderView, position);
+                pinnedListViewAdapter.configurePinnedHeader(view_header, position);
                 //摆放HeaderView
-                if (mHeaderView.getTop() != y) {
+                if (view_header.getTop() != y) {
                     //HeaderView上移y
-                    mHeaderView.layout(0, y, mHeaderViewWidth, mHeaderViewHeight + y);
+                    view_header.layout(0, y, int_headerViewWidth, int_headerViewHeight + y);
                 }
-                mHeaderViewVisible = true;
+                bln_is_headerViewVisible = true;
                 break;
             }
         }
@@ -109,8 +109,8 @@ public class PinnedListView extends ListView {
         super.dispatchDraw(canvas);
         //此方法在onMeasure-->onLayout-->onDraw()之后调用
         // 含义是对当前View的所有子View进行绘制,如果没有就不需要绘制
-        if (mHeaderViewVisible) {
-            drawChild(canvas, mHeaderView, getDrawingTime());
+        if (bln_is_headerViewVisible) {
+            drawChild(canvas, view_header, getDrawingTime());
         }
     }
 }

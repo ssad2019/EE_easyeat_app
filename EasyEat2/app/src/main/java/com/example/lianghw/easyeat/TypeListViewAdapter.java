@@ -21,8 +21,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static com.example.lianghw.easyeat.TypeListViewItem.TYPELISTITEMVIEW_TYPE_1;
+import static com.example.lianghw.easyeat.TypeListViewItem.TYPELISTVIEWITEM_TYPE_2;
+import static com.example.lianghw.easyeat.TypeListViewItem.TYPELISTVIEWITEM_TYPE_3;
+
 public class TypeListViewAdapter extends BaseAdapter {
-    private List<TypeListViewItem> data;
+    private List<TypeListViewItem> list_data;
     private Context context;
     private TextChangeListener textChangeListener;
 
@@ -32,7 +36,7 @@ public class TypeListViewAdapter extends BaseAdapter {
 
     public TypeListViewAdapter(Context _context, List<TypeListViewItem> list) {
         this.context = _context;
-        this.data = list;
+        this.list_data = list;
     }
 
     public void setTextChangeListener(TextChangeListener textChangeListener) {
@@ -41,7 +45,7 @@ public class TypeListViewAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return data.get(position).type;
+        return list_data.get(position).type;
     }
 
     @Override
@@ -51,10 +55,10 @@ public class TypeListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (data == null){
+        if (list_data == null){
             return 0;
         }
-        return data.size();
+        return list_data.size();
     }
 
     @Override
@@ -64,60 +68,60 @@ public class TypeListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        if(data == null) {
+        if(list_data == null) {
             return null;
         }
-        return data.get(i);
+        return list_data.get(i);
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        TypeListViewItem item = data.get(i);
+        TypeListViewItem item = list_data.get(i);
         ViewHolderType1 viewHolderType1;
         ViewHolderType2 viewHolderType2;
         ViewHolderType3 viewHolderType3;
         int type = getItemViewType(i);
         if (convertView == null) {
             switch (type) {
-                case 0:
+                case TYPELISTITEMVIEW_TYPE_1:
                     viewHolderType1 = new ViewHolderType1();
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_payment_type1, null);
-                    viewHolderType1.listView = (ListView)convertView.findViewById(R.id.lv_order);
-                    viewHolderType1.tx_sum = (TextView)convertView.findViewById(R.id.txt_total);
+                    viewHolderType1.lv_order = (ListView)convertView.findViewById(R.id.lv_order);
+                    viewHolderType1.txt_sum = (TextView)convertView.findViewById(R.id.txt_total);
                     convertView.setTag(R.id.item_type1, viewHolderType1);
                     break;
-                case 1:
+                case TYPELISTVIEWITEM_TYPE_2:
                     viewHolderType2 = new ViewHolderType2();
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_payment_type2, null);
-                    viewHolderType2.editText = (EditText)convertView.findViewById(R.id.edit_remark);
+                    viewHolderType2.edit_remark = (EditText)convertView.findViewById(R.id.edit_remark);
                     convertView.setTag(R.id.item_type2, viewHolderType2);
                     break;
-                case 2:
+                case TYPELISTVIEWITEM_TYPE_3:
                     viewHolderType3 = new ViewHolderType3();
                     convertView =  LayoutInflater.from(context).inflate(R.layout.item_final_type3, null);
-                    viewHolderType3.tx_id = (TextView) convertView.findViewById(R.id.txt_order_id);
-                    viewHolderType3.tx_time = (TextView) convertView.findViewById(R.id.txt_order_time);
+                    viewHolderType3.txt_id = (TextView) convertView.findViewById(R.id.txt_order_id);
+                    viewHolderType3.txt_time = (TextView) convertView.findViewById(R.id.txt_order_time);
                     convertView.setTag(R.id.item_type3, viewHolderType3);
                     break;
             }
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
             switch (type){
-                case 0:
+                case TYPELISTITEMVIEW_TYPE_1:
                     viewHolderType1 = (ViewHolderType1) convertView.getTag(R.id.item_type1);
-                    List<Food> order_data = (List<Food>) item.map.get("list_data");
-                    FinalOrderListViewAdapter myOrderListViewAdapter = new FinalOrderListViewAdapter(context, order_data);
-                    viewHolderType1.listView.setAdapter(myOrderListViewAdapter);
+                    List<Food> list_data = (List<Food>) item.map.get("list_data");
+                    FinalOrderListViewAdapter myOrderListViewAdapter = new FinalOrderListViewAdapter(context, list_data);
+                    viewHolderType1.lv_order.setAdapter(myOrderListViewAdapter);
                     double sum = 0;
-                    for(int j = 0; j < order_data.size(); j++){
-                        double price = Double.valueOf(order_data.get(j).getPrice());
-                        sum += order_data.get(j).getCount() * price;
+                    for(int j = 0; j < list_data.size(); j++){
+                        double price = Double.valueOf(list_data.get(j).getPrice());
+                        sum += list_data.get(j).getCount() * price;
                     }
-                    viewHolderType1.tx_sum.setText("￥" + sum);
+                    viewHolderType1.txt_sum.setText("￥" + sum);
                     break;
-                case 1:
+                case TYPELISTVIEWITEM_TYPE_2:
                     viewHolderType2 = (ViewHolderType2) convertView.getTag(R.id.item_type2);
-                    viewHolderType2.editText.setHint("订单备注（辣度，种类...）");
-                    viewHolderType2.editText.addTextChangedListener(new TextWatcher() {
+                    viewHolderType2.edit_remark.setHint("订单备注（辣度，种类...）");
+                    viewHolderType2.edit_remark.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -134,10 +138,10 @@ public class TypeListViewAdapter extends BaseAdapter {
                         }
                     });
                     break;
-                case 2:
+                case TYPELISTVIEWITEM_TYPE_3:
                     viewHolderType3 = (ViewHolderType3) convertView.getTag(R.id.item_type3);
-                    viewHolderType3.tx_id.setText(item.map.get("order_id").toString());
-                    viewHolderType3.tx_time.setText(item.map.get("order_time").toString());
+                    viewHolderType3.txt_id.setText(item.map.get("order_id").toString());
+                    viewHolderType3.txt_time.setText(item.map.get("order_time").toString());
                     break;
             }
         }
@@ -146,16 +150,16 @@ public class TypeListViewAdapter extends BaseAdapter {
     }
 
     private class ViewHolderType1 {
-        public ListView listView;
-        public TextView tx_sum;
+        public ListView lv_order;
+        public TextView txt_sum;
     }
 
     private class ViewHolderType2 {
-        public EditText editText;
+        public EditText edit_remark;
     }
 
     private class ViewHolderType3 {
-        public TextView tx_id;
-        public TextView tx_time;
+        public TextView txt_id;
+        public TextView txt_time;
     }
 }

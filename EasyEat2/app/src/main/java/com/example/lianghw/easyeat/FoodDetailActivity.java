@@ -23,18 +23,19 @@ import android.widget.Toast;
 import java.io.Serializable;
 
 import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID;
+import static com.example.lianghw.easyeat.MainActivity.RESULT_FOOD_DETAIL;
 
 //菜品详情界面
 public class FoodDetailActivity extends Activity {
 
     private StoreData data_instance = StoreData.getInstance();
 
-    private Button order_list_btn;
+    private Button btn_order_list;
     private Food food_item;
-    private Button add_btn;
-    private Button sub_button;
-    private TextView food_count;
-    private Button order_make_btn;
+    private Button btn_add;
+    private Button btn_sub;
+    private TextView txt_count;
+    private Button btn_make;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,236 +43,236 @@ public class FoodDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
 
-        final TextView food_name = (TextView)findViewById(R.id.txt_name);
-        final ImageView food_img = (ImageView)findViewById(R.id.img_food);
-        final TextView food_prices = (TextView)findViewById(R.id.txt_price);
-        final TextView food_detail = (TextView)findViewById(R.id.txt_description);
-        food_count = (TextView)findViewById(R.id.txt_count);
-        add_btn = (Button)findViewById(R.id.btn_add);
-        sub_button = (Button)findViewById(R.id.btn_sub);
-        order_list_btn = (Button)findViewById(R.id.btn_list);
-        final ListView order_list = (ListView)findViewById(R.id.lv_order);
+        final TextView txt_name = (TextView)findViewById(R.id.txt_name);
+        final ImageView img_food = (ImageView)findViewById(R.id.img_food);
+        final TextView txt_price = (TextView)findViewById(R.id.txt_price);
+        final TextView txt_description = (TextView)findViewById(R.id.txt_description);
+        txt_count = (TextView)findViewById(R.id.txt_count);
+        btn_add = (Button)findViewById(R.id.btn_add);
+        btn_sub = (Button)findViewById(R.id.btn_sub);
+        btn_order_list = (Button)findViewById(R.id.btn_list);
+        final ListView lv_order = (ListView)findViewById(R.id.lv_order);
 
         Intent intent = getIntent();
         food_item = (Food) intent.getExtras().getSerializable("food_item");
 
-        food_name.setText(food_item.getName());
-        food_prices.setText(food_item.getPrice());
-        food_detail.setMovementMethod(ScrollingMovementMethod.getInstance());
-        food_count.setText(food_item.getCount() + "");
-        check_count();
+        txt_name.setText(food_item.getName());
+        txt_price.setText(food_item.getPrice());
+        txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
+        txt_count.setText(food_item.getCount() + "");
+        checkCount();
         //设置图片
 
-        final OrderListViewAdapter orderListViewAdapter = new OrderListViewAdapter(FoodDetailActivity.this, data_instance.orderFoodList);
+        final OrderListViewAdapter orderListViewAdapter = new OrderListViewAdapter(FoodDetailActivity.this, data_instance.list_order);
         //order_item内部点击事件
         OrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new OrderListViewAdapter.OnOrderButtonClickListener() {
             @Override
             public void onAddClick(int position) {
-                Food order_item = data_instance.orderFoodList.get(position);
-                int pre_count = order_item.getCount();
-                for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getName().equals(order_item.getName())){
-                        data_instance.allFoodList.get(i).setCount(pre_count + 1);
+                Food order_item = data_instance.list_order.get(position);
+                int int_pre_count = order_item.getCount();
+                for(int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                        data_instance.list_all_food.get(i).setCount(int_pre_count + 1);
                         break;
                     }
                 }
-                data_instance.orderFoodList.get(position).setCount(pre_count + 1);
+                data_instance.list_order.get(position).setCount(int_pre_count + 1);
                 if(order_item.getName().equals(food_item.getName())){
-                    food_item.setCount(pre_count + 1);
+                    food_item.setCount(int_pre_count + 1);
                 }
                 orderListViewAdapter.notifyDataSetChanged();
-                calculate_sum();
-                check_count();
-                check_order_status();
+                calculateSum();
+                checkCount();
+                checkOrderStatus();
             }
 
             @Override
             public void onSubClick(int position) {
-                Food order_item = data_instance.orderFoodList.get(position);
-                int result = order_item.getCount() - 1;
-                for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getName().equals(order_item.getName())){
-                        data_instance.allFoodList.get(i).setCount(result);
+                Food order_item = data_instance.list_order.get(position);
+                int int_result = order_item.getCount() - 1;
+                for(int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                        data_instance.list_all_food.get(i).setCount(int_result);
                         break;
                     }
                 }
-                if(result == 0){
-                    data_instance.orderFoodList.remove(position);
+                if(int_result == 0){
+                    data_instance.list_order.remove(position);
                 }else{
-                    data_instance.orderFoodList.get(position).setCount(result);
+                    data_instance.list_order.get(position).setCount(int_result);
                 }
                 if(order_item.getName().equals(food_item.getName())){
-                    food_item.setCount(result);
+                    food_item.setCount(int_result);
                 }
                 orderListViewAdapter.notifyDataSetChanged();
-                calculate_sum();
-                check_count();
-                check_order_status();
+                calculateSum();
+                checkCount();
+                checkOrderStatus();
             }
         };
 
         orderListViewAdapter.setOnOrderButtonClickListener(onOrderButtonClickListener);
-        order_list.setAdapter(orderListViewAdapter);
+        lv_order.setAdapter(orderListViewAdapter);
 
         //查看订单列表按钮点击事件
-        final View shadow_view = (View)findViewById(R.id.view_shadow);
-        order_list_btn.setOnClickListener(new View.OnClickListener() {
+        final View view_shadow = (View)findViewById(R.id.view_shadow);
+        btn_order_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (order_list.getVisibility() == View.GONE) {
-                    if(data_instance.orderFoodList.size() == 0){
+                if (lv_order.getVisibility() == View.GONE) {
+                    if(data_instance.list_order.size() == 0){
                         Toast.makeText(FoodDetailActivity.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
                     }else {
-                        order_list.setVisibility(View.VISIBLE);
-                        shadow_view.setVisibility(View.VISIBLE);
+                        lv_order.setVisibility(View.VISIBLE);
+                        view_shadow.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    order_list.setVisibility(View.GONE);
-                    shadow_view.setVisibility(View.GONE);
+                    lv_order.setVisibility(View.GONE);
+                    view_shadow.setVisibility(View.GONE);
                 }
             }
         });
-        shadow_view.setOnClickListener(new View.OnClickListener() {
+        view_shadow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                order_list.setVisibility(View.GONE);
-                shadow_view.setVisibility(View.GONE);
+                lv_order.setVisibility(View.GONE);
+                view_shadow.setVisibility(View.GONE);
             }
         });
 
-        order_make_btn = (Button)findViewById(R.id.btn_make);
-        order_make_btn.setOnClickListener(new View.OnClickListener() {
+        btn_make = (Button)findViewById(R.id.btn_make);
+        btn_make.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(data_instance.orderFoodList.size() == 0){
+                if(data_instance.list_order.size() == 0){
                     return;
                 }
                 Intent intent = new Intent(FoodDetailActivity.this,  PayActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("order_list_data", (Serializable)data_instance.orderFoodList);
+                bundle.putSerializable("order_list_data", (Serializable)data_instance.list_order);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
 
-        calculate_sum();
-        check_order_status();
+        calculateSum();
+        checkOrderStatus();
 
-        add_btn.setOnClickListener(new View.OnClickListener() {
+        btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 food_item.setCount(food_item.getCount() + 1);
-                if(data_instance.orderFoodList.size() != 0) {
-                    boolean food_exists = false;
-                    for (int i = 0; i < data_instance.orderFoodList.size(); i++){
-                        if(data_instance.orderFoodList.get(i).getName().equals(food_item.getName())){
-                            data_instance.orderFoodList.get(i).setCount(food_item.getCount());
-                            food_exists = true;
+                if(data_instance.list_order.size() != 0) {
+                    boolean bln_is_exist = false;
+                    for (int i = 0; i < data_instance.list_order.size(); i++){
+                        if(data_instance.list_order.get(i).getName().equals(food_item.getName())){
+                            data_instance.list_order.get(i).setCount(food_item.getCount());
+                            bln_is_exist = true;
                             break;
                         }
                     }
-                    if(!food_exists){
-                        data_instance.orderFoodList.add(food_item);
+                    if(!bln_is_exist){
+                        data_instance.list_order.add(food_item);
                     }
                 }else{
-                    data_instance.orderFoodList.add(food_item);
+                    data_instance.list_order.add(food_item);
                 }
 
-                for (int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getName().equals(food_item.getName())){
-                        data_instance.allFoodList.get(i).setCount(food_item.getCount());
+                for (int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getName().equals(food_item.getName())){
+                        data_instance.list_all_food.get(i).setCount(food_item.getCount());
                         break;
                     }
                 }
 
                 orderListViewAdapter.notifyDataSetChanged();
-                check_count();
-                calculate_sum();
-                check_order_status();
+                checkCount();
+                calculateSum();
+                checkOrderStatus();
             }
         });
 
-        sub_button.setOnClickListener(new View.OnClickListener() {
+        btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 food_item.setCount(food_item.getCount() - 1);
-                for (int i = 0; i < data_instance.orderFoodList.size(); i++){
-                    if(data_instance.orderFoodList.get(i).getName().equals(food_item.getName())){
+                for (int i = 0; i < data_instance.list_order.size(); i++){
+                    if(data_instance.list_order.get(i).getName().equals(food_item.getName())){
                         if(food_item.getCount() == 0){
-                            data_instance.orderFoodList.remove(i);
+                            data_instance.list_order.remove(i);
                         }else {
-                            data_instance.orderFoodList.get(i).setCount(food_item.getCount());
+                            data_instance.list_order.get(i).setCount(food_item.getCount());
                         }
                         break;
                     }
                 }
 
-                for (int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getName().equals(food_item.getName())){
-                        data_instance.allFoodList.get(i).setCount(food_item.getCount());
+                for (int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getName().equals(food_item.getName())){
+                        data_instance.list_all_food.get(i).setCount(food_item.getCount());
                         break;
                     }
                 }
 
                 orderListViewAdapter.notifyDataSetChanged();
-                check_count();
-                calculate_sum();
-                check_order_status();
+                checkCount();
+                calculateSum();
+                checkOrderStatus();
             }
         });
 
     }
 
     //计算总价
-    private void calculate_sum(){
+    private void calculateSum(){
         double sum = 0;
-        for(int i = 0; i < data_instance.orderFoodList.size(); i++){
-            double price = Double.valueOf(data_instance.orderFoodList.get(i).getPrice());
-            sum += data_instance.orderFoodList.get(i).getCount() * price;
+        for(int i = 0; i < data_instance.list_order.size(); i++){
+            double price = Double.valueOf(data_instance.list_order.get(i).getPrice());
+            sum += data_instance.list_order.get(i).getCount() * price;
         }
-        order_list_btn.setText("总价:     $" + Double.toString(sum));
+        btn_order_list.setText("总价:     $" + Double.toString(sum));
     }
 
     //下订单按钮UI变化
-    private void check_order_status(){
-        if(data_instance.orderFoodList.size() != 0){
-            order_make_btn.setText("去结算");
-            order_make_btn.setBackgroundResource(R.drawable.btn_right_selected_style);
+    private void checkOrderStatus(){
+        if(data_instance.list_order.size() != 0){
+            btn_make.setText("去结算");
+            btn_make.setBackgroundResource(R.drawable.btn_right_selected_style);
         }else{
-            order_make_btn.setText("");
-            order_make_btn.setBackgroundResource(R.drawable.btn_right_style);
+            btn_make.setText("");
+            btn_make.setBackgroundResource(R.drawable.btn_right_style);
         }
     }
 
     //检验food count
-    private void check_count(){
+    private void checkCount(){
         int count = 0;
-        if(data_instance.orderFoodList != null) {
-            for (int i = 0; i < data_instance.orderFoodList.size(); i++) {
-                if (data_instance.orderFoodList.get(i).getName().equals(food_item.getName())) {
-                    count = data_instance.orderFoodList.get(i).getCount();
+        if(data_instance.list_order != null) {
+            for (int i = 0; i < data_instance.list_order.size(); i++) {
+                if (data_instance.list_order.get(i).getName().equals(food_item.getName())) {
+                    count = data_instance.list_order.get(i).getCount();
                 }
             }
         }
         if(count == 0){
-            sub_button.setVisibility(View.GONE);
-            food_count.setVisibility(View.GONE);
-            add_btn.setText(" + 添加到购物车");
+            btn_sub.setVisibility(View.GONE);
+            txt_count.setVisibility(View.GONE);
+            btn_add.setText(" + 添加到购物车");
             ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dpToPx(FoodDetailActivity.this, 120), DensityUtil.dpToPx(FoodDetailActivity.this, 25));
             add_btn_layout.bottomToBottom = R.id.txt_price;
             add_btn_layout.rightToRight = PARENT_ID;
             add_btn_layout.setMargins(0,0, DensityUtil.dpToPx(FoodDetailActivity.this, 25), DensityUtil.dpToPx(FoodDetailActivity.this, 5));
-            add_btn.setLayoutParams(add_btn_layout);
+            btn_add.setLayoutParams(add_btn_layout);
         }else{
-            sub_button.setVisibility(View.VISIBLE);
-            food_count.setVisibility(View.VISIBLE);
-            food_count.setText(count + "");
-            add_btn.setText("+");
+            btn_sub.setVisibility(View.VISIBLE);
+            txt_count.setVisibility(View.VISIBLE);
+            txt_count.setText(count + "");
+            btn_add.setText("+");
             ConstraintLayout.LayoutParams add_btn_layout = new ConstraintLayout.LayoutParams(DensityUtil.dpToPx(FoodDetailActivity.this, 25), DensityUtil.dpToPx(FoodDetailActivity.this, 25));
             add_btn_layout.bottomToBottom = R.id.txt_price;
             add_btn_layout.rightToRight = PARENT_ID;
             add_btn_layout.setMargins(0,0, DensityUtil.dpToPx(FoodDetailActivity.this, 25), DensityUtil.dpToPx(FoodDetailActivity.this, 5));
-            add_btn.setLayoutParams(add_btn_layout);
+            btn_add.setLayoutParams(add_btn_layout);
         }
     }
 
@@ -279,7 +280,7 @@ public class FoodDetailActivity extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        setResult(1000, intent);
+        setResult(RESULT_FOOD_DETAIL, intent);
         finish();
         super.onBackPressed();
     }

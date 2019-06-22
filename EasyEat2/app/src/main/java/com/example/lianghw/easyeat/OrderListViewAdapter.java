@@ -9,6 +9,7 @@
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class OrderListViewAdapter extends BaseAdapter {
-    private List<Food> data;
+    private List<Food> list_data;
     private Context context;
 
     public interface OnOrderButtonClickListener{
@@ -36,14 +37,14 @@ public class OrderListViewAdapter extends BaseAdapter {
 
     public OrderListViewAdapter(Context _context, List<Food> list) {
         this.context = _context;
-        this.data = list;
+        this.list_data = list;
     }
     @Override
     public int getCount() {
-        if (data == null){
+        if (list_data == null){
             return 0;
         }
-        return data.size();
+        return list_data.size();
     }
 
     @Override
@@ -53,10 +54,10 @@ public class OrderListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        if(data == null) {
+        if(list_data == null) {
             return null;
         }
-        return data.get(i);
+        return list_data.get(i);
     }
 
     @Override
@@ -80,9 +81,10 @@ public class OrderListViewAdapter extends BaseAdapter {
             viewHolder = (OrderListViewAdapter.ListViewHolder) convertView.getTag();
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
-        viewHolder.foodName.setText(data.get(position).getName());
-        viewHolder.foodPrice.setText(data.get(position).getPrice());
-        viewHolder.food_count.setText(data.get(position).getCount() + "");
+        viewHolder.foodName.setText(list_data.get(position).getName());
+        viewHolder.foodPrice.setText(list_data.get(position).getPrice());
+        viewHolder.food_count.setText(list_data.get(position).getCount() + "");
+
 
         viewHolder.add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,15 +100,11 @@ public class OrderListViewAdapter extends BaseAdapter {
         });
 
         //设置图片url
-
+        //viewHolder.foodImg.setImageURI(new Uri(list_data.get(position).get));
         // 将这个处理好的view返回
         return convertView;
     }
-    public void updateData(List<Food> lists) {
-        data.clear();
-        data.addAll(lists);
-        this.notifyDataSetChanged();
-    }
+
     private class ListViewHolder {
         public TextView foodName;
         public ImageView foodImg;

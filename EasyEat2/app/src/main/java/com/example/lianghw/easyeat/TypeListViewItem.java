@@ -14,6 +14,10 @@ public class TypeListViewItem {
     public int type;
     public HashMap<String, Object> map;
 
+    public static final int TYPELISTITEMVIEW_TYPE_1 = 0;
+    public static final int TYPELISTVIEWITEM_TYPE_2 = 1;
+    public static final int TYPELISTVIEWITEM_TYPE_3 = 2;
+
     public TypeListViewItem(int type, HashMap<String, Object> map) {
         this.type = type;
         this.map = map;

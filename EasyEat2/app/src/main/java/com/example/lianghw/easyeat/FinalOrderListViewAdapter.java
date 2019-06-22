@@ -19,20 +19,19 @@ import android.widget.TextView;
 import java.util.List;
 
 public class FinalOrderListViewAdapter extends BaseAdapter {
-    private List<Food> data;
+    private List<Food> list_data;
     private Context context;
-    private int selected_position = 0;
 
     public FinalOrderListViewAdapter(Context _context, List<Food> list) {
         this.context = _context;
-        this.data = list;
+        this.list_data = list;
     }
     @Override
     public int getCount() {
-        if (data == null){
+        if (list_data == null){
             return 0;
         }
-        return data.size();
+        return list_data.size();
     }
 
     @Override
@@ -42,24 +41,24 @@ public class FinalOrderListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        if(data == null) {
+        if(list_data == null) {
             return null;
         }
-        return data.get(i);
+        return list_data.get(i);
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         View convertView;
         FinalOrderListViewAdapter.ListViewHolder viewHolder;
         if (view == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_final_order, null);
             viewHolder = new FinalOrderListViewAdapter.ListViewHolder();
 
-            viewHolder.food_img = (ImageView) convertView.findViewById(R.id.img_food);
-            viewHolder.food_name = (TextView) convertView.findViewById(R.id.txt_name);
-            viewHolder.food_count = (TextView) convertView.findViewById(R.id.txt_count);
-            viewHolder.food_total_price = (TextView) convertView.findViewById(R.id.txt_price);
+            viewHolder.img_food = (ImageView) convertView.findViewById(R.id.img_food);
+            viewHolder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
+            viewHolder.txt_count = (TextView) convertView.findViewById(R.id.txt_count);
+            viewHolder.txt_price = (TextView) convertView.findViewById(R.id.txt_price);
 
             convertView.setTag(viewHolder); // 用setTag方法将处理好的viewHolder放入view中
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
@@ -69,25 +68,23 @@ public class FinalOrderListViewAdapter extends BaseAdapter {
         // 从viewHolder中取出对应的对象，然后赋值给他们
         //根据url设置图片
         //viewHolder.food_img.setImageURI();
-        viewHolder.food_name.setText(data.get(i).getName());
-        viewHolder.food_count.setText("x" + data.get(i).getCount());
-        double one_price = Double.valueOf(data.get(i).getPrice());
-        double total_price = one_price * data.get(i).getCount();
-        viewHolder.food_total_price.setText("Y" + total_price);
+
+        viewHolder.txt_name.setText(list_data.get(position).getName());
+        viewHolder.txt_count.setText("x" + list_data.get(position).getCount());
+        double one_price = Double.valueOf(list_data.get(position).getPrice());
+        double total_price = one_price * list_data.get(position).getCount();
+        viewHolder.txt_price.setText("Y" + total_price);
 
         // 将这个处理好的view返回
         return convertView;
     }
-    public void updateData(List<Food> lists) {
-        data.clear();
-        data.addAll(lists);
-        this.notifyDataSetChanged();
-    }
+
+
     private class ListViewHolder {
-        public ImageView food_img;
-        public TextView food_name;
-        public TextView food_count;
-        public TextView food_total_price;
+        public ImageView img_food;
+        public TextView txt_name;
+        public TextView txt_count;
+        public TextView txt_price;
     }
 
 }

@@ -20,20 +20,20 @@ import android.content.Context;
 
 
 public class SimpleListViewAdapter extends BaseAdapter {
-    private List<String> data;
+    private List<String> list_data;
     private Context context;
-    private int selected_position = 0;
+    private int int_selected_position = 0;
 
     public SimpleListViewAdapter(Context _context, List<String> list) {
         this.context = _context;
-        this.data = list;
+        this.list_data = list;
     }
     @Override
     public int getCount() {
-        if (data == null){
+        if (list_data == null){
             return 0;
         }
-        return data.size();
+        return list_data.size();
     }
 
     @Override
@@ -43,10 +43,10 @@ public class SimpleListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        if(data == null) {
+        if(list_data == null) {
             return null;
         }
-        return data.get(i);
+        return list_data.get(i);
     }
 
     @Override
@@ -56,40 +56,32 @@ public class SimpleListViewAdapter extends BaseAdapter {
         if (view == null) {
             convertView= LayoutInflater.from(context).inflate(R.layout.item_food_type, null);
             viewHolder = new ListViewHolder();
-            viewHolder.textView = (TextView) convertView.findViewById(R.id.txt_type_name);
+            viewHolder.txt_type = (TextView) convertView.findViewById(R.id.txt_type_name);
             convertView.setTag(viewHolder); // 用setTag方法将处理好的viewHolder放入view中
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
             convertView = view;
             viewHolder = (ListViewHolder) convertView.getTag();
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
-        viewHolder.textView.setText(data.get(i));
-        if(i == selected_position){
-            viewHolder.textView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            viewHolder.textView.setTextColor(Color.parseColor("#000000"));
+        viewHolder.txt_type.setText(list_data.get(i));
+        if(i == int_selected_position){
+            viewHolder.txt_type.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            viewHolder.txt_type.setTextColor(Color.parseColor("#000000"));
         }else{
-            viewHolder.textView.setBackgroundColor(Color.parseColor("#FAFAFA"));
-            viewHolder.textView.setTextColor(Color.parseColor("#8B8682"));
+            viewHolder.txt_type.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.txt_type.setTextColor(Color.parseColor("#8B8682"));
         }
         // 将这个处理好的view返回
         return convertView;
     }
-    public void updateData(List<String> lists) {
-        if(data != null) {
-            data.clear();
-            data.addAll(lists);
-        }else{
-            data = lists;
-        }
-        this.notifyDataSetChanged();
-    }
+
     private class ListViewHolder {
-        public TextView textView;
+        public TextView txt_type;
     }
 
     public void changeSelected(int position){
-        if (position >= 0 && position < data.size()){
-            selected_position = position;
+        if (position >= 0 && position < list_data.size()){
+            int_selected_position = position;
         }
         this.notifyDataSetChanged();
     }

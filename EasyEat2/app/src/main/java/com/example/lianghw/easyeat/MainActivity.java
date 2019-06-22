@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,18 +41,23 @@ public class MainActivity extends AppCompatActivity {
 
     private StoreData data_instance = StoreData.getInstance();
 
-    private boolean scroll_end = false;
+    private boolean bln_is_scroll_end = false;
     private OrderListViewAdapter orderListViewAdapter;
-    private PinnedListViewAdapter myPinnedAdapter;
+    private PinnedListViewAdapter pinnedListViewAdapter;
     private SimpleListViewAdapter simpleListViewAdapter;
-    private Button order_list_btn;
+    private Button btn_order_make;
+    private Button btn_order_list;
     private Restaurant restaurant;
 
-    private TextView restaurant_name;
-    private TextView restaurant_detail;
-    private ImageView restaurant_img;
+    private TextView txt_restaurant_name;
+    private TextView txt_restaurant_detail;
+    private ImageView img_restaurant;
     private Bitmap bitmap;
-    private Button order_make_btn;
+
+    private static final int HANDLER_MESSAGE = 0x01;
+    public static final int REQUEST_FOOD_DETAIL = 1000;
+    public static final int RESULT_FOOD_DETAIL = 1000;
+    public static final int REQUEST_PAY = 1001;
 
     @Override
     protected void onDestroy() {
@@ -61,15 +67,15 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case 0x01:
+                case HANDLER_MESSAGE:
                     if(!restaurant.name.equals("")){
-                        restaurant_name.setText(restaurant.name);
+                        txt_restaurant_name.setText(restaurant.name);
                     }
                     if(!restaurant.description.equals("")){
-                        restaurant_detail.setText(restaurant.description);
+                        txt_restaurant_detail.setText(restaurant.description);
                     }
                     if(!restaurant.icon.equals("")){
-                        restaurant_img.setImageBitmap(bitmap);
+                        img_restaurant.setImageBitmap(bitmap);
                     }
                     break;
                 default:
@@ -82,22 +88,22 @@ public class MainActivity extends AppCompatActivity {
 
     //for test
     void initData(Intent intent){
-        final String data_url = intent.getStringExtra("data_url");
+        final String str_data_url = intent.getStringExtra("data_url");
         new Thread() {
             @Override
             public void run() {
-                restaurant = getRestaurantByUrl(data_url);
+                restaurant = getRestaurantByUrl(str_data_url);
                 if(!restaurant.icon.equals("")) {
                     bitmap = Network.getInstance().getBitmap(restaurant.icon);
                 }
-                List<Food> foods_copy = new ArrayList<>(Arrays.asList(restaurant.goods));
-                data_instance.allFoodList = foods_copy;
-                for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.food_type_list.indexOf(data_instance.allFoodList.get(i).getType()) == -1){
-                        data_instance.food_type_list.add(data_instance.allFoodList.get(i).getType());
+                List<Food> list_foods_copy = new ArrayList<>(Arrays.asList(restaurant.goods));
+                data_instance.list_all_food = list_foods_copy;
+                for(int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_type.indexOf(data_instance.list_all_food.get(i).getType()) == -1){
+                        data_instance.list_type.add(data_instance.list_all_food.get(i).getType());
                     }
                 }
-                handler.sendEmptyMessage(0x01);
+                handler.sendEmptyMessage(HANDLER_MESSAGE);
             }
         }.start();
     }
@@ -112,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        restaurant_name = (TextView) findViewById(R.id.txt_name);
-        restaurant_detail = (TextView) findViewById(R.id.txt_description);
-        restaurant_img = (ImageView) findViewById(R.id.img_shop);
+        txt_restaurant_name = (TextView) findViewById(R.id.txt_name);
+        txt_restaurant_detail = (TextView) findViewById(R.id.txt_description);
+        img_restaurant = (ImageView) findViewById(R.id.img_shop);
 
         //初始化食品列表
         Intent intent = getIntent();
@@ -122,115 +128,115 @@ public class MainActivity extends AppCompatActivity {
             initData(intent);
         }
 
-        while(data_instance.allFoodList.size() == 0 || data_instance.food_type_list.size() == 0){
+        while(data_instance.list_all_food.size() == 0 || data_instance.list_type.size() == 0){
 
         }
 
         //设置list adapter
-        final ListView food_type_list = (ListView) findViewById(R.id.lv_type);
+        final ListView lv_food_type = (ListView) findViewById(R.id.lv_type);
 
-        simpleListViewAdapter = new SimpleListViewAdapter(MainActivity.this, data_instance.food_type_list);
-        food_type_list.setAdapter(simpleListViewAdapter);
+        simpleListViewAdapter = new SimpleListViewAdapter(MainActivity.this, data_instance.list_type);
+        lv_food_type.setAdapter(simpleListViewAdapter);
 
-        final PinnedListView food_detail_list = (PinnedListView) findViewById(R.id.lv_food);
+        final PinnedListView lv_food_detail = (PinnedListView) findViewById(R.id.lv_food);
 
-        myPinnedAdapter = new PinnedListViewAdapter(MainActivity.this, data_instance.allFoodList);
+        pinnedListViewAdapter = new PinnedListViewAdapter(MainActivity.this, data_instance.list_all_food);
         //item内部点击事件
         PinnedListViewAdapter.OnButtonClickListener onButtonClickListener = new PinnedListViewAdapter.OnButtonClickListener() {
             @Override
             public void onAddClick(int position) {
-                Food order_item = data_instance.allFoodList.get(position);
-                int pre_count = data_instance.allFoodList.get(position).getCount();
-                boolean order_item_exists = false;
-                for(int i = 0; i < data_instance.orderFoodList.size(); i++){
-                    if(order_item.getName().equals(data_instance.orderFoodList.get(i).getName())){
-                        order_item_exists = true;
-                        data_instance.orderFoodList.get(i).setCount(pre_count + 1);
+                Food order_item = data_instance.list_all_food.get(position);
+                int int_pre_count = data_instance.list_all_food.get(position).getCount();
+                boolean bln_is_exists = false;
+                for(int i = 0; i < data_instance.list_order.size(); i++){
+                    if(order_item.getName().equals(data_instance.list_order.get(i).getName())){
+                        bln_is_exists = true;
+                        data_instance.list_order.get(i).setCount(int_pre_count + 1);
                         break;
                     }
                 }
-                if(!order_item_exists){
-                    data_instance.orderFoodList.add(order_item);
+                if(!bln_is_exists){
+                    data_instance.list_order.add(order_item);
                 }
-                data_instance.allFoodList.get(position).setCount(pre_count + 1);
-                myPinnedAdapter.notifyDataSetChanged();
+                data_instance.list_all_food.get(position).setCount(int_pre_count + 1);
+                pinnedListViewAdapter.notifyDataSetChanged();
                 orderListViewAdapter.notifyDataSetChanged();
-                calculate_sum();
-                check_order_status();
+                calculateSum();
+                checkOrderStatus();
             }
 
             @Override
             public void onSubClick(int position) {
-                Food order_item = data_instance.allFoodList.get(position);
-                int pre_count = data_instance.allFoodList.get(position).getCount();
-                for(int i = 0; i < data_instance.orderFoodList.size(); i++){
-                    if(order_item.getName().equals(data_instance.orderFoodList.get(i).getName())){
-                        int result = data_instance.orderFoodList.get(i).getCount() - 1;
+                Food order_item = data_instance.list_all_food.get(position);
+                int int_pre_count = data_instance.list_all_food.get(position).getCount();
+                for(int i = 0; i < data_instance.list_order.size(); i++){
+                    if(order_item.getName().equals(data_instance.list_order.get(i).getName())){
+                        int result = data_instance.list_order.get(i).getCount() - 1;
                         if(result == 0){
-                            data_instance.orderFoodList.remove(i);
+                            data_instance.list_order.remove(i);
                         }else{
-                            data_instance.orderFoodList.get(i).setCount(result);
+                            data_instance.list_order.get(i).setCount(result);
                         }
                     }
                 }
-                data_instance.allFoodList.get(position).setCount(pre_count - 1);
-                myPinnedAdapter.notifyDataSetChanged();
+                data_instance.list_all_food.get(position).setCount(int_pre_count - 1);
+                pinnedListViewAdapter.notifyDataSetChanged();
                 orderListViewAdapter.notifyDataSetChanged();
-                calculate_sum();
-                check_order_status();
+                calculateSum();
+                checkOrderStatus();
             }
         };
 
-        myPinnedAdapter.setOnButtonClickListener(onButtonClickListener);
-        food_detail_list.setAdapter(myPinnedAdapter);
-        food_detail_list.setPinnedHeaderView(getHeaderView());
+        pinnedListViewAdapter.setOnButtonClickListener(onButtonClickListener);
+        lv_food_detail.setAdapter(pinnedListViewAdapter);
+        lv_food_detail.setPinnedHeaderView(getHeaderView());
 
         //设置右侧列表滚动事件
-        food_detail_list.setOnScrollListener(new AbsListView.OnScrollListener() {
+        lv_food_detail.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
                 //获取当前滚动状态确定是否触发滚动事件
                 if(scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState == SCROLL_STATE_FLING){
-                    scroll_end = true;
+                    bln_is_scroll_end = true;
                 }else{
-                    scroll_end = false;
+                    bln_is_scroll_end = false;
                 }
             }
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(!scroll_end){
+                if(!bln_is_scroll_end){
                     return;
                 }
                 //滚动确定替换条目
-                food_detail_list.configureHeaderView(firstVisibleItem);
+                lv_food_detail.configureHeaderView(firstVisibleItem);
                 //获取到第一个条目的类型
-                String title = data_instance.allFoodList.get(firstVisibleItem).getType();
-                int position = data_instance.food_type_list.indexOf(title);
-                food_type_list.smoothScrollToPosition(position);
-                simpleListViewAdapter.changeSelected(position);
+                String str_title = data_instance.list_all_food.get(firstVisibleItem).getType();
+                int int_position = data_instance.list_type.indexOf(str_title);
+                lv_food_type.smoothScrollToPosition(int_position);
+                simpleListViewAdapter.changeSelected(int_position);
             }
         });
 
         //查看餐品详情的点击事件
-        food_detail_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_food_detail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Food food_item = data_instance.allFoodList.get(position);
+                Food food_item = data_instance.list_all_food.get(position);
                 Intent intent = new Intent(MainActivity.this, FoodDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("food_item", food_item);
                 intent.putExtras(bundle);
-                startActivityForResult(intent,1000);
+                startActivityForResult(intent,REQUEST_FOOD_DETAIL);
             }
         });
 
         //左侧list的点击事件
-        food_type_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_food_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getType().equals(data_instance.food_type_list.get(position))) {
-                        food_detail_list.setSelection(i);
+                for(int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getType().equals(data_instance.list_type.get(position))) {
+                        lv_food_detail.setSelection(i);
                         break;
                     }
                 }
@@ -249,8 +255,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,  ShopDetailActivity.class);
                 intent.putExtra("shop_name",shop_name_text.getText().toString());
                 intent.putExtra("shop_info", shop_info_text.getText().toString());
-                //传递图片src(url)
-                //intent.putExtra("shop_info", img_url);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte [] bitmapByte = byteArrayOutputStream.toByteArray();
+                intent.putExtra("shop_img", bitmapByte);
                 startActivity(intent);
             }
         };
@@ -259,99 +267,99 @@ public class MainActivity extends AppCompatActivity {
         shop_info_text.setOnClickListener(shop_click_listener);
         shop_img_view.setOnClickListener(shop_click_listener);
 
-        order_list_btn = (Button)findViewById(R.id.btn_list);
-        final ListView order_list = (ListView)findViewById(R.id.lv_order);
-        orderListViewAdapter = new OrderListViewAdapter(MainActivity.this, data_instance.orderFoodList);
+        btn_order_list = (Button)findViewById(R.id.btn_list);
+        final ListView lv_order = (ListView)findViewById(R.id.lv_order);
+        orderListViewAdapter = new OrderListViewAdapter(MainActivity.this, data_instance.list_order);
         //order_item内部点击事件
         OrderListViewAdapter.OnOrderButtonClickListener onOrderButtonClickListener = new OrderListViewAdapter.OnOrderButtonClickListener() {
             @Override
             public void onAddClick(int position) {
-                Food order_item = data_instance.orderFoodList.get(position);
-                int pre_count = order_item.getCount();
-                for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getName().equals(order_item.getName())){
-                        data_instance.allFoodList.get(i).setCount(pre_count + 1);
+                Food order_item = data_instance.list_order.get(position);
+                int int_pre_count = order_item.getCount();
+                for(int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                        data_instance.list_all_food.get(i).setCount(int_pre_count + 1);
                         break;
                     }
                 }
-                data_instance.orderFoodList.get(position).setCount(pre_count + 1);
+                data_instance.list_order.get(position).setCount(int_pre_count + 1);
 
-                myPinnedAdapter.notifyDataSetChanged();
+                pinnedListViewAdapter.notifyDataSetChanged();
                 orderListViewAdapter.notifyDataSetChanged();
-                calculate_sum();
-                check_order_status();
+                calculateSum();
+                checkOrderStatus();
             }
 
             @Override
             public void onSubClick(int position) {
-                Food order_item = data_instance.orderFoodList.get(position);
-                int result = order_item.getCount() - 1;
-                for(int i = 0; i < data_instance.allFoodList.size(); i++){
-                    if(data_instance.allFoodList.get(i).getName().equals(order_item.getName())){
-                        data_instance.allFoodList.get(i).setCount(result);
+                Food order_item = data_instance.list_order.get(position);
+                int int_result = order_item.getCount() - 1;
+                for(int i = 0; i < data_instance.list_all_food.size(); i++){
+                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                        data_instance.list_all_food.get(i).setCount(int_result);
                         break;
                     }
                 }
-                if(result == 0){
-                    data_instance.orderFoodList.remove(position);
+                if(int_result == 0){
+                    data_instance.list_order.remove(position);
                 }else{
-                    data_instance.orderFoodList.get(position).setCount(result);
+                    data_instance.list_order.get(position).setCount(int_result);
                 }
 
-                myPinnedAdapter.notifyDataSetChanged();
+                pinnedListViewAdapter.notifyDataSetChanged();
                 orderListViewAdapter.notifyDataSetChanged();
-                calculate_sum();
-                check_order_status();
+                calculateSum();
+                checkOrderStatus();
             }
         };
 
         orderListViewAdapter.setOnOrderButtonClickListener(onOrderButtonClickListener);
-        order_list.setAdapter(orderListViewAdapter);
+        lv_order.setAdapter(orderListViewAdapter);
 
         //查看订单列表按钮点击事件
-        final View shadow_view = (View)findViewById(R.id.view_shadow);
-        order_list_btn.setOnClickListener(new View.OnClickListener() {
+        final View view_shadow = (View)findViewById(R.id.view_shadow);
+        btn_order_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (order_list.getVisibility() == View.GONE) {
-                    if(data_instance.orderFoodList.size() == 0){
+                if (lv_order.getVisibility() == View.GONE) {
+                    if(data_instance.list_order.size() == 0){
                         Toast.makeText(MainActivity.this, "订单中没有菜品", Toast.LENGTH_SHORT).show();
                     }else {
-                        order_list.setVisibility(View.VISIBLE);
-                        shadow_view.setVisibility(View.VISIBLE);
+                        lv_order.setVisibility(View.VISIBLE);
+                        view_shadow.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    order_list.setVisibility(View.GONE);
-                    shadow_view.setVisibility(View.GONE);
+                    lv_order.setVisibility(View.GONE);
+                    view_shadow.setVisibility(View.GONE);
                 }
             }
         });
-        shadow_view.setOnClickListener(new View.OnClickListener() {
+        view_shadow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                order_list.setVisibility(View.GONE);
-                shadow_view.setVisibility(View.GONE);
+                lv_order.setVisibility(View.GONE);
+                view_shadow.setVisibility(View.GONE);
             }
         });
 
         //下订单按钮点击事件
-        order_make_btn = (Button)findViewById(R.id.btn_make);
-        order_make_btn.setOnClickListener(new View.OnClickListener() {
+        btn_order_make = (Button)findViewById(R.id.btn_make);
+        btn_order_make.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(data_instance.orderFoodList.size() == 0){
+                if(data_instance.list_order.size() == 0){
                     return;
                 }
                 Intent intent = new Intent(MainActivity.this,  PayActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("order_list_data", (Serializable)data_instance.orderFoodList);
-                bundle.putString("total", order_list_btn.getText().toString());
+                bundle.putSerializable("order_list_data", (Serializable)data_instance.list_order);
+                bundle.putString("total", btn_order_list.getText().toString());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1001);
             }
         });
 
-        calculate_sum();
+        calculateSum();
     }
 
     //创建一个显示菜品类别的Header(TextView)
@@ -369,22 +377,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //计算总价
-    private void calculate_sum(){
+    private void calculateSum(){
         double sum = 0;
-        for(int i = 0; i < data_instance.orderFoodList.size(); i++){
-            double price = Double.valueOf(data_instance.orderFoodList.get(i).getPrice());
-            sum += data_instance.orderFoodList.get(i).getCount() * price;
+        for(int i = 0; i < data_instance.list_order.size(); i++){
+            double price = Double.valueOf(data_instance.list_order.get(i).getPrice());
+            sum += data_instance.list_order.get(i).getCount() * price;
         }
-        order_list_btn.setText("总价:     ￥" + Double.toString(sum));
+        btn_order_list.setText("总价:     ￥" + Double.toString(sum));
     }
 
-    private void check_order_status(){
-        if(data_instance.orderFoodList.size() != 0){
-            order_make_btn.setText("去结算");
-            order_make_btn.setBackgroundResource(R.drawable.btn_right_selected_style);
+    private void checkOrderStatus(){
+        if(data_instance.list_order.size() != 0){
+            btn_order_make.setText("去结算");
+            btn_order_make.setBackgroundResource(R.drawable.btn_right_selected_style);
         }else{
-            order_make_btn.setText("");
-            order_make_btn.setBackgroundResource(R.drawable.btn_right_style);
+            btn_order_make.setText("");
+            btn_order_make.setBackgroundResource(R.drawable.btn_right_style);
         }
     }
 
@@ -393,15 +401,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1000)
+        if(requestCode == REQUEST_FOOD_DETAIL)
         {
-            myPinnedAdapter.notifyDataSetChanged();
+            pinnedListViewAdapter.notifyDataSetChanged();
             orderListViewAdapter.notifyDataSetChanged();
-            calculate_sum();
-            check_order_status();
-        }else if(requestCode == 1001){
-
-        }else if(resultCode == 1001){
+            calculateSum();
+            checkOrderStatus();
+        }else if(requestCode == REQUEST_PAY){
 
         }
     }

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreData implements Serializable {
-    public List<Food> allFoodList = new ArrayList<>();
-    public List<Food> orderFoodList = new ArrayList<>();
-    public List<String> food_type_list = new ArrayList<>();
+    public List<Food> list_all_food = new ArrayList<>();
+    public List<Food> list_order = new ArrayList<>();
+    public List<String> list_type = new ArrayList<>();
 
     private static StoreData instance;
 

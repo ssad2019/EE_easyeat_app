@@ -10,6 +10,8 @@ package com.example.lianghw.easyeat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
@@ -22,15 +24,17 @@ public class ShopDetailActivity extends Activity {
         //加载主布居
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_detail);
-        final TextView shop_name_text = (TextView)findViewById(R.id.txt_name);
-        final TextView shop_info_text =(TextView)findViewById(R.id.txt_description);
-        final ImageView shop_img_view = (ImageView)findViewById(R.id.img_shop);
+        final TextView txt_shop_name = (TextView)findViewById(R.id.txt_name);
+        final TextView txt_shop_description =(TextView)findViewById(R.id.txt_description);
+        final ImageView img_shop = (ImageView)findViewById(R.id.img_shop);
 
         Intent intent = getIntent();
-        shop_name_text.setText(intent.getStringExtra("shop_name"));
-        shop_info_text.setText(intent.getStringExtra("shop_info"));
-        shop_info_text.setMovementMethod(ScrollingMovementMethod.getInstance());
-        //设置图片url
-        //shop_img_view.setImageURI("");
+        txt_shop_name.setText(intent.getStringExtra("shop_name"));
+        txt_shop_description.setText(intent.getStringExtra("shop_info"));
+        txt_shop_description.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+        byte [] bis=intent.getByteArrayExtra("shop_img");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
+        img_shop.setImageBitmap(bitmap);
     }
 }

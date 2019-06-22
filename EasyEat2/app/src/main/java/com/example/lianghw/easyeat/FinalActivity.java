@@ -37,8 +37,8 @@ public class FinalActivity extends Activity {
 
         final ListView lv_card = (ListView)findViewById(R.id.lv_card);
         List<TypeListViewItem> list_card_data = new ArrayList<>();
-        list_card_data.add(new TypeListViewItem(0,getHashMapFirstType(list_order_data)));
-        list_card_data.add(new TypeListViewItem(2, getHashMapThirdType(str_order_id, str_order_time)));
+        list_card_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTITEMVIEW_TYPE_1,getHashMapFirstType(list_order_data)));
+        list_card_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTVIEWITEM_TYPE_3, getHashMapThirdType(str_order_id, str_order_time)));
         TypeListViewAdapter typeListViewAdapter = new TypeListViewAdapter(FinalActivity.this, list_card_data);
         lv_card.setAdapter(typeListViewAdapter);
 
@@ -62,10 +62,10 @@ public class FinalActivity extends Activity {
     //返回键事件
     @Override
     public void onBackPressed() {
-        StoreData.getInstance().orderFoodList.clear();
-        for(int i = 0; i < StoreData.getInstance().allFoodList.size(); i++){
-            if(StoreData.getInstance().allFoodList.get(i).getCount() != 0){
-                StoreData.getInstance().allFoodList.get(i).setCount(0);
+        StoreData.getInstance().list_order.clear();
+        for(int i = 0; i < StoreData.getInstance().list_all_food.size(); i++){
+            if(StoreData.getInstance().list_all_food.get(i).getCount() != 0){
+                StoreData.getInstance().list_all_food.get(i).setCount(0);
             }
         }
         Intent intent = new Intent(FinalActivity.this, MainActivity.class);
