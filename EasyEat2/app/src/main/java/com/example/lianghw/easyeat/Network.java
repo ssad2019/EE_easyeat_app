@@ -24,15 +24,11 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Network {
 
@@ -45,7 +41,7 @@ public class Network {
     Context context;
     String id;
     String number;
-    String Path = "https://api.hatsune-miku.cn";
+    String path = "https://api.hatsune-miku.cn";
     static String SECRET = "gg";
 
 
@@ -62,26 +58,27 @@ public class Network {
     }
 
 
-    private String paramsToString(String[] paramsName, String[] paramsValu){
+    private String tranParamsToString(String[] params_name, String[] params_value){
         String pStr="";
         String equal = "=",and = "&";
-        pStr += paramsName[0];
+        pStr += params_name[0];
         pStr += equal;
-        pStr += paramsValu[0];
+        pStr += params_value[0];
 
-        for(int i = 1; i<paramsName.length;i++){
+        for(int i = 1; i<params_name.length;i++){
             pStr += and;
-            pStr += paramsName[i];
+            pStr += params_name[i];
             pStr += equal;
-            pStr += paramsValu[i];
+            pStr += params_value[i];
         }
         return pStr;
     }
 
-    public String orderFood(String orderJson){
-        String url = Path + "/order.php";
+    public String orderFood(String order_json){
+        String url = path + "/order.php";
+
         String[] paramsName = {"s","n","order"};
-        String[] paramsValue = {id,number,orderJson};
+        String[] paramsValue = {id,number,order_json};
         return doPost(url,paramsName,paramsValue);
     }
     public Bitmap getBitmap(String path) {
@@ -102,7 +99,7 @@ public class Network {
         return null;
     }
 
-    public String doGet(String urlStr){
+    public String doGet(String url_str){
 
         HttpURLConnection conn = null;
         InputStream is = null;
@@ -110,7 +107,7 @@ public class Network {
         BufferedReader br = null;
         String str = "";
         try {
-            URL weiUrl = new URL(urlStr);
+            URL weiUrl = new URL(url_str);
             conn = (HttpURLConnection)weiUrl.openConnection();
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.connect();
@@ -138,14 +135,14 @@ public class Network {
         return str;
     }
 
-    public String doPost( String urlStr,String[] paramsName, String[] paramsValue){
+    public String doPost( String url_str,String[] params_name, String[] params_value){
         HttpURLConnection conn = null;
         InputStream is = null;
         InputStreamReader reader = null;
         BufferedReader br = null;
         String str = "";
         try {
-            URL url = new URL(urlStr);
+            URL url = new URL(url_str);
             conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);//默觉得false的，所以须要设置
@@ -156,7 +153,7 @@ public class Network {
             OutputStream outStream = conn.getOutputStream();
             DataOutputStream out = new DataOutputStream(outStream);
 
-            String pStr = paramsToString(paramsName,paramsValue);
+            String pStr = tranParamsToString(params_name,params_value);
             out.writeBytes(pStr);
             out.close();
 
@@ -194,8 +191,8 @@ public class Network {
 
         //是否有可用网络
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        if(networkInfo==null||(!networkInfo.isAvailable())){
+        NetworkInfo network_info = manager.getActiveNetworkInfo();
+        if(network_info==null||(!network_info.isAvailable())){
             Toast.makeText(context,"网络连接失败",Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -204,16 +201,16 @@ public class Network {
 
     }
 
-    public static byte[] readStream(InputStream inStream) throws Exception{
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    public static byte[] readStream(InputStream in_stream) throws Exception{
+        ByteArrayOutputStream out_stream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
-        while((len = inStream.read(buffer)) != -1)
+        while((len = in_stream.read(buffer)) != -1)
         {
-            outStream.write(buffer,0,len);
+            out_stream.write(buffer,0,len);
         }
-        inStream.close();
-        return outStream.toByteArray();
+        in_stream.close();
+        return out_stream.toByteArray();
     }
 
 

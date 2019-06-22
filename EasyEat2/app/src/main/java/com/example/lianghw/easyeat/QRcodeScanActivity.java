@@ -20,7 +20,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,16 +36,14 @@ import com.yzq.zxinglibrary.common.Constant;
 public class QRcodeScanActivity extends AppCompatActivity {
     final String Path ="https://api.hatsune-miku.cn";
     // 所需的全部动态权限
-    int RequestCode;
-    boolean hasPermission = false;
+    int request_code;
+    boolean bln_is_has_permission = false;
     static final String[] permissions = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     int REQUEST_CODE_SCAN = 8;
     TextView result;
-    ImageView imgView;
-    String detail;
     Bitmap img;
 
 
@@ -70,7 +67,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasPermission) {
+                if (bln_is_has_permission) {
                     Intent intent = initQR();
                     startActivityForResult(intent, REQUEST_CODE_SCAN);
                 } else {
@@ -100,32 +97,32 @@ public class QRcodeScanActivity extends AppCompatActivity {
 
     }
     void CheckPermission(){
-        boolean request = false;
+        boolean bln_is_request = false;
         for (String permission :permissions) {
             int i = ContextCompat.checkSelfPermission(this,permission);
             // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
             if (i != PackageManager.PERMISSION_GRANTED) {
-                request = true;
+                bln_is_request = true;
                 break;
             }
         }
-        if (request){
-            ActivityCompat.requestPermissions(this, permissions, RequestCode);
+        if (bln_is_request){
+            ActivityCompat.requestPermissions(this, permissions, request_code);
         }else{
-            hasPermission = true;
+            bln_is_has_permission = true;
         }
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==RequestCode) {
+    public void onRequestPermissionsResult(int request_code, @NonNull String[] permissions, @NonNull int[]grant_results) {
+        super.onRequestPermissionsResult(request_code, permissions, grant_results);
+        if (request_code== this.request_code) {
             int size = permissions.length;
-            for(int i : grantResults){
-                if (grantResults[0]== PackageManager.PERMISSION_DENIED){
+            for(int i : grant_results){
+                if (grant_results[0]== PackageManager.PERMISSION_DENIED){
                     Toast.makeText(this, "权限申请失败，用户拒绝权限", Toast.LENGTH_SHORT).show();
-                    hasPermission = false;
+                    bln_is_has_permission = false;
                     return;
                 }
             }

@@ -46,17 +46,17 @@ public class FinalActivity extends Activity {
 
     //第一种样式，传输order_list
     private HashMap<String, Object> getHashMapFirstType(List<Food> list_data) {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("list_data", list_data);
-        return hashMap;
+        HashMap<String, Object> hash_map = new HashMap<String, Object>();
+        hash_map.put("list_data", list_data);
+        return hash_map;
     }
 
     //第三种样式，传输order_id order_time
     private HashMap<String, Object> getHashMapThirdType(String str_order_id, String str_order_time) {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("order_id", str_order_id);
-        hashMap.put("order_time", str_order_time);
-        return hashMap;
+        HashMap<String, Object> hash_map = new HashMap<String, Object>();
+        hash_map.put("order_id", str_order_id);
+        hash_map.put("order_time", str_order_time);
+        return hash_map;
     }
 
     //返回键事件
