@@ -45,6 +45,7 @@ public class FinalActivity extends Activity {
     }
 
     //第一种样式，传输order_list
+
     private HashMap<String, Object> getHashMapFirstType(List<Food> list_data) {
         HashMap<String, Object> hash_map = new HashMap<String, Object>();
         hash_map.put("list_data", list_data);
