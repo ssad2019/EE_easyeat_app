@@ -21,6 +21,11 @@ import java.util.List;
 
 public class Restaurant {
 
+    private static Restaurant instance = new Restaurant();
+    private Restaurant(){}
+    public static Restaurant getInstance(){
+        return instance;
+    }
     String name;
     String description;
     String icon;//商家头像url
@@ -33,8 +38,8 @@ public class Restaurant {
      */
     public static Restaurant getRestaurantByUrl(String url){
         String str_restaurant = Network.getInstance().doGet(url);
-        Restaurant r = tranJsonToClass(str_restaurant);
-        return r;
+        instance = tranJsonToClass(str_restaurant);
+        return instance;
     }
 
     /**
