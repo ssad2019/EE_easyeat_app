@@ -9,6 +9,8 @@
 package com.example.lianghw.easyeat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +103,9 @@ public class OrderListViewAdapter extends BaseAdapter {
 
         //设置图片url
         if(!list_data.get(position).getIcon().equals("")) {
-            viewHolder.img_food.setImageBitmap(list_data.get(position).getBm_icon());
+            byte [] bis = list_data.get(position).getBitmapByte();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
+            viewHolder.img_food.setImageBitmap(bitmap);
         }else{
             viewHolder.img_food.setImageResource(R.mipmap.sample_food);
         }

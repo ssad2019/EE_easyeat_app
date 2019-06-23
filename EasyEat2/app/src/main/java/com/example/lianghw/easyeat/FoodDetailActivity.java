@@ -10,6 +10,8 @@ package com.example.lianghw.easyeat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -62,8 +64,9 @@ public class FoodDetailActivity extends Activity {
         txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
         txt_count.setText(food_item.getCount() + "");
         if(!food_item.getIcon().equals("")) {
-            Uri img_uri = Uri.parse(food_item.getIcon());
-            img_food.setImageURI(img_uri);
+            byte [] bis = food_item.getBitmapByte();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
+            img_food.setImageBitmap(bitmap);
         }else{
             img_food.setImageResource(R.mipmap.sample_food);
         }

@@ -15,6 +15,7 @@ package com.example.lianghw.easyeat;
 
 import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,28 +37,7 @@ public class Food implements Serializable {
     private Tag tag;
     private String price;
     private String icon;
-    private Bitmap bm_icon;
     private int count;
-
-    /**
-     * 通过网络获取Food的bitmap
-     */
-    public void getBitmap(){
-        new Thread() {
-            @Override
-            public void run() {
-                bm_icon = Network.getInstance().getBitmap(icon);
-            }
-        }.start();
-    }
-
-    /**
-     * 通过网络获取Food的bm_icon
-     * @return Food.bm_icon
-     */
-    public Bitmap getBm_icon(){
-        return bm_icon;
-    }
 
     /**
      * 获取Food的id
