@@ -19,7 +19,6 @@ public class StoreData implements Serializable {
     public List<Food> list_all_food = new ArrayList<>();
     public List<Food> list_order = new ArrayList<>();
     public List<String> list_type = new ArrayList<>();
-    public List<BitmapFood> list_bitmap = new ArrayList<>();
 
     private static StoreData instance;
 

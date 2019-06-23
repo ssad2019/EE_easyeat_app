@@ -102,11 +102,6 @@ public class MainActivity extends AppCompatActivity {
                         data_instance.list_type.add(data_instance.list_all_food.get(i).getType());
                     }
                 }
-                /*
-                for(int i = 0; i < data_instance.list_all_food.size(); i++){
-                    Bitmap bitmap = Network.getInstance().getBitmap(data_instance.list_all_food.get(i).getIcon());
-                    data_instance.list_bitmap.add(new BitmapFood(data_instance.list_all_food.get(i).getId(), bitmap));
-                }*/
                 handler.sendEmptyMessage(HANDLER_MESSAGE);
             }
         }.start();
