@@ -34,6 +34,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+import static com.example.lianghw.easyeat.Restaurant.makeRestaurantByUrl;
+
+>>>>>>> d1e5d4e181bc76115c410079ed77585787b79ee4
 //主界面
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private SimpleListViewAdapter simpleListViewAdapter;
     private Button btn_order_make;
     private Button btn_order_list;
-    private Restaurant restaurant;
 
     private TextView txt_restaurant_name;
     private TextView txt_restaurant_detail;
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_FOOD_DETAIL = 1000;
     public static final int RESULT_FOOD_DETAIL = 1000;
     public static final int REQUEST_PAY = 1001;
+    private String str_data_url;
 
     @Override
     protected void onDestroy() {
@@ -66,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case HANDLER_MESSAGE:
-                    if(!restaurant.name.equals("")){
-                        txt_restaurant_name.setText(restaurant.name);
+                    if(!Restaurant.getInstance().name.equals("")){
+                        txt_restaurant_name.setText(Restaurant.getInstance().name);
                     }
-                    if(!restaurant.description.equals("")){
-                        txt_restaurant_detail.setText(restaurant.description);
+                    if(!Restaurant.getInstance().description.equals("")){
+                        txt_restaurant_detail.setText(Restaurant.getInstance().description);
                     }
-                    if(!restaurant.icon.equals("")){
+                    if(!Restaurant.getInstance().icon.equals("")){
                         img_restaurant.setImageBitmap(bitmap);
                     }
                     break;
@@ -85,15 +90,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     void initData(Intent intent){
-        final String str_data_url = intent.getStringExtra("data_url");
+        str_data_url = intent.getStringExtra("data_url");
         new Thread() {
             @Override
             public void run() {
-                restaurant = getRestaurantByUrl(str_data_url);
-                if(!restaurant.icon.equals("")) {
-                    bitmap = Network.getInstance().getBitmap(restaurant.icon);
+                makeRestaurantByUrl(str_data_url);
+                if(!Restaurant.getInstance().icon.equals("")) {
+                    bitmap = Network.getInstance().getBitmap(Restaurant.getInstance().icon);
                 }
-                List<Food> list_foods_copy = new ArrayList<>(Arrays.asList(restaurant.goods));
+                List<Food> list_foods_copy = new ArrayList<>(Arrays.asList(Restaurant.getInstance().goods));
                 data_instance.list_all_food = list_foods_copy;
                 for(int i = 0; i < data_instance.list_all_food.size(); i++){
                     if(data_instance.list_type.indexOf(data_instance.list_all_food.get(i).getType()) == -1){
@@ -126,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化食品列表
         Intent intent = getIntent();
-        if(intent.getStringExtra("data_url") != null) {
-            initData(intent);
-        }
+        initData(intent);
 
         while(data_instance.list_all_food.size() == 0 || data_instance.list_type.size() == 0){
 
@@ -356,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("order_list_data", (Serializable)data_instance.list_order);
                 bundle.putString("total", btn_order_list.getText().toString());
+                bundle.putString("str_data_url", str_data_url);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1001);
             }
