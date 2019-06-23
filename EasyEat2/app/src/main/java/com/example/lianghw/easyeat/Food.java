@@ -30,6 +30,7 @@ public class Food implements Serializable {
             this.name = name;
         }
     }
+    private Bitmap bm_icon;
     private int id;
     private String name;
     private Tag tag;
@@ -37,6 +38,13 @@ public class Food implements Serializable {
     private String icon;
     private int count;
 
+    /**
+     * 设置Food的Bitmap
+     * @param bitmap Bitmap bitmap
+     */
+    void setBitmap(Bitmap bitmap){
+        bm_icon=bitmap;
+    }
     /**
      * 获取Food的id
      * @return Food.id

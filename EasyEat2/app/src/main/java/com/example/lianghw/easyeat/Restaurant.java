@@ -13,6 +13,7 @@
  */
 package com.example.lianghw.easyeat;
 
+import android.graphics.Bitmap;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -37,8 +38,13 @@ public class Restaurant {
      * @return 餐馆 Restaurant
      */
     public static void makeRestaurantByUrl(String url){
-        String str_restaurant = Network.getInstance().doGet(url);
+        Network net = Network.getInstance();
+        String str_restaurant = net.doGet(url);
         instance = tranJsonToClass(str_restaurant);
+        for(int i=0;i<instance.goods.length;i++){
+            Bitmap bitmap = net.getBitmap(instance.goods[i].getIcon());
+            instance.goods[i].setBitmap(bitmap);
+        }
     }
 
     /**
