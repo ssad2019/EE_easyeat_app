@@ -33,12 +33,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-<<<<<<< HEAD
-=======
 import static com.example.lianghw.easyeat.Restaurant.makeRestaurantByUrl;
 
->>>>>>> d1e5d4e181bc76115c410079ed77585787b79ee4
 //主界面
 public class MainActivity extends AppCompatActivity {
 
