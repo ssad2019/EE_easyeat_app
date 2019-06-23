@@ -33,8 +33,11 @@ public class ShopDetailActivity extends Activity {
         txt_shop_description.setText(intent.getStringExtra("shop_info"));
         txt_shop_description.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-        byte [] bis=intent.getByteArrayExtra("shop_img");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
-        img_shop.setImageBitmap(bitmap);
+        if(intent.getByteArrayExtra("shop_img") != null)
+        {
+            byte [] bis=intent.getByteArrayExtra("shop_img");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
+            img_shop.setImageBitmap(bitmap);
+        }
     }
 }

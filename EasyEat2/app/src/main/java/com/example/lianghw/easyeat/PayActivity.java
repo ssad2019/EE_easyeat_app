@@ -27,7 +27,6 @@ import static com.example.lianghw.easyeat.MainActivity.REQUEST_PAY;
 //支付确认界面
 public class PayActivity extends Activity {
 
-    private List<Food> order_list_data;
     private Pair<String, String> order_data;
     private String remark_string = "";
 
@@ -36,12 +35,9 @@ public class PayActivity extends Activity {
             switch (msg.what) {
                 case 0x01:
                     Intent intent = new Intent(PayActivity.this, FinalActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("order_list_data", (Serializable) order_list_data);
-                    bundle.putString("order_id", order_data.first);
-                    bundle.putString("order_time", order_data.second);
-                    bundle.putString("str_data_url", str_data_url);
-                    intent.putExtras(bundle);
+                    intent.putExtra("order_id", order_data.first);
+                    intent.putExtra("order_time", order_data.second);
+                    intent.putExtra("str_data_url", str_data_url);
                     startActivity(intent);
                     break;
                 default:
@@ -50,14 +46,16 @@ public class PayActivity extends Activity {
         }
     };
     private String str_data_url;
+    private StoreData data_instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        data_instance = StoreData.getInstance();
+
         Intent intent = getIntent();
-        order_list_data = (List<Food>) intent.getExtras().getSerializable("order_list_data");
         String total = (String)intent.getExtras().getString("total");
         str_data_url = (String)intent.getExtras().getString("str_data_url");
         Button btn_total = (Button)findViewById(R.id.btn_list);
@@ -65,7 +63,7 @@ public class PayActivity extends Activity {
 
         final ListView order_list = (ListView)findViewById(R.id.lv_card);
         List<TypeListViewItem> card_list_data = new ArrayList<>();
-        card_list_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTITEMVIEW_TYPE_1,getHashMapFirstType(order_list_data)));
+        card_list_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTITEMVIEW_TYPE_1,getHashMapFirstType(data_instance.list_order)));
         card_list_data.add(new TypeListViewItem(TypeListViewItem.TYPELISTVIEWITEM_TYPE_2, new HashMap<String, Object>()));
         TypeListViewAdapter typeListviewAdapter = new TypeListViewAdapter(PayActivity.this, card_list_data);
         typeListviewAdapter.setTextChangeListener(new TypeListViewAdapter.TextChangeListener() {
@@ -84,7 +82,7 @@ public class PayActivity extends Activity {
                 new Thread() {
                     @Override
                     public void run() {
-                        order_data = Restaurant.getInstance().pushOrder(order_list_data, remark_string);
+                        order_data = Restaurant.getInstance().pushOrder(data_instance.list_order, remark_string);
                         pay_handler.sendEmptyMessage(0x01);
                     }
                 }.start();

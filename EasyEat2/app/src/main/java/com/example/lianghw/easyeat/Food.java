@@ -46,7 +46,7 @@ public class Food implements Serializable {
      * 获得Food的bm_icon
      * @return Food.bm_icon
      */
-    Bitmap getBmIcon(Bitmap bitmap){ return bm_icon; }
+    Bitmap getBmIcon(){ return bm_icon; }
 
     /**
      * 获取Food的id

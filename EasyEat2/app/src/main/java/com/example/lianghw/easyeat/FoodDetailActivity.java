@@ -39,6 +39,7 @@ public class FoodDetailActivity extends Activity {
     private Button btn_sub;
     private TextView txt_count;
     private Button btn_make;
+    private String str_data_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,21 +58,21 @@ public class FoodDetailActivity extends Activity {
         final ListView lv_order = (ListView)findViewById(R.id.lv_order);
 
         Intent intent = getIntent();
-        food_item = (Food) intent.getExtras().getSerializable("food_item");
+        str_data_url = intent.getStringExtra("str_data_url");
+        int int_id = intent.getIntExtra("food_id", 0);
+        for(int i = 0; i < data_instance.list_all_food.size(); i++){
+            if(int_id == data_instance.list_all_food.get(i).getId()){
+                food_item = data_instance.list_all_food.get(i);
+                break;
+            }
+        }
 
         txt_name.setText(food_item.getName());
         txt_price.setText(food_item.getPrice());
         txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
         txt_count.setText(food_item.getCount() + "");
         if(!food_item.getIcon().equals("")) {
-            /*
-            for(int i = 0; i < StoreData.getInstance().list_bitmap.size(); i++){
-                if(food_item.getId() == StoreData.getInstance().list_bitmap.get(i).getId()){
-                    img_food.setImageBitmap(StoreData.getInstance().list_bitmap.get(i).getBitmap());
-                    break;
-                }
-            }*/
-            img_food.setImageResource(R.mipmap.sample_food);
+            img_food.setImageBitmap(food_item.getBmIcon());
         }else{
             img_food.setImageResource(R.mipmap.sample_food);
         }
@@ -163,9 +164,8 @@ public class FoodDetailActivity extends Activity {
                     return;
                 }
                 Intent intent = new Intent(FoodDetailActivity.this,  PayActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("order_list_data", (Serializable)data_instance.list_order);
-                intent.putExtras(bundle);
+                intent.putExtra("total", btn_order_list.getText().toString());
+                intent.putExtra("str_data_url", str_data_url);
                 startActivity(intent);
             }
         });

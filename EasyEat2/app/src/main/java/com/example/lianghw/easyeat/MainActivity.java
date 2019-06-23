@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txt_restaurant_name;
     private TextView txt_restaurant_detail;
     private ImageView img_restaurant;
-    private Bitmap bitmap;
+    private Bitmap bitmap = null;
 
     private static final int HANDLER_MESSAGE = 0x01;
     public static final int REQUEST_FOOD_DETAIL = 1000;
@@ -81,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-
-        ;
     };
 
     void initData(Intent intent){
@@ -219,9 +217,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food_item = data_instance.list_all_food.get(position);
                 Intent intent = new Intent(MainActivity.this, FoodDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("food_item", food_item);
-                intent.putExtras(bundle);
+                intent.putExtra("food_id", food_item.getId());
+                intent.putExtra("str_data_url", str_data_url);
                 startActivityForResult(intent,REQUEST_FOOD_DETAIL);
             }
         });
@@ -251,10 +248,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,  ShopDetailActivity.class);
                 intent.putExtra("shop_name",shop_name_text.getText().toString());
                 intent.putExtra("shop_info", shop_info_text.getText().toString());
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte [] bitmapByte = byteArrayOutputStream.toByteArray();
-                intent.putExtra("shop_img", bitmapByte);
+                if(bitmap != null){
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                    byte [] bitmapByte = byteArrayOutputStream.toByteArray();
+                    intent.putExtra("shop_img", bitmapByte);
+                }
+
                 startActivity(intent);
             }
         };
@@ -347,11 +347,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 Intent intent = new Intent(MainActivity.this,  PayActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("order_list_data", (Serializable)data_instance.list_order);
-                bundle.putString("total", btn_order_list.getText().toString());
-                bundle.putString("str_data_url", str_data_url);
-                intent.putExtras(bundle);
+                intent.putExtra("total", btn_order_list.getText().toString());
+                intent.putExtra("str_data_url", str_data_url);
                 startActivityForResult(intent, 1001);
             }
         });
