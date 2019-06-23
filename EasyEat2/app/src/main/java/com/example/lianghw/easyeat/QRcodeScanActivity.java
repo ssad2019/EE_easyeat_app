@@ -67,6 +67,7 @@ public class QRcodeScanActivity extends AppCompatActivity {
         ib_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkPermission();
                 if (bln_is_has_permission) {
                     Intent intent = initQR();
                     startActivityForResult(intent, REQUEST_CODE_SCAN);
