@@ -108,8 +108,7 @@ public class PinnedListViewAdapter extends BaseAdapter {
         }
         //使用获取的图片源修改
         if(!list_data.get(position).getIcon().equals("")) {
-            Uri img_uri = Uri.parse(list_data.get(position).getIcon());
-            viewHolder.img_food.setImageURI(img_uri);
+            viewHolder.img_food.setImageBitmap(list_data.get(position).getBm_icon());
         }else{
             viewHolder.img_food.setImageResource(R.mipmap.sample_food);
         }

@@ -39,6 +39,9 @@ public class Food implements Serializable {
     private Bitmap bm_icon;
     private int count;
 
+    /**
+     * 通过网络获取Food的bitmap
+     */
     public void getBitmap(){
         new Thread() {
             @Override
@@ -46,6 +49,14 @@ public class Food implements Serializable {
                 bm_icon = Network.getInstance().getBitmap(icon);
             }
         }.start();
+    }
+
+    /**
+     * 通过网络获取Food的bm_icon
+     * @return Food.bm_icon
+     */
+    public Bitmap getBm_icon(){
+        return bm_icon;
     }
 
     /**

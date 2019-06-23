@@ -76,8 +76,7 @@ public class FinalOrderListViewAdapter extends BaseAdapter {
         double total_price = one_price * list_data.get(position).getCount();
         viewHolder.txt_price.setText("Y" + total_price);
         if(!list_data.get(position).getIcon().equals("")) {
-            Uri img_uri = Uri.parse(list_data.get(position).getIcon());
-            viewHolder.img_food.setImageURI(img_uri);
+            viewHolder.img_food.setImageBitmap(list_data.get(position).getBm_icon());
         }else{
             viewHolder.img_food.setImageResource(R.mipmap.sample_food);
         }
