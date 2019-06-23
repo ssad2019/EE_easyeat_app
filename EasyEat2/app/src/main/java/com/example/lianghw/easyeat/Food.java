@@ -13,7 +13,14 @@
  */
 package com.example.lianghw.easyeat;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.example.lianghw.easyeat.Restaurant.getRestaurantByUrl;
 
 public class Food implements Serializable {
     private class Tag implements Serializable{
@@ -29,7 +36,17 @@ public class Food implements Serializable {
     private Tag tag;
     private String price;
     private String icon;
+    private Bitmap bm_icon;
     private int count;
+
+    public void getBitmap(){
+        new Thread() {
+            @Override
+            public void run() {
+                bm_icon = Network.getInstance().getBitmap(icon);
+            }
+        }.start();
+    }
 
     /**
      * 获取Food的id
