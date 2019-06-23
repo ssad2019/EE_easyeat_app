@@ -33,7 +33,11 @@ public class Restaurant {
      */
     public static Restaurant getRestaurantByUrl(String url){
         String str_restaurant = Network.getInstance().doGet(url);
-        return tranJsonToClass(str_restaurant);
+        Restaurant r = tranJsonToClass(str_restaurant);
+        for(int i =0; i<r.goods.length;i++){
+            r.goods[i].getBitmap();
+        }
+        return r;
     }
 
     /**

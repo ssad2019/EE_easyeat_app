@@ -38,7 +38,7 @@ public class Food implements Serializable {
     private String icon;
     private Bitmap bm_icon;
     private int count;
-    
+
     public void getBitmap(){
         new Thread() {
             @Override
