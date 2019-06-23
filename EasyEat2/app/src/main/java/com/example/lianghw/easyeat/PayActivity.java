@@ -40,6 +40,7 @@ public class PayActivity extends Activity {
                     bundle.putSerializable("order_list_data", (Serializable) order_list_data);
                     bundle.putString("order_id", order_data.first);
                     bundle.putString("order_time", order_data.second);
+                    bundle.putString("str_data_url", str_data_url);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;
@@ -48,6 +49,7 @@ public class PayActivity extends Activity {
             }
         }
     };
+    private String str_data_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class PayActivity extends Activity {
         Intent intent = getIntent();
         order_list_data = (List<Food>) intent.getExtras().getSerializable("order_list_data");
         String total = (String)intent.getExtras().getString("total");
+        str_data_url = (String)intent.getExtras().getString("str_data_url");
         Button btn_total = (Button)findViewById(R.id.btn_list);
         btn_total.setText(total);
 
@@ -81,8 +84,7 @@ public class PayActivity extends Activity {
                 new Thread() {
                     @Override
                     public void run() {
-                        Restaurant restaurant_instance = new Restaurant();
-                        order_data = restaurant_instance.pushOrder(order_list_data, remark_string);
+                        order_data = Restaurant.getInstance().pushOrder(order_list_data, remark_string);
                         pay_handler.sendEmptyMessage(0x01);
                     }
                 }.start();

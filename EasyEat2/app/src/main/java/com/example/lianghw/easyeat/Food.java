@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.example.lianghw.easyeat.Restaurant.getRestaurantByUrl;
-
 public class Food implements Serializable {
     private class Tag implements Serializable{
         public int id;

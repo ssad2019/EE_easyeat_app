@@ -30,5 +30,5 @@ public class BitmapFood{
      * 获取图片bitmap
      * @return BitmapFood.bitmap
      */
-    public Bitmap getBitmap(){return bitmap;};
+    public Bitmap getBitmap(){return bitmap;}
 }

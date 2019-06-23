@@ -23,6 +23,8 @@ import java.util.List;
 
 public class FinalActivity extends Activity {
 
+    private String str_data_url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class FinalActivity extends Activity {
         List<Food> list_order_data = (List<Food>)bundle.getSerializable("order_list_data");
         String str_order_id = bundle.getString("order_id");
         String str_order_time = bundle.getString("order_time");
+        str_data_url = (String)intent.getExtras().getString("str_data_url");
 
         final ListView lv_card = (ListView)findViewById(R.id.lv_card);
         List<TypeListViewItem> list_card_data = new ArrayList<>();
@@ -78,6 +81,7 @@ public class FinalActivity extends Activity {
             }
         }
         Intent intent = new Intent(FinalActivity.this, MainActivity.class);
+        intent.putExtra("data_url", str_data_url);
         startActivity(intent);
         super.onBackPressed();
     }
