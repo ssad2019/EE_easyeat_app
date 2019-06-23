@@ -36,10 +36,9 @@ public class Restaurant {
      * @param url String 餐馆url
      * @return 餐馆 Restaurant
      */
-    public static Restaurant getRestaurantByUrl(String url){
+    public static void makeRestaurantByUrl(String url){
         String str_restaurant = Network.getInstance().doGet(url);
         instance = tranJsonToClass(str_restaurant);
-        return instance;
     }
 
     /**
