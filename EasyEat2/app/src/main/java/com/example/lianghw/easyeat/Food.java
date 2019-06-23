@@ -14,7 +14,12 @@
 package com.example.lianghw.easyeat;
 
 import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Food implements Serializable {
     private class Tag implements Serializable{
@@ -36,18 +41,17 @@ public class Food implements Serializable {
 
     /**
      * 设置Food的Bitmap
+     */
+    void getBitmapbyUrl(){
+        bm_icon =  Network.getInstance().getBitmap(icon);
+    }
+    /**
+     * 设置Food的Bitmap
      * @param bitmap Bitmap bitmap
      */
     void setBitmap(Bitmap bitmap){
-        bm_icon = bitmap;
+        bm_icon=bitmap;
     }
-
-    /**
-     * 获得Food的bm_icon
-     * @return Food.bm_icon
-     */
-    Bitmap getBmIcon(){ return bm_icon; }
-
     /**
      * 获取Food的id
      * @return Food.id
