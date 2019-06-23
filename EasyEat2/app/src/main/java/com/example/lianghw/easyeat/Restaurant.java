@@ -41,10 +41,7 @@ public class Restaurant {
         Network net = Network.getInstance();
         String str_restaurant = net.doGet(url);
         instance = tranJsonToClass(str_restaurant);
-        for(int i=0;i<instance.goods.length;i++){
-            Bitmap bitmap = net.getBitmap(instance.goods[i].getIcon());
-            instance.goods[i].setBitmap(bitmap);
-        }
+        
     }
 
     /**
