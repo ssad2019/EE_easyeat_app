@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     if(!Restaurant.getInstance().icon.equals("")){
                         img_restaurant.setImageBitmap(bitmap);
                     }
+                    pinnedListViewAdapter.updateData(data_instance.list_all_food);
+                    simpleListViewAdapter.updateData(data_instance.list_type);
                     break;
                 default:
                     break;
@@ -122,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         initData(intent);
 
-        while(data_instance.list_all_food.size() == 0 || data_instance.list_type.size() == 0){
+        /*while(data_instance.list_all_food.size() == 0 || data_instance.list_type.size() == 0){
 
-        }
+        }*/
 
         //设置list adapter
         final ListView lv_food_type = (ListView) findViewById(R.id.lv_type);
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 int int_pre_count = data_instance.list_all_food.get(position).getCount();
                 boolean bln_is_exists = false;
                 for(int i = 0; i < data_instance.list_order.size(); i++){
-                    if(order_item.getName().equals(data_instance.list_order.get(i).getName())){
+                    if(order_item.getId() == data_instance.list_order.get(i).getId()){
                         bln_is_exists = true;
                         data_instance.list_order.get(i).setCount(int_pre_count + 1);
                         break;
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 Food order_item = data_instance.list_all_food.get(position);
                 int int_pre_count = data_instance.list_all_food.get(position).getCount();
                 for(int i = 0; i < data_instance.list_order.size(); i++){
-                    if(order_item.getName().equals(data_instance.list_order.get(i).getName())){
+                    if(order_item.getId() == data_instance.list_order.get(i).getId()){
                         int result = data_instance.list_order.get(i).getCount() - 1;
                         if(result == 0){
                             data_instance.list_order.remove(i);
@@ -273,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 Food order_item = data_instance.list_order.get(position);
                 int int_pre_count = order_item.getCount();
                 for(int i = 0; i < data_instance.list_all_food.size(); i++){
-                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                    if(data_instance.list_all_food.get(i).getId() == order_item.getId()){
                         data_instance.list_all_food.get(i).setCount(int_pre_count + 1);
                         break;
                     }
@@ -291,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 Food order_item = data_instance.list_order.get(position);
                 int int_result = order_item.getCount() - 1;
                 for(int i = 0; i < data_instance.list_all_food.size(); i++){
-                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                    if(data_instance.list_all_food.get(i).getId() == order_item.getId()){
                         data_instance.list_all_food.get(i).setCount(int_result);
                         break;
                     }

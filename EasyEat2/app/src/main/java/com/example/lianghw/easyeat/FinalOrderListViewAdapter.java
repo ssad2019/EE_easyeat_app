@@ -69,9 +69,6 @@ public class FinalOrderListViewAdapter extends BaseAdapter {
             viewHolder = (FinalOrderListViewAdapter.ListViewHolder) convertView.getTag();
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
-        //根据url设置图片
-        //viewHolder.food_img.setImageURI();
-
         viewHolder.txt_name.setText(list_data.get(position).getName());
         viewHolder.txt_count.setText("x" + list_data.get(position).getCount());
         double one_price = Double.valueOf(list_data.get(position).getPrice());

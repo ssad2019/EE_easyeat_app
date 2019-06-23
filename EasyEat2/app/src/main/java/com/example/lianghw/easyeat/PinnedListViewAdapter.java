@@ -63,12 +63,8 @@ public class PinnedListViewAdapter extends BaseAdapter {
     }
     @Override
     public Object getItem(int position) {
-        if(list_data == null) {
+        if(list_data == null || list_data.size() == 0) {
             return null;
-        }
-        if(position >= list_data.size()){
-            Log.e("position", "getItem: list_data " + list_data.size());
-            Log.e("position", "getItem: position " + position);
         }
         return list_data.get(position);
     }
@@ -174,6 +170,17 @@ public class PinnedListViewAdapter extends BaseAdapter {
             }
         }
     }
+
+     /**
+      * 更新ListView Data
+      * @param list_data List<Food> 更新的数据
+      */
+     void updateData(List<Food> list_data){
+        this.list_data.clear();
+        this.list_data.addAll(list_data);
+        notifyDataSetChanged();
+     }
+
     static class ViewHolder {
         public TextView txt_type;
         public TextView txt_name;

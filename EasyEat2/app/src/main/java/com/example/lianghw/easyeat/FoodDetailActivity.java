@@ -87,13 +87,13 @@ public class FoodDetailActivity extends Activity {
                 Food order_item = data_instance.list_order.get(position);
                 int int_pre_count = order_item.getCount();
                 for(int i = 0; i < data_instance.list_all_food.size(); i++){
-                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                    if(data_instance.list_all_food.get(i).getId() == order_item.getId()){
                         data_instance.list_all_food.get(i).setCount(int_pre_count + 1);
                         break;
                     }
                 }
                 data_instance.list_order.get(position).setCount(int_pre_count + 1);
-                if(order_item.getName().equals(food_item.getName())){
+                if(order_item.getId() == food_item.getId()){
                     food_item.setCount(int_pre_count + 1);
                 }
                 orderListViewAdapter.notifyDataSetChanged();
@@ -107,7 +107,7 @@ public class FoodDetailActivity extends Activity {
                 Food order_item = data_instance.list_order.get(position);
                 int int_result = order_item.getCount() - 1;
                 for(int i = 0; i < data_instance.list_all_food.size(); i++){
-                    if(data_instance.list_all_food.get(i).getName().equals(order_item.getName())){
+                    if(data_instance.list_all_food.get(i).getId() == order_item.getId()){
                         data_instance.list_all_food.get(i).setCount(int_result);
                         break;
                     }
@@ -117,7 +117,7 @@ public class FoodDetailActivity extends Activity {
                 }else{
                     data_instance.list_order.get(position).setCount(int_result);
                 }
-                if(order_item.getName().equals(food_item.getName())){
+                if(order_item.getId() == food_item.getId()){
                     food_item.setCount(int_result);
                 }
                 orderListViewAdapter.notifyDataSetChanged();
@@ -180,7 +180,7 @@ public class FoodDetailActivity extends Activity {
                 if(data_instance.list_order.size() != 0) {
                     boolean bln_is_exist = false;
                     for (int i = 0; i < data_instance.list_order.size(); i++){
-                        if(data_instance.list_order.get(i).getName().equals(food_item.getName())){
+                        if(data_instance.list_order.get(i).getId() == food_item.getId()){
                             data_instance.list_order.get(i).setCount(food_item.getCount());
                             bln_is_exist = true;
                             break;
@@ -194,7 +194,7 @@ public class FoodDetailActivity extends Activity {
                 }
 
                 for (int i = 0; i < data_instance.list_all_food.size(); i++){
-                    if(data_instance.list_all_food.get(i).getName().equals(food_item.getName())){
+                    if(data_instance.list_all_food.get(i).getId() == food_item.getId()){
                         data_instance.list_all_food.get(i).setCount(food_item.getCount());
                         break;
                     }
@@ -212,7 +212,7 @@ public class FoodDetailActivity extends Activity {
             public void onClick(View v) {
                 food_item.setCount(food_item.getCount() - 1);
                 for (int i = 0; i < data_instance.list_order.size(); i++){
-                    if(data_instance.list_order.get(i).getName().equals(food_item.getName())){
+                    if(data_instance.list_order.get(i).getId() == food_item.getId()){
                         if(food_item.getCount() == 0){
                             data_instance.list_order.remove(i);
                         }else {
@@ -223,7 +223,7 @@ public class FoodDetailActivity extends Activity {
                 }
 
                 for (int i = 0; i < data_instance.list_all_food.size(); i++){
-                    if(data_instance.list_all_food.get(i).getName().equals(food_item.getName())){
+                    if(data_instance.list_all_food.get(i).getId() == food_item.getId()){
                         data_instance.list_all_food.get(i).setCount(food_item.getCount());
                         break;
                     }
@@ -270,7 +270,7 @@ public class FoodDetailActivity extends Activity {
         int count = 0;
         if(data_instance.list_order != null) {
             for (int i = 0; i < data_instance.list_order.size(); i++) {
-                if (data_instance.list_order.get(i).getName().equals(food_item.getName())) {
+                if (data_instance.list_order.get(i).getId() == food_item.getId()) {
                     count = data_instance.list_order.get(i).getCount();
                 }
             }

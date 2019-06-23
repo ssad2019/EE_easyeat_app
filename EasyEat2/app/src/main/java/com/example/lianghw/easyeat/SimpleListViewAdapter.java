@@ -80,6 +80,16 @@ public class SimpleListViewAdapter extends BaseAdapter {
     }
 
     /**
+     * 更新ListView Data
+     * @param list_data List<Food> 更新的数据
+     */
+    void updateData(List<String> list_data){
+        this.list_data.clear();
+        this.list_data.addAll(list_data);
+        notifyDataSetChanged();
+    }
+
+    /**
      * 改变被选中的位置
      * @param position int 被选中的item位置
      */
