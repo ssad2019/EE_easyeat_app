@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.example.lianghw.easyeat.Restaurant.getRestaurantByUrl;
-
 //主界面
 public class MainActivity extends AppCompatActivity {
 
