@@ -30,13 +30,14 @@ public class Food implements Serializable {
             this.name = name;
         }
     }
-    private Bitmap bm_icon;
+    private transient Bitmap bm_icon;
     private int id;
     private String name;
     private Tag tag;
     private String price;
     private String icon;
     private int count;
+
 
     /**
      * 设置Food的Bitmap
