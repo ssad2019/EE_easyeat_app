@@ -43,7 +43,7 @@ public class FinalActivity extends Activity {
         lv_card.setAdapter(typeListViewAdapter);
 
     }
-    
+
     /**
      * 创建用于构造第一类型TypeListViewItem的HashMap
      * @param list_data List<Food> 传入第一类型需要使用的列表数据

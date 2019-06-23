@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         ;
     };
 
-    //for test
     void initData(Intent intent){
         final String str_data_url = intent.getStringExtra("data_url");
         new Thread() {
