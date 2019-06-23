@@ -230,7 +230,9 @@ public class FoodDetailActivity extends Activity {
 
     }
 
-    //计算总价
+    /**
+     * 计算当前订单总价
+     */
     private void calculateSum(){
         double sum = 0;
         for(int i = 0; i < data_instance.list_order.size(); i++){
@@ -240,7 +242,9 @@ public class FoodDetailActivity extends Activity {
         btn_order_list.setText("总价:     $" + Double.toString(sum));
     }
 
-    //下订单按钮UI变化
+    /**
+     * 检测订单的列表是否为空，并改变button的样式
+     */
     private void checkOrderStatus(){
         if(data_instance.list_order.size() != 0){
             btn_make.setText("去结算");
@@ -251,7 +255,9 @@ public class FoodDetailActivity extends Activity {
         }
     }
 
-    //检验food count
+    /**
+     * 检测当前food在订单中的数量，并依此改变button的样式
+     */
     private void checkCount(){
         int count = 0;
         if(data_instance.list_order != null) {

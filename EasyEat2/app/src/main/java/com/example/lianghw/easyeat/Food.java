@@ -38,7 +38,7 @@ public class Food implements Serializable {
     private String icon;
     private Bitmap bm_icon;
     private int count;
-
+    
     public void getBitmap(){
         new Thread() {
             @Override
@@ -47,23 +47,58 @@ public class Food implements Serializable {
             }
         }.start();
     }
+
+    /**
+     * 获取Food的id
+     * @return Food.id
+     */
     public int getId() {
         return id;
     }
+
+    /**
+     * 获取Food的Name
+     * @return Food.Name
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * 获取Food的Type
+     * @return Food.Type
+     */
     public String getType() {
         return tag.name;
     }
+
+    /**
+     * 获取Food的Price
+     * @return Food.Price
+     */
     public String getPrice() {
         return price;
     }
+
+    /**
+     * 获取Food的Count
+     * @return Food.Count
+     */
     public int getCount() {
         return count;
     }
+
+    /**
+     * 设置Food的Count
+     * @param count int 设置的count
+     */
     public void setCount(int count) {
         this.count = count;
     }
+
+    /**
+     * 设获取Food的Icon (img url)
+     * @return Food.icon
+     */
     public String getIcon(){return icon;}
 }

@@ -143,7 +143,12 @@ public class PinnedListViewAdapter extends BaseAdapter {
         }
         return convertView;
     }
-    //获取HeaderView的状态
+
+     /**
+      * 获取列表头状态
+      * @param position int item位置
+      * @return int 预先定义好的状态int
+      */
     public int getPinnedHeaderState(int position) {
         if (position < 0) {
             return PINNED_HEADER_GONE;
@@ -154,7 +159,12 @@ public class PinnedListViewAdapter extends BaseAdapter {
         }
         return PINNED_HEADER_VISIBLE;
     }
-    //设置HeaderView的内容
+
+     /**
+      * 设置列表头内容
+      * @param header View 列表头TextView
+      * @param position int item位置
+      */
     public void configurePinnedHeader(View header, int position) {
         Food item = (Food) getItem(position);
         if (item != null) {

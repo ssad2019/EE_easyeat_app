@@ -79,6 +79,10 @@ public class SimpleListViewAdapter extends BaseAdapter {
         public TextView txt_type;
     }
 
+    /**
+     * 改变被选中的位置
+     * @param position int 被选中的item位置
+     */
     public void changeSelected(int position){
         if (position >= 0 && position < list_data.size()){
             int_selected_position = position;

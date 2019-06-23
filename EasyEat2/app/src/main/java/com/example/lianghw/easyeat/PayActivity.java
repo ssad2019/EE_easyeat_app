@@ -99,7 +99,11 @@ public class PayActivity extends Activity {
         super.onBackPressed();
     }
 
-    //第一种样式，传输order_list
+    /**
+     * 创建用于构造第一类型TypeListViewItem的HashMap
+     * @param list_data List<Food> 传入第一类型需要使用的列表数据
+     * @return HashMap<String, Object> 创建好的HashMap
+     */
     private HashMap<String, Object> getHashMapFirstType(List<Food> list_data) {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("list_data", list_data);

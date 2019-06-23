@@ -43,16 +43,24 @@ public class FinalActivity extends Activity {
         lv_card.setAdapter(typeListViewAdapter);
 
     }
-
-    //第一种样式，传输order_list
-
+    
+    /**
+     * 创建用于构造第一类型TypeListViewItem的HashMap
+     * @param list_data List<Food> 传入第一类型需要使用的列表数据
+     * @return HashMap<String, Object> 创建好的HashMap
+     */
     private HashMap<String, Object> getHashMapFirstType(List<Food> list_data) {
         HashMap<String, Object> hash_map = new HashMap<String, Object>();
         hash_map.put("list_data", list_data);
         return hash_map;
     }
 
-    //第三种样式，传输order_id order_time
+    /**
+     * 创建用于构造第三类型TypeListViewItem的HashMap
+     * @param str_order_id String 传入第三类型需要使用的订单号
+     * @param str_order_time String 传入第三类型需要使用的订单时间
+     * @return HashMap<String, Object> 创建好的HashMap
+     */
     private HashMap<String, Object> getHashMapThirdType(String str_order_id, String str_order_time) {
         HashMap<String, Object> hash_map = new HashMap<String, Object>();
         hash_map.put("order_id", str_order_id);

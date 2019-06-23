@@ -23,6 +23,10 @@ public class StoreData implements Serializable {
 
     }
 
+    /**
+     * 获取StoreData单例
+     * @return StoreData.instance
+     */
     public static StoreData getInstance() {
         if(instance == null){
             instance = new StoreData();
