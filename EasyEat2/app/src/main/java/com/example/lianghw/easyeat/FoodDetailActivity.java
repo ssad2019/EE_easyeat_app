@@ -64,9 +64,12 @@ public class FoodDetailActivity extends Activity {
         txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
         txt_count.setText(food_item.getCount() + "");
         if(!food_item.getIcon().equals("")) {
-            byte [] bis = food_item.getBitmapByte();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
-            img_food.setImageBitmap(bitmap);
+            for(int i = 0; i < StoreData.getInstance().list_bitmap.size(); i++){
+                if(food_item.getId() == StoreData.getInstance().list_bitmap.get(i).getId()){
+                    img_food.setImageBitmap(StoreData.getInstance().list_bitmap.get(i).getBitmap());
+                    break;
+                }
+            }
         }else{
             img_food.setImageResource(R.mipmap.sample_food);
         }

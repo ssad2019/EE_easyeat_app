@@ -8,14 +8,18 @@
  */
 package com.example.lianghw.easyeat;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StoreData implements Serializable {
+
     public List<Food> list_all_food = new ArrayList<>();
     public List<Food> list_order = new ArrayList<>();
     public List<String> list_type = new ArrayList<>();
+    public List<BitmapFood> list_bitmap = new ArrayList<>();
 
     private static StoreData instance;
 
