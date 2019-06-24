@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StoreData implements Serializable {
 
@@ -39,5 +41,12 @@ public class StoreData implements Serializable {
             instance = new StoreData();
         }
         return instance;
+    }
+
+    public static boolean isUrl(String str_url) {
+        String strPattern = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+        Pattern p = Pattern.compile(strPattern);
+        Matcher m = p.matcher(str_url);
+        return m.matches();
     }
 }

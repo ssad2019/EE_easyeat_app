@@ -11,6 +11,7 @@ package com.example.lianghw.easyeat;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     void initData(Intent intent){
         str_data_url = intent.getStringExtra("data_url");
+
         new Thread() {
             @Override
             public void run() {

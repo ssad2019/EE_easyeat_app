@@ -92,7 +92,7 @@ public class FinalOrderListViewAdapter extends BaseAdapter {
         double one_price = Double.valueOf(list_data.get(position).getPrice());
         double total_price = one_price * list_data.get(position).getCount();
         viewHolder.txt_price.setText("￥" + total_price);
-        if(!list_data.get(position).getIcon().equals("")) {
+        if(!list_data.get(position).getIcon().equals("") && StoreData.isUrl(list_data.get(position).getIcon())) {
             if(list_data.get(position).getBitmap() == null){
                 final int int_position = position;
                 StoreData.getInstance().threadPool.execute(new Thread() {

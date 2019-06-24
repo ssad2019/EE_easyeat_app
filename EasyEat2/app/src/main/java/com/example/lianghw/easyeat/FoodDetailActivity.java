@@ -86,7 +86,7 @@ public class FoodDetailActivity extends Activity {
         txt_price.setText(food_item.getPrice());
         txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
         txt_count.setText(food_item.getCount() + "");
-        if(!food_item.getIcon().equals("")) {
+        if(!food_item.getIcon().equals("") && StoreData.isUrl(food_item.getIcon())) {
             if(food_item.getBitmap() == null){
                 new Thread() {
                     @Override

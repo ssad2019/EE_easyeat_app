@@ -116,7 +116,7 @@ public class OrderListViewAdapter extends BaseAdapter {
         });
 
         //设置图片url
-        if(!list_data.get(position).getIcon().equals("")) {
+        if(!list_data.get(position).getIcon().equals("") && StoreData.isUrl(list_data.get(position).getIcon())) {
             if(list_data.get(position).getBitmap() == null){
                 final int int_position = position;
                 StoreData.getInstance().threadPool.execute(new Thread() {

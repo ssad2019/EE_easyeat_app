@@ -119,7 +119,7 @@ public class PinnedListViewAdapter extends BaseAdapter {
             viewHolder.btn_sub.setVisibility(View.VISIBLE);
         }
         //使用获取的图片源修改
-        if(!list_data.get(position).getIcon().equals("")) {
+        if(!list_data.get(position).getIcon().equals("") && StoreData.isUrl(list_data.get(position).getIcon())) {
             if(list_data.get(position).getBitmap() == null){
                 final int int_position = position;
                 StoreData.getInstance().threadPool.execute(new Thread() {
