@@ -149,12 +149,19 @@ public class QRcodeScanActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
                 String str_content = data.getStringExtra(Constant.CODED_CONTENT);
-
+                String PATH = "https://api.hatsune-miku.cn";
                 String str_url = Restaurant.getUrlFromQRcode(str_content);
-                Network.getInstance().setIdAndNumber(str_url);
-                Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
-                intent.putExtra("data_url",str_url);
-                startActivity(intent);
+                if(!PATH.equals(str_url.substring(0,PATH.length()))){
+                    Toast.makeText(this, "二维码不正确", Toast.LENGTH_SHORT).show();
+                }else{
+                    Network.getInstance().setIdAndNumber(str_url);
+                    Intent intent = new Intent(QRcodeScanActivity.this, MainActivity.class);
+                    intent.putExtra("data_url",str_url);
+                    startActivity(intent);
+                }
+
+
+
             }
         }
     }
