@@ -41,7 +41,6 @@ public class Restaurant {
         Network net = Network.getInstance();
         String str_restaurant = net.doGet(url);
         instance = tranJsonToClass(str_restaurant);
-        
     }
 
     /**
