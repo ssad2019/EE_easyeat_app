@@ -111,6 +111,7 @@ public class TypeListViewAdapter extends BaseAdapter {
                     List<Food> list_data = (List<Food>) item.map.get("list_data");
                     FinalOrderListViewAdapter myOrderListViewAdapter = new FinalOrderListViewAdapter(context, list_data);
                     viewHolderType1.lv_order.setAdapter(myOrderListViewAdapter);
+                    viewHolderType1.lv_order.setItemsCanFocus(true);
                     double sum = 0;
                     for(int j = 0; j < list_data.size(); j++){
                         double price = Double.valueOf(list_data.get(j).getPrice());

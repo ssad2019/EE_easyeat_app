@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         img_restaurant.setImageBitmap(data_instance.bitmap_shop);
                     }
                     pinnedListViewAdapter.updateData(data_instance.list_all_food);
-                    simpleListViewAdapter.updateData(data_instance.list_type);
+                    simpleListViewAdapter.notifyDataSetChanged();
                     break;
                 default:
                     break;
@@ -137,10 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 img_restaurant.setImageBitmap(data_instance.bitmap_shop);
             }
         }
-
-        /*while(data_instance.list_all_food.size() == 0 || data_instance.list_type.size() == 0){
-
-        }*/
 
         //设置list adapter
         final ListView lv_food_type = (ListView) findViewById(R.id.lv_type);
