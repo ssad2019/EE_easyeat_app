@@ -111,16 +111,14 @@ public class TypeListViewAdapter extends BaseAdapter {
                     List<Food> list_data = (List<Food>) item.map.get("list_data");
                     FinalOrderListViewAdapter orderListViewAdapter = new FinalOrderListViewAdapter(context, list_data);
                     viewHolderType1.lv_order.setAdapter(orderListViewAdapter);
-                    int int_total_height = 0;
-                    for (int i = 0; i < orderListViewAdapter.getCount(); i++) {
-                        View listItem = orderListViewAdapter.getView(i, null, viewHolderType1.lv_order);
-                        listItem.measure(0, 0);
-                        int_total_height += listItem.getMeasuredHeight();
-                    }
+
+                    int int_item_count = orderListViewAdapter.getCount() > 4 ? orderListViewAdapter.getCount() : 4;
+                    View listItem = orderListViewAdapter.getView(0, null, viewHolderType1.lv_order);
+                    listItem.measure(0, 0);
+                    int int_total_height = int_item_count * listItem.getMeasuredHeight() + viewHolderType1.lv_order.getDividerHeight() * (int_item_count - 1);
                     ViewGroup.LayoutParams params = viewHolderType1.lv_order.getLayoutParams();
-                    params.height = int_total_height + (viewHolderType1.lv_order.getDividerHeight() * (orderListViewAdapter.getCount() - 1)) > DensityUtil.dpToPx(context, 300)
-                            ? int_total_height + (viewHolderType1.lv_order.getDividerHeight() * (orderListViewAdapter.getCount() - 1)) : DensityUtil.dpToPx(context, 300);
-                    ((ViewGroup.MarginLayoutParams)params).setMargins(10, 10, 10, 10);
+                    params.height = int_total_height;
+                    ((ViewGroup.MarginLayoutParams)params).setMargins(30, 10, 10, 10);
                     viewHolderType1.lv_order.setLayoutParams(params);
 
                     double sum = 0;
