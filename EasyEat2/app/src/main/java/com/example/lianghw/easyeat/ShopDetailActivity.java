@@ -24,6 +24,9 @@ public class ShopDetailActivity extends Activity {
         //加载主布居
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_detail);
+
+        StoreData data_instance = StoreData.getInstance();
+
         final TextView txt_shop_name = (TextView)findViewById(R.id.txt_name);
         final TextView txt_shop_description =(TextView)findViewById(R.id.txt_description);
         final ImageView img_shop = (ImageView)findViewById(R.id.img_shop);
@@ -33,11 +36,9 @@ public class ShopDetailActivity extends Activity {
         txt_shop_description.setText(intent.getStringExtra("shop_info"));
         txt_shop_description.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-        if(intent.getByteArrayExtra("shop_img") != null)
+        if(data_instance.bitmap_shop != null)
         {
-            byte [] bis=intent.getByteArrayExtra("shop_img");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
-            img_shop.setImageBitmap(bitmap);
+            img_shop.setImageBitmap(data_instance.bitmap_shop);
         }
     }
 }

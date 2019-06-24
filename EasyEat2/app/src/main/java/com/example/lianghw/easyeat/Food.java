@@ -45,13 +45,15 @@ public class Food implements Serializable {
     void getBitmapbyUrl(){
         bm_icon =  Network.getInstance().getBitmap(icon);
     }
+
     /**
-     * 设置Food的Bitmap
-     * @param bitmap Bitmap bitmap
+     * 获取Food的Bitmap
+     * @return bitmap Food.bitmap
      */
-    void setBitmap(Bitmap bitmap){
-        bm_icon=bitmap;
+    Bitmap getBitmap(){
+        return bm_icon;
     }
+
     /**
      * 获取Food的id
      * @return Food.id

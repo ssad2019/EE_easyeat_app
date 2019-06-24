@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,19 @@ public class PinnedListViewAdapter extends BaseAdapter {
 
     private Context context;
     private List<Food> list_data;
+    private static final int HANDLER_MESSAGE = 0x01;
+
+     private Handler handler = new Handler() {
+         public void handleMessage(android.os.Message msg) {
+             switch (msg.what) {
+                 case HANDLER_MESSAGE:
+                     notifyDataSetChanged();
+                     break;
+                 default:
+                     break;
+             }
+         }
+     };
 
      public interface OnButtonClickListener{
          void onAddClick(int position);
@@ -106,7 +120,18 @@ public class PinnedListViewAdapter extends BaseAdapter {
         }
         //使用获取的图片源修改
         if(!list_data.get(position).getIcon().equals("")) {
-            viewHolder.img_food.setImageBitmap(list_data.get(position).getBmIcon());
+            if(list_data.get(position).getBitmap() == null){
+                final int int_position = position;
+                StoreData.getInstance().threadPool.execute(new Thread() {
+                    @Override
+                    public void run() {
+                        list_data.get(int_position).getBitmapbyUrl();
+                        handler.sendEmptyMessage(HANDLER_MESSAGE);
+                    }
+                });
+            }else{
+                viewHolder.img_food.setImageBitmap(list_data.get(position).getBitmap());
+            }
         }else{
             viewHolder.img_food.setImageResource(R.mipmap.sample_food);
         }

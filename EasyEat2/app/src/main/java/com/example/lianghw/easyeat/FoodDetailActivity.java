@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -40,6 +41,20 @@ public class FoodDetailActivity extends Activity {
     private TextView txt_count;
     private Button btn_make;
     private String str_data_url;
+    private static final int HANDLER_MESSAGE = 0x01;
+
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case HANDLER_MESSAGE:
+                    img_food.setImageBitmap(food_item.getBitmap());
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    private ImageView img_food;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +63,7 @@ public class FoodDetailActivity extends Activity {
         setContentView(R.layout.activity_food_detail);
 
         final TextView txt_name = (TextView)findViewById(R.id.txt_name);
-        final ImageView img_food = (ImageView)findViewById(R.id.img_food);
+        img_food = (ImageView)findViewById(R.id.img_food);
         final TextView txt_price = (TextView)findViewById(R.id.txt_price);
         final TextView txt_description = (TextView)findViewById(R.id.txt_description);
         txt_count = (TextView)findViewById(R.id.txt_count);
@@ -72,7 +87,17 @@ public class FoodDetailActivity extends Activity {
         txt_description.setMovementMethod(ScrollingMovementMethod.getInstance());
         txt_count.setText(food_item.getCount() + "");
         if(!food_item.getIcon().equals("")) {
-            img_food.setImageBitmap(food_item.getBmIcon());
+            if(food_item.getBitmap() == null){
+                new Thread() {
+                    @Override
+                    public void run() {
+                        food_item.getBitmapbyUrl();
+                        handler.sendEmptyMessage(HANDLER_MESSAGE);
+                    }
+                }.start();
+            }else{
+                img_food.setImageBitmap(food_item.getBitmap());
+            }
         }else{
             img_food.setImageResource(R.mipmap.sample_food);
         }

@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView txt_restaurant_name;
     private TextView txt_restaurant_detail;
     private ImageView img_restaurant;
-    private Bitmap bitmap = null;
 
     private static final int HANDLER_MESSAGE = 0x01;
     public static final int REQUEST_FOOD_DETAIL = 1000;
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         txt_restaurant_detail.setText(Restaurant.getInstance().description);
                     }
                     if(!Restaurant.getInstance().icon.equals("")){
-                        img_restaurant.setImageBitmap(bitmap);
+                        img_restaurant.setImageBitmap(data_instance.bitmap_shop);
                     }
                     pinnedListViewAdapter.updateData(data_instance.list_all_food);
                     simpleListViewAdapter.updateData(data_instance.list_type);
@@ -91,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 makeRestaurantByUrl(str_data_url);
-                if(!Restaurant.getInstance().icon.equals("")) {
-                    bitmap = Network.getInstance().getBitmap(Restaurant.getInstance().icon);
+                if(!Restaurant.getInstance().icon.equals("") && data_instance.bitmap_shop == null) {
+                    data_instance.bitmap_shop = Network.getInstance().getBitmap(Restaurant.getInstance().icon);
                 }
                 List<Food> list_foods_copy = new ArrayList<>(Arrays.asList(Restaurant.getInstance().goods));
                 data_instance.list_all_food = list_foods_copy;
@@ -122,7 +121,19 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化食品列表
         Intent intent = getIntent();
-        initData(intent);
+        if(Restaurant.getInstance().goods == null) {
+            initData(intent);
+        }else{
+            if(!Restaurant.getInstance().name.equals("")){
+                txt_restaurant_name.setText(Restaurant.getInstance().name);
+            }
+            if(!Restaurant.getInstance().description.equals("")){
+                txt_restaurant_detail.setText(Restaurant.getInstance().description);
+            }
+            if(!Restaurant.getInstance().icon.equals("")){
+                img_restaurant.setImageBitmap(data_instance.bitmap_shop);
+            }
+        }
 
         /*while(data_instance.list_all_food.size() == 0 || data_instance.list_type.size() == 0){
 
@@ -250,13 +261,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,  ShopDetailActivity.class);
                 intent.putExtra("shop_name",shop_name_text.getText().toString());
                 intent.putExtra("shop_info", shop_info_text.getText().toString());
-                if(bitmap != null){
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                    byte [] bitmapByte = byteArrayOutputStream.toByteArray();
-                    intent.putExtra("shop_img", bitmapByte);
-                }
-
                 startActivity(intent);
             }
         };

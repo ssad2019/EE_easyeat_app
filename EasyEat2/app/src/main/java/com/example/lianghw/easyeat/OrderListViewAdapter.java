@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,24 @@ import java.util.List;
 public class OrderListViewAdapter extends BaseAdapter {
     private List<Food> list_data;
     private Context context;
+    private static final int HANDLER_MESSAGE = 0x01;
 
     public interface OnOrderButtonClickListener{
         void onAddClick(int position);
         void onSubClick(int position);
     }
+
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case HANDLER_MESSAGE:
+                    notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     private OnOrderButtonClickListener onOrderButtonClickListener;
 
@@ -103,7 +117,18 @@ public class OrderListViewAdapter extends BaseAdapter {
 
         //设置图片url
         if(!list_data.get(position).getIcon().equals("")) {
-            viewHolder.img_food.setImageBitmap(list_data.get(position).getBmIcon());
+            if(list_data.get(position).getBitmap() == null){
+                final int int_position = position;
+                StoreData.getInstance().threadPool.execute(new Thread() {
+                    @Override
+                    public void run() {
+                        list_data.get(int_position).getBitmapbyUrl();
+                        handler.sendEmptyMessage(HANDLER_MESSAGE);
+                    }
+                });
+            }else{
+                viewHolder.img_food.setImageBitmap(list_data.get(position).getBitmap());
+            }
         }else{
             viewHolder.img_food.setImageResource(R.mipmap.sample_food);
         }

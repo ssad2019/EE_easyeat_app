@@ -13,12 +13,16 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class StoreData implements Serializable {
 
     public List<Food> list_all_food = new ArrayList<>();
     public List<Food> list_order = new ArrayList<>();
     public List<String> list_type = new ArrayList<>();
+    public ExecutorService threadPool = Executors.newFixedThreadPool(3);
+    public Bitmap bitmap_shop = null;
 
     private static StoreData instance;
 
