@@ -75,12 +75,12 @@ public class TypeListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
-        TypeListViewItem item = list_data.get(i);
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        TypeListViewItem item = list_data.get(position);
         ViewHolderType1 viewHolderType1;
         ViewHolderType2 viewHolderType2;
         ViewHolderType3 viewHolderType3;
-        int type = getItemViewType(i);
+        int type = getItemViewType(position);
         if (convertView == null) {
             switch (type) {
                 case TYPELISTITEMVIEW_TYPE_1:
@@ -109,9 +109,19 @@ public class TypeListViewAdapter extends BaseAdapter {
                 case TYPELISTITEMVIEW_TYPE_1:
                     viewHolderType1 = (ViewHolderType1) convertView.getTag(R.id.item_type1);
                     List<Food> list_data = (List<Food>) item.map.get("list_data");
-                    FinalOrderListViewAdapter myOrderListViewAdapter = new FinalOrderListViewAdapter(context, list_data);
-                    viewHolderType1.lv_order.setAdapter(myOrderListViewAdapter);
-                    viewHolderType1.lv_order.setItemsCanFocus(true);
+                    FinalOrderListViewAdapter orderListViewAdapter = new FinalOrderListViewAdapter(context, list_data);
+                    viewHolderType1.lv_order.setAdapter(orderListViewAdapter);
+                    int int_total_height = 0;
+                    for (int i = 0; i < orderListViewAdapter.getCount(); i++) {
+                        View listItem = orderListViewAdapter.getView(i, null, viewHolderType1.lv_order);
+                        listItem.measure(0, 0);
+                        int_total_height += listItem.getMeasuredHeight();
+                    }
+                    ViewGroup.LayoutParams params = viewHolderType1.lv_order.getLayoutParams();
+                    params.height = int_total_height + (viewHolderType1.lv_order.getDividerHeight() * (orderListViewAdapter.getCount() - 1));
+                    ((ViewGroup.MarginLayoutParams)params).setMargins(10, 10, 10, 10);
+                    viewHolderType1.lv_order.setLayoutParams(params);
+
                     double sum = 0;
                     for(int j = 0; j < list_data.size(); j++){
                         double price = Double.valueOf(list_data.get(j).getPrice());

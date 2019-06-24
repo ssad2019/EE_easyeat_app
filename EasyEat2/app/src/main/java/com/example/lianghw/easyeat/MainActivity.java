@@ -416,6 +416,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        data_instance.list_all_food.clear();
+        data_instance.list_type.clear();
+        data_instance.list_order.clear();
+        data_instance.bitmap_shop = null;
+        Restaurant.getInstance().goods = null;
+    }
 }
 
 
