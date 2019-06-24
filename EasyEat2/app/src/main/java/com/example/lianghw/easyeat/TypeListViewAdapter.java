@@ -118,7 +118,8 @@ public class TypeListViewAdapter extends BaseAdapter {
                         int_total_height += listItem.getMeasuredHeight();
                     }
                     ViewGroup.LayoutParams params = viewHolderType1.lv_order.getLayoutParams();
-                    params.height = int_total_height + (viewHolderType1.lv_order.getDividerHeight() * (orderListViewAdapter.getCount() - 1));
+                    params.height = int_total_height + (viewHolderType1.lv_order.getDividerHeight() * (orderListViewAdapter.getCount() - 1)) > DensityUtil.dpToPx(context, 300)
+                            ? int_total_height + (viewHolderType1.lv_order.getDividerHeight() * (orderListViewAdapter.getCount() - 1)) : DensityUtil.dpToPx(context, 300);
                     ((ViewGroup.MarginLayoutParams)params).setMargins(10, 10, 10, 10);
                     viewHolderType1.lv_order.setLayoutParams(params);
 

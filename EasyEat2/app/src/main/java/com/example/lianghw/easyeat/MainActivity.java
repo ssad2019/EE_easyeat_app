@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 makeRestaurantByUrl(str_data_url);
-                if(Restaurant.getInstance() == null){
+                if(Restaurant.getInstance() == null || Restaurant.getInstance().goods == null){
                     handler.sendEmptyMessage(HANDLER_ERROR);
                     return;
                 }
