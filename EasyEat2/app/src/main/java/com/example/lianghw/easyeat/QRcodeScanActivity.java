@@ -60,6 +60,10 @@ public class QRcodeScanActivity extends AppCompatActivity {
         ActionBar ab_action_bar = getSupportActionBar();
         ab_action_bar.hide();
 
+        Intent intent = getIntent();
+        if(intent.getStringExtra("error") != null){
+            Toast.makeText(this, intent.getStringExtra("error"), Toast.LENGTH_SHORT).show();
+        }
 
         txt_result = findViewById(R.id.txt_result);
 

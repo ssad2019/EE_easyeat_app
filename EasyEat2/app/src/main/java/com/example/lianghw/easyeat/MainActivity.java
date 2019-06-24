@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView img_restaurant;
 
     private static final int HANDLER_MESSAGE = 0x01;
+    private static final int HANDLER_ERROR = 0x02;
     public static final int REQUEST_FOOD_DETAIL = 1000;
     public static final int RESULT_FOOD_DETAIL = 1000;
     public static final int REQUEST_PAY = 1001;
@@ -80,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
                     pinnedListViewAdapter.updateData(data_instance.list_all_food);
                     simpleListViewAdapter.notifyDataSetChanged();
                     break;
+                case HANDLER_ERROR:
+                    Intent intent = new Intent(MainActivity.this, QRcodeScanActivity.class);
+                    intent.putExtra("error", "扫描失败");
+                    startActivity(intent);
                 default:
                     break;
             }
@@ -93,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 makeRestaurantByUrl(str_data_url);
-                if(!Restaurant.getInstance().icon.equals("") && data_instance.bitmap_shop == null) {
+                if(Restaurant.getInstance() == null){
+                    handler.sendEmptyMessage(HANDLER_ERROR);
+                    return;
+                }
+                if(Restaurant.getInstance().icon != null && !Restaurant.getInstance().icon.equals("") && data_instance.bitmap_shop == null) {
                     data_instance.bitmap_shop = Network.getInstance().getBitmap(Restaurant.getInstance().icon);
                 }
                 List<Food> list_foods_copy = new ArrayList<>(Arrays.asList(Restaurant.getInstance().goods));
