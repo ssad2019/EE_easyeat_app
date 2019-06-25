@@ -78,6 +78,7 @@ public class PayActivity extends Activity {
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                confirm_btn.setEnabled(false);
                 //访问网站提交获取订单id和time
                 new Thread() {
                     @Override
