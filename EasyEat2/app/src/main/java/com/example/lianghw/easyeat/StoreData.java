@@ -43,6 +43,11 @@ public class StoreData implements Serializable {
         return instance;
     }
 
+    /**
+     * 使用正则表达式判断url是否格式正确
+     * @param str_url String url字符串
+     * @return boolean 格式正确与否
+     */
     public static boolean isUrl(String str_url) {
         String strPattern = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
         Pattern p = Pattern.compile(strPattern);
